@@ -2,9 +2,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffffff;
-  padding: 1rem;
+  background-color: #a3a3a3;
+  width: 100vw;
   color: #800080;
+  box-sizing: border-box;
+  padding: 0.9rem 1.2rem;
+
 }
 
 .navbar-left {
@@ -25,7 +28,22 @@
   margin: 0;
 }
 
+.navbar-right {
+  display: block;
+}
+
 .nav-links a {
   color: #800080;
   text-decoration: none;
+  font-size: 1.3rem;
+}
+
+.navbar-right a {
+  color: #800080;
+  text-decoration: none;
+  font-size: 1.3rem;
+}
+
+.navbar-right ul {
+  list-style-type: none;
 }
