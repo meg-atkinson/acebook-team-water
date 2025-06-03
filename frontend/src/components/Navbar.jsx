@@ -13,6 +13,7 @@ function Navbar() {
         <li><a href="/">Home</a></li>
         <li><a href="/about">Profile</a></li>
         <li><a href="/contact">Friends</a></li>
+        <li><a href="/logout">Log Out</a></li>
       </ul>
     </nav>
   );

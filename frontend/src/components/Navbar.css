@@ -2,9 +2,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
+  background-color: #ffffff;
   padding: 1rem;
-  color: white;
+  color: #800080;
 }
 
 .navbar-left {
@@ -26,6 +26,6 @@
 }
 
 .nav-links a {
-  color: white;
+  color: #800080;
   text-decoration: none;
 }
