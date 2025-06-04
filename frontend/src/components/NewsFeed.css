@@ -1,6 +1,7 @@
 .newsfeed-container {
     display: flex;
     flex-direction: column;
+
     gap: 26px;
     padding: 20px;
     max-width: 650px;
@@ -18,18 +19,39 @@
 
 .post-card:hover {
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08);
+
+    gap: 16px;
+    padding: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.post-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
 }
 
 .post-author {
     font-weight: bold;
+
     margin-bottom: 10px;
     font-size: 16px;
     color: #333;
+
+    margin-bottom: 8px;
+
 }
 
 .post-message {
     font-size: 16px;
     color: #333;
+
     line-height: 1.5;
     white-space: pre-wrap;
+
+
 }

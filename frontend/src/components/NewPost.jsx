@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './NewPost.css';
 
 
+
 const placeholderMessages = [
     "What's on your mind?",
     "Share your thoughts...",
@@ -9,6 +10,7 @@ const placeholderMessages = [
     "Got news? Type here!",
     "Tell us what's happening..."
 ];
+
 
 const NewPost = ({ onPostCreated }) => {
 
