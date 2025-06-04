@@ -84,3 +84,34 @@
 .photosGridContainer img {
     width: 12rem;
 }
+
+
+/* -------------------- Friends ------------------------ */
+.friendsContainer {
+    width:70vw;
+    display: grid;
+    grid-column: auto;
+    row-gap: 1rem;
+
+}
+
+.friends {
+    display: flex;
+    justify-content: space-between;
+    background-color: bisque;
+}
+
+.friends img {
+    height: 10rem;
+}
+
+.friendsInfo {
+    display: flex;
+    flex-direction: row;
+}
+
+.friendsButtons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
