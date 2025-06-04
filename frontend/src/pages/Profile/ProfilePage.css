@@ -1,0 +1,114 @@
+.sideProfile {
+    background-color: lightgrey;
+    height: 100vh;
+    width: 30vh;
+}
+
+.sideProfile img {
+    width: 70%;
+}
+
+.mainColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.profileColumnsContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+
+.tabButton {
+    margin: 0;
+    height: 2rem;
+    width: 5rem;
+}
+
+/* Status */
+.statusContainer {
+    background-color: lightslategray;
+    display: flex;
+    flex-direction: column;
+}
+
+.statusInfo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.statusContainer form {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* ------------------------- Wall ---------------------------- */
+
+.wallContainer {
+    width: 70vw;
+}
+
+.mockWallPost {
+    background-color: lightskyblue;
+    display: flex;
+    flex-direction: column;
+}
+
+.mockWallHeadings {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+/* --------------------------- Info -------------- */
+.infoContainer {
+    width: 70vw;
+}
+
+
+/* --------------------- Photos ------------------- */
+.photosContainer {
+    width: 70vw;
+}
+
+.photosGridContainer {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    row-gap: 1rem;
+}
+
+.photosGridContainer img {
+    width: 12rem;
+}
+
+
+/* -------------------- Friends ------------------------ */
+.friendsContainer {
+    width:70vw;
+    display: grid;
+    grid-column: auto;
+    row-gap: 1rem;
+
+}
+
+.friends {
+    display: flex;
+    justify-content: space-between;
+    background-color: bisque;
+}
+
+.friends img {
+    height: 10rem;
+}
+
+.friendsInfo {
+    display: flex;
+    flex-direction: row;
+}
+
+.friendsButtons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
