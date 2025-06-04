@@ -62,7 +62,6 @@ const NewPost = ({ onPostCreated }) => {
                     <input type="text" name="post" value={newPost} placeholder={randomPlaceholder} onChange={(event) => setNewPost(event.target.value)}/>
                 </label>
                 <br />
-                <br />
                 <label>
                     <input type="submit" value="Post" />
                 </label>
