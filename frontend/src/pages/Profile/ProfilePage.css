@@ -25,6 +25,25 @@
     width: 5rem;
 }
 
+/* Status */
+.statusContainer {
+    background-color: lightslategray;
+    display: flex;
+    flex-direction: column;
+}
+
+.statusInfo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.statusContainer form {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* ------------------------- Wall ---------------------------- */
+
 .wallContainer {
     width: 70vw;
 }
@@ -48,4 +67,20 @@
 /* --------------------------- Info -------------- */
 .infoContainer {
     width: 70vw;
+}
+
+
+/* --------------------- Photos ------------------- */
+.photosContainer {
+    width: 70vw;
+}
+
+.photosGridContainer {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    row-gap: 1rem;
+}
+
+.photosGridContainer img {
+    width: 12rem;
 }

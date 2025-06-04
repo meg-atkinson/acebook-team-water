@@ -15,10 +15,9 @@ export const Photos = ({ showPhotos }) => {
     if (showPhotos) {
         return (
             <div className="photosContainer">
-                <h2>Your photos:</h2>
                 <div className="photosGridContainer">
                     {photos.map(photo => {
-                        return (<img key={photo.id} src={photo.src} />)})};
+                        return (<img key={photo.id} src={photo.src} />)})}
                 </div>
             </div>
         )
