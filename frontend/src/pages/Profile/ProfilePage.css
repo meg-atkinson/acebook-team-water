@@ -1,0 +1,51 @@
+.sideProfile {
+    background-color: lightgrey;
+    height: 100vh;
+    width: 30vh;
+}
+
+.sideProfile img {
+    width: 70%;
+}
+
+.mainColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.profileColumnsContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+
+.tabButton {
+    margin: 0;
+    height: 2rem;
+    width: 5rem;
+}
+
+.wallContainer {
+    width: 70vw;
+}
+
+.mockWallPost {
+    background-color: lightskyblue;
+    display: flex;
+    flex-direction: column;
+}
+
+.mockWallHeadings {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mockWallContent {
+    
+}
+
+
+/* --------------------------- Info -------------- */
+.infoContainer {
+    width: 70vw;
+}

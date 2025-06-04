@@ -4,7 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { getPosts } from "../../services/posts";
 import Post from "../../components/Post";
 
+import './ProfilePage.css'
+
 import Navbar from "../../components/navbar";
+import { SideProfile } from "../../components/profile/SideColumn";
+import { MainColumn } from "../../components/profile/MainColumn";
 
 export const ProfilePage = () => {
     const navigate = useNavigate();
@@ -37,7 +41,10 @@ export const ProfilePage = () => {
     return (
         <>
             <Navbar />
-            <h1>Your profile</h1>
+            <div className="profileColumnsContainer">
+                <SideProfile />
+                <MainColumn />
+            </div>
         </>
     )
 }
