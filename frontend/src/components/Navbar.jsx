@@ -1,7 +1,7 @@
 // Logo, Home, Profile, Friends             Logout
 
 import './Navbar.css';
-import logo from '../assets/acebook.svg';
+import logo from '../assets/Acebook4.png';
 
 function Navbar() {
   return (
