@@ -6,6 +6,7 @@ import Post from "../../components/Post";
 import LogoutButton from "../../components/LogoutButton";
 import Navbar from "../../components/navbar.jsx";
 import NewPost from "../../components/NewPost.jsx";
+import NewsFeed from "../../components/NewsFeed.jsx";
 
 
 export function FeedPage() {
@@ -38,21 +39,11 @@ export function FeedPage() {
     <>
       <Navbar /> {/*Navbar added to view*/}
       <div>
-      <NewPost />
-      <h2>News Feed</h2>
-      
+        <NewPost onPostCreated={(post) => setPosts([post, ...posts])} />
+        <h2>News Feed</h2>
+        <NewsFeed posts={posts} />
       </div>
     </>
   );
 }
 
-
-
-
-{/* <div className="feed" role="feed">
-        {posts.map((post) => (
-          <Post post={post} key={post._id} />
-        ))}
-      </div> */} {/* keep functionality, not needed for layout currently */} 
-      
-      {/* <LogoutButton /> */}
