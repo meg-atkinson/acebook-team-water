@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { NewStatus } from "./NewStatus"
 
 export const Status = () => {
     const [updateStatus, setUpdateStatus] = useState(false)
@@ -35,16 +36,6 @@ export const Status = () => {
             </div>
         )
     } else {
-        return (
-            <div className="statusContainer">
-                <form onSubmit={handleSubmit}>
-                    <input placeholder="Write your new status here" />
-                    <div className="updateCancelButttons">
-                        <input type="submit" value="Update" onChange={handleChange} />
-                        <button onClick={handleClick}>Cancel</button>
-                    </div>
-                </form>
-            </div>
-        )
+        return <NewStatus handleClick={handleClick} handleChange={handleChange} handleSubmit={handleSubmit}/>
     }
 }
