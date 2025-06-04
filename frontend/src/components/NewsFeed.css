@@ -1,0 +1,26 @@
+.newsfeed-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.post-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.post-author {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.post-message {
+    font-size: 16px;
+    color: #333;
+}
