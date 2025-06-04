@@ -1,9 +1,20 @@
 import { useState } from 'react';
+import './NewPost.css';
+
+
+const placeholderMessages = [
+    "What's on your mind?",
+    "Share your thoughts...",
+    "Write something cool!",
+    "Got news? Type here!",
+    "Tell us what's happening..."
+];
 
 const NewPost = ({ onPostCreated }) => {
 
     const [newPost, setNewPost] = useState("");
 
+    const randomPlaceholder = placeholderMessages[Math.floor(Math.random() * placeholderMessages.length)];
     
     // const handleSubmit = async (event) => {
     //     event.preventDefault()
@@ -45,10 +56,10 @@ const NewPost = ({ onPostCreated }) => {
         <div>
             <form onSubmit={handleSubmit}>
                 <br />
-                <label>Make A New Post
+                <label>Create Post
                     <br />
                     <br />
-                    <input type="text" name="post" value={newPost} onChange={(event) => setNewPost(event.target.value)}/>
+                    <input type="text" name="post" value={newPost} placeholder={randomPlaceholder} onChange={(event) => setNewPost(event.target.value)}/>
                 </label>
                 <br />
                 <br />
