@@ -5,59 +5,51 @@ import { useNavigate } from "react-router-dom";
 import { signup } from "../../services/authentication";
 
 export function SignupPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [pronouns, setPronouns] = useState("");
-  const [relationshipStatus, setRelationshipStatus] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [homeTown, setHomeTown] = useState("");
-  const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [pronouns, setPronouns] = useState("");
+    const [relStatus, setRelStatus] = useState("");
+    const [birthday, setBirthday] = useState("");
+    const [homeTown, setHomeTown] = useState("");
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+    const navigate = useNavigate();
+
+    const handleSubmit = async(event)=> {
+        event.preventDefault();
+
+        const userData = {
+            basicInfo: {
+                firstName,
+                lastName,
+                pronouns,
+                relStatus,
+                birthday,
+                homeTown,
+            },
+        };                
+
     try {
-      await signup(email, password, {
-        firstName,
-        lastName,
-        pronouns,
-        ationship,
-        birthday,
-        homeTown
-      });
-      navigate("/login");
-    } catch (err) {
-      console.error(err);
-      navigate("/signup");
-    }
-  }
+        const response = await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, ...UserData 
+    }), 
+  });
     
+    if (!response.ok) {
+        throw new Error("Signup failed");
+    }
 
-  function handleEmailChange(event) {
-    setEmail(event.target.value);
-  }
-  function handlePasswordChange(event) {
-    setPassword(event.target.value);
-  }
-  function handleFirstNameChange(event) {
-    setFirstName(event.target.value);
-  }
-  function handleLastNameChange(event) {
-    setLastName(event.target.value);
-  }
-  function handlePronounsChange(event) {
-    setPronouns(event.target.value);
-  }
-  function handleRelationshipStatusChange(event) {
-    setRelationshipStatus(event.target.value);
-  }
-  function handleBirthdayChange(event) {
-    setBirthday(event.target.value);
-  }
-  function handleHomeTownChange(event) {
-    setHomeTown(event.target.value);
-  }
+      navigate("/login"); // Redirect after successful signup
+    } catch (err) {
+      console.error("Signup error:", err);
+      // Optionally: show an error message to the user
+    }
+  };
+
+
 
 
   return (
@@ -119,13 +111,13 @@ export function SignupPage() {
           onChange={handlePronounsChange}
         /> 
 <br />
-        <label htmlFor="relationshipStatus">Relationship Status: </label>
+        <label htmlFor="relStatus">Relationship Status: </label>
         <input
           placeholder="Relationship Status"
-          id="relationshipStatus"
+          id="relStatus"
           type="text"
-          value={relationshipStatus}
-          onChange={handleRelationshipStatusChange}
+          value={relStatus}
+          onChange={handleRelStatusChange}
         />
 <br />
         <label htmlFor="birthday">Birthday </label>

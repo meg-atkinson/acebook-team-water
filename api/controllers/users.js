@@ -7,8 +7,8 @@ function create(req, res) {
   const password = req.body.password;
   const basicInfo = req.body.basicInfo;
 
- bcrypt.hash(password, saltRounds, function(err, hash) {
-   if (err) {
+  bcrypt.hash(password, saltRounds, function(err, hash) {
+    if (err) {
       return res.status(500).json({ error: "Error hashing password" });
     }
 
