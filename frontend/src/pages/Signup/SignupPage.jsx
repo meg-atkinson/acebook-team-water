@@ -77,10 +77,6 @@ export function SignupPage() {
       <div className="header">
         <h2>Signup</h2>
       </div>
-      <div className="header">
-        <h2>Signup</h2>
-      </div>
-
       <div className="form">
         <form onSubmit={handleSubmit}>
           <label htmlFor="email">Email: </label>
