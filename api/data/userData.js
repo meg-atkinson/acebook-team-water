@@ -11,7 +11,8 @@ const users = [
         pronouns: "she/her",
         birthday: "01/01/2000",
         homeTown: "Huddersfield"
-    }
+    },
+    friends: []
 },
     { 
     email: "george@me.com",
@@ -22,7 +23,8 @@ const users = [
         pronouns: "he/him",
         birthday: "02/02/2001",
         homeTown: "York"
-    }
+    },
+    friends: []
 },
 { 
     email: "sarah@me.com",
@@ -33,7 +35,8 @@ const users = [
         pronouns: "she/her",
         birthday: "03/03/2002",
         homeTown: "Glasgow"
-    }
+    },
+    friends: []
 },
 { 
     email: "olly@me.com",
@@ -44,7 +47,9 @@ const users = [
         pronouns: "he/him",
         birthday: "03/03/2002",
         homeTown: "Manchester"
-    }
+    },
+    friends: []
+
 },
 { 
     email: "megan@me.com",
@@ -55,7 +60,8 @@ const users = [
         pronouns: "she/her",
         birthday: "03/03/2002",
         homeTown: "Huddersfield"
-    }
+    },
+    friends: []
 }
 
 
