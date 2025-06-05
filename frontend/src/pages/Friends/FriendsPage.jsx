@@ -60,17 +60,20 @@ const FriendsPage = () => {
     return (
         <>
         <Navbar />
-        <div className="friends-page-container">
-            <div className="profile-panel">
-                <MyProfilePanel user={user}/>
-            </div>
-            <div className="friends-list-panel">
-                <FriendsList user={user}/>
-            </div>
-            {/* {user ? (
-                <p>{JSON.stringify(user)}</p>
-            ) : (<p>Loading friends...</p>)} */}
-        </div>
+        {!user ? (
+            <p>Loading profile...</p>
+        ) : (
+            <>
+                <div className="friends-page-container">
+                    <div className="profile-panel">
+                        <MyProfilePanel user={user}/>
+                    </div>
+                    <div className="friends-list-panel">
+                        <FriendsList user={user}/>
+                    </div>
+                </div>
+            </>
+        )}
         </>
     );
 };
