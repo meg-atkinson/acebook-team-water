@@ -4,7 +4,7 @@
 }
 
 .logo-container{
-    height: 5rem;
+    height: 8rem;
     width: 100vw;
     display: flex;
     align-items: left;
@@ -27,9 +27,8 @@
 
 
 .form{
-    width: 45%;
+    width: 75%;
     margin: 0 auto;
-    background-color: cornflowerblue;
     padding: 1rem 0;
 }
 

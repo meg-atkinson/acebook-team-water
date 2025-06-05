@@ -91,6 +91,8 @@ export function SignupPage() {
         />
 <br />
 <br />
+<br />
+<br />
         <label htmlFor="firstName">First Name: </label>
         <input
           placeholder="First Name"
