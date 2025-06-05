@@ -1,18 +1,32 @@
 const Post = require("../models/post");
+const User = require("../models/user");
 const { generateToken } = require("../lib/token");
 
 // GET all with control structure to also get by userID or targetUserID
 async function getAllPosts(req, res) {
   try {
     const { userID, targetUserID, postType } = req.query;
+    const user = req.user_id;
     const query = {};
-    //filter by userID
+
+    const currentUser = await User.findById(req.user_id).select('friends');
+    if (!currentUser) {
+      return res.status(404).json({ 
+          message: "User not found" 
+        })}
+    // create allowed users variable - arr of user plus their friends
+    const allowedUserIDs = [req.user_id, ...currentUser.friends];
+    // Filter posts to only show from allowed users
+    query.userID = { $in: allowedUserIDs };
+
+    //filter by userID for situation just see own post
     if (userID) query.userID = userID;
-    // filter by targetUserID
+    // filter by targetUserID for walls
     if (targetUserID) query.targetUserID = targetUserID;
-    // filter by postType
+    // filter by postType - for status v post
     if (postType) query.postType = postType;
     // then find all or with relevant parameters
+  
     const posts = await Post.find(query)
           .populate('userID', 'basicInfo') // Populate user info
           .populate('targetUserID', 'basicInfo') // Populate targeUserinfo
