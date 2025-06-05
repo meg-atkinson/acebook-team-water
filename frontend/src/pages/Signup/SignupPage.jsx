@@ -4,18 +4,33 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../../services/authentication";
 
-export function SignupPage() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    basicInfo: {
-      firstName: "",
-      lastName: "",
-      pronouns: "",
-      relStatus: "",
-      birthday: "",
-      homeTown: ""
-    }
+// export function SignupPage() {
+//   const [formData, setFormData] = useState({
+//     email: "",
+//     password: "",
+//     basicInfo: {
+//       firstName: "",
+//       lastName: "",
+//       pronouns: "",
+//       relStatus: "",
+//       birthday: "",
+//       homeTown: ""
+//     }
+//   });
+export async function signup(email, password, userData) {
+  const navigate = useNavigate();
+    function handleEmailChange(event) {
+    setEmail(event.target.value);
+
+
+  fetch("/api/signup", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email,
+      password,
+      basicInfo: userData.basicInfo
+    }) 
   });
 
 
@@ -29,35 +44,32 @@ export function SignupPage() {
   // const [relStatus, setRelStatus] = useState("");
   // const [birthday, setBirthday] = useState("");
   // const [homeTown, setHomeTown] = useState("");
-  const navigate = useNavigate();
+  
 
 
 
 
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    try {
-      await signup(formData {
-        email,
-        password,
-        firstName,
-        lastName,
-        pronouns,
-        relStatus,
-        birthday,
-        homeTown
-      });
-      navigate("/login");
-    } catch (err) {
-      console.error(err);
-      navigate("/signup");
-    }
-  }
+  // async function handleSubmit(event) {
+  //   event.preventDefault();
+  //   try {
+  //     await signup(email, password, {
+  //       basicInfo: {
+  //         firstName,
+  //         lastName,
+  //         pronouns,
+  //         relStatus: relationshipStatus,
+  //         birthday,
+  //         homeTown
+  //       }
+  //     });
+  //     navigate("/login");
+  //   } catch (err) {
+  //     console.error(err);
+  //     navigate("/signup");
+  //   }
+  // }
     
-
-  function handleEmailChange(event) {
-    setEmail(event.target.value);
   }
   function handlePasswordChange(event) {
     setPassword(event.target.value);
@@ -80,6 +92,7 @@ export function SignupPage() {
   function handleHomeTownChange(event) {
     setHomeTown(event.target.value);
   }
+
 
 
   return (
@@ -172,4 +185,5 @@ export function SignupPage() {
       </div>
     </div>
   );
+}
 }
