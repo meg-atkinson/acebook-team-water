@@ -30,20 +30,10 @@ const PostSchema = new Schema({
     default: 'post'
   },
 
-  // image: {
-  //     url: {
-  //       type: String,
-  //       required: true
-  //     },
-  //     caption: {
-  //       type: String,
-  //       maxlength: [200, 'Media caption cannot exceed 200 characters']
-  //     },
-  //     dimensions: {
-  //       width: Number,
-  //       height: Number
-  //     }
-  //   },
+  image: {
+        type: String,
+        default: null
+    },
 
 
   // EXTRA JUST NOTES - FOR FUTURE
