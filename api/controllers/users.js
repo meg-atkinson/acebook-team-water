@@ -35,8 +35,18 @@ catch(err){
 }
 }
 
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find()
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" })
+  }
+};
+
 const UsersController = {
   create: create,
+  getAllUsers: getAllUsers
 };
 
 module.exports = UsersController;
