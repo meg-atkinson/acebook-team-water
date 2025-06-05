@@ -1,17 +1,17 @@
-export const Friend = (friend) => {
+export const Friend = ({ id, firstName, lastName }) => {
     return (
-        <div key={friend.id} className="friend-card">
+        <div key={id} className="friend-card">
             <img
-                src={friend.photoUrl || "https://via.placeholder.com/48"}
-                alt={`${friend.name} profile`}
+                src="https://via.placeholder.com/48"
+                alt={`${firstName} ${lastName}'s profile`}
                 className="friend-photo"
             />
-            <div className="friend-name">{friend.name}</div>
+            <div className="friend-name">{firstName} {lastName}</div>
                 <div className="friend-actions">
-                    <button onClick={() => handleUnfriend(friend.id)} className="unfriend-button">
+                    <button onClick={() => handleUnfriend(id)} className="unfriend-button">
                         Unfriend
                     </button>
-                    <button onClick={() => handleProd(friend.id)} className="prod-button">
+                    <button onClick={() => handleProd(id)} className="prod-button">
                         Prod
                     </button>
                 </div>

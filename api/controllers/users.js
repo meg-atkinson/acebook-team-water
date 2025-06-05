@@ -1,6 +1,7 @@
 const User = require("../models/user.js")
 const bcrypt = require('bcrypt')
 const saltRounds = 10;
+const { generateToken } = require("../lib/token")
 
 async function create(req, res){
 
@@ -38,15 +39,34 @@ catch(err){
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find()
-    res.json(users);
+    res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: "Server error" })
   }
 };
 
+// BAckend
+// Return the user's corresponding User object, by their token?
+
+//Frontend
+// Pull out user's friends array
+// Map over array and
+// Destructure objects within array to retrieve object.firstName and object.lastName
+const getUserByID = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).populate("friends", "basicInfo");
+    const token = generateToken(req.user_id);
+    res.status(200).json({ user: user, token: token });
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server error", error: error.message })
+  }
+}
+
 const UsersController = {
   create: create,
-  getAllUsers: getAllUsers
+  getAllUsers: getAllUsers,
+  getUserByID: getUserByID
 };
 
 module.exports = UsersController;

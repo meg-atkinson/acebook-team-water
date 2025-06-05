@@ -1,21 +1,16 @@
 import "./FriendsList.css";
 import { Friend } from "./Friend";
 
-const FriendsList = () => {
-    const friends = [
-        { id: 1, name: "Alice Smith" },
-        { id: 2, name: "Bob Johnson" },
-        { id: 3, name: "Charlie Brown" }
-    ];
+const FriendsList = ({ user }) => {
 
     return (
         <div className="friends-list-container">
             <h2>My Friends</h2>
-            {friends.length === 0 ? (
+            {!user || !user.friends || user.friends.length == 0 ? (
                 <p>No friends found.</p>
                 ) : (
-                friends.map(friend => (
-                    <Friend key={friend.id} name={friend.name}/>
+                user.friends.map((friend) => (
+                    <Friend key={friend._id } id={friend._id} firstName={friend.basicInfo?.firstName || "Unknown"} lastName={friend.basicInfo?.lastName || ""}/>
                 ))
             )}
         </div>
