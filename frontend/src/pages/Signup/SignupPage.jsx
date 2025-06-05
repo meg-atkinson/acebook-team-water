@@ -10,7 +10,7 @@ export function SignupPage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [pronouns, setPronouns] = useState("");
-  const [relationshipStatus, setRelationshipStatus] = useState("");
+  const [relStatus, setRelStatus] = useState("");
   const [birthday, setBirthday] = useState("");
   const [homeTown, setHomeTown] = useState("");
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ export function SignupPage() {
         firstName,
         lastName,
         pronouns,
-        ationship,
+        relStatus,
         birthday,
         homeTown
       });
@@ -49,8 +49,8 @@ export function SignupPage() {
   function handlePronounsChange(event) {
     setPronouns(event.target.value);
   }
-  function handleRelationshipStatusChange(event) {
-    setRelationshipStatus(event.target.value);
+  function handleRelStatusChange(event) {
+    setRelStatus(event.target.value);
   }
   function handleBirthdayChange(event) {
     setBirthday(event.target.value);
@@ -118,13 +118,13 @@ export function SignupPage() {
           onChange={handlePronounsChange}
         /> 
 <br />
-        <label htmlFor="relationshipStatus">Relationship Status: </label>
+        <label htmlFor="relStatus">Relationship Status: </label>
         <input
           placeholder="Relationship Status"
-          id="relationshipStatus"
+          id="relStatus"
           type="text"
-          value={relationshipStatus}
-          onChange={handleRelationshipStatusChange}
+          value={relStatus}
+          onChange={handleRelStatusChange}
         />
 <br />
         <label htmlFor="birthday">Birthday </label>
