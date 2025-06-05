@@ -7,9 +7,9 @@ describe("Post model", () => {
     await Post.deleteMany({});
   });
 
-  it("has a message", () => {
-    const post = new Post({ message: "some message" });
-    expect(post.message).toEqual("some message");
+  it("has a content", () => {
+    const post = new Post({ content: "some message" });
+    expect(post.content).toEqual("some message");
   });
 
   it("can list all posts", async () => {
@@ -18,7 +18,7 @@ describe("Post model", () => {
   });
 
   it("can save a post", async () => {
-    const post = new Post({ message: "some message" });
+    const post = new Post({ content: "some message" });
 
     await post.save();
     const posts = await Post.find();
