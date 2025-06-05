@@ -11,12 +11,12 @@ function Navbar() {
         <ul className="nav-links">
           <li><a href="/posts">Home</a></li>
           <li><a href="/profile">Profile</a></li>
-          <li><a href="/contact">Friends</a></li>
+          <li><a href="/friends">Friends</a></li>
         </ul>
       </div>
       <div className='navbar-right'>
         <ul>
-          <li><a href="/logout">Log Out</a></li>
+          <li><a href="/login">Log Out</a></li>
         </ul>
       </div>
     </nav>
