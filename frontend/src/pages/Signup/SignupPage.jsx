@@ -2,52 +2,68 @@ import "./SignupPage.css"
 import logo from '../../assets/Acebook4.png';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signup } from "../../services/authentication";
+// import { signup } from "../../services/authentication";
 
 export function SignupPage() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [pronouns, setPronouns] = useState("");
-    const [relStatus, setRelStatus] = useState("");
-    const [birthday, setBirthday] = useState("");
-    const [homeTown, setHomeTown] = useState("");
+  let navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    basicInfo: {
+      firstName: "",
+      lastName: "",
+      pronouns: "",
+      relStatus: "",
+      birthday: "",
+      homeTown: ""
+    }
+  });
 
-    const handleSubmit = async(event)=> {
-        event.preventDefault();
+  const handleChange = (event) => {
+    if (["firstName", "lastName", "pronouns", "relStatus", "birthday", "homeTown"].includes(event.target.name)) {
+      setFormData((prevFormData) => ({
+          ...prevFormData,
+          basicInfo: {
+            ...prevFormData.basicInfo,
+            [event.target.name]: event.target.value
+          }
+      }));
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [event.target.name]: event.target.value
+      }));
+    }
+  }
 
-        const userData = {
-            basicInfo: {
-                firstName,
-                lastName,
-                pronouns,
-                relStatus,
-                birthday,
-                homeTown,
-            },
-        };                
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
     try {
-        const response = await fetch("/api/signup", {
+      const response = await fetch("http://localhost:3000/users", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, ...UserData 
-    }), 
-  });
-    
-    if (!response.ok) {
-        throw new Error("Signup failed");
-    }
+        headers: { "Content-Type": "application/json"},
+        body: JSON.stringify(formData),
+      });
 
-      navigate("/login"); // Redirect after successful signup
-    } catch (err) {
-      console.error("Signup error:", err);
-      // Optionally: show an error message to the user
+      if (!response.ok) {
+        const errorMessage = await response.json();
+        throw new Error(errorMessage || `Signup fail: ${response.status}`);
+      } 
+    
+      console.log("Signup successful");
+      navigate("/login");
+
+    } catch (error) {
+      console.error("Signup error:", error.message);
     }
   };
+
+
+
+
+
 
 
 
@@ -61,85 +77,86 @@ export function SignupPage() {
       <div className="header">
         <h2>Signup</h2>
       </div>
+      <div className="header">
+        <h2>Signup</h2>
+      </div>
 
       <div className="form">
         <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email: </label>
-        <input
-          id="email"
-          type="text"
-          value={email}
-          onChange={handleEmailChange}
-        />
-<br />
-        <label htmlFor="password">Password: </label>
-        <input
-          placeholder="Password"
-          id="password"
-          type="password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
-<br />
-<br />
-<br />
-<br />
-        <label htmlFor="firstName">First Name: </label>
-        <input
-          placeholder="First Name"
-          id="firstName"
-          type="text"
-          value={firstName}
-          onChange={handleFirstNameChange}
-        />
-<br />
-        <label htmlFor="lastName">Last Name: </label>
-        <input
-          placeholder="Last Name"
-          id="lastName"
-          type="text"
-          value={lastName}
-          onChange={handleLastNameChange}
-        />  
-<br />
-        <label htmlFor="pronouns">Pronouns: </label>
-        <input
-          placeholder="They/Them"
-          id="pronouns"
-          type="text"
-          value={pronouns}
-          onChange={handlePronounsChange}
-        /> 
-<br />
-        <label htmlFor="relStatus">Relationship Status: </label>
-        <input
-          placeholder="Relationship Status"
-          id="relStatus"
-          type="text"
-          value={relStatus}
-          onChange={handleRelStatusChange}
-        />
-<br />
-        <label htmlFor="birthday">Birthday </label>
-        <input
-          placeholder="Day Month"
-          id="birthday"
-          type="text"
-          value={birthday}
-          onChange={handleBirthdayChange}
-        /> 
-<br />
-        <label htmlFor="homeTown">Home Town: </label>
-        <input
-          placeholder="Town"
-          id="homeTown"
-          type="text"
-          value={homeTown}
-          onChange={handleHomeTownChange}
-        />
-<br />
-        <input role="submit-button" id="submit" type="submit" value="Submit" />
-      </form>
+          <label htmlFor="email">Email: </label>
+          <input
+            name="email"
+            type="text"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="password">Password: </label>
+          <input
+            placeholder="Password"
+            name="password"
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <br />
+          <br />
+          <label htmlFor="firstName">First Name: </label>
+          <input
+            placeholder="First Name"
+            name="firstName"
+            type="text"
+            value={formData.basicInfo.firstName}
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="lastName">Last Name: </label>
+          <input
+            placeholder="Last Name"
+            name="lastName"
+            type="text"
+            value={formData.basicInfo.lastName}
+            onChange={handleChange}
+          />  
+          <br />
+          <label htmlFor="pronouns">Pronouns: </label>
+          <input
+            placeholder="They/Them"
+            name="pronouns"
+            type="text"
+            value={formData.basicInfo.pronouns}
+            onChange={handleChange}
+          /> 
+          <br />
+          <label htmlFor="relStatus">Relationship Status: </label>
+          <input
+            placeholder="Relationship Status"
+            name="relStatus"
+            type="text"
+            value={formData.basicInfo.relStatus}
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="birthday">Birthday </label>
+          <input
+            placeholder="Day Month"
+            name="birthday"
+            type="text"
+            value={formData.basicInfo.birthday}
+            onChange={handleChange}
+          /> 
+          <br />
+          <label htmlFor="homeTown">Home Town: </label>
+          <input
+            placeholder="Town"
+            name="homeTown"
+            type="text"
+            value={formData.basicInfo.homeTown}
+            onChange={handleChange}
+          />
+          <br />
+          <input role="submit-button" id="submit" type="submit" value="Submit" />
+        </form>
       </div>
     </div>
   );
