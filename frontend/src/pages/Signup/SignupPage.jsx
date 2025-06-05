@@ -5,20 +5,42 @@ import { useNavigate } from "react-router-dom";
 import { signup } from "../../services/authentication";
 
 export function SignupPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [pronouns, setPronouns] = useState("");
-  const [relStatus, setRelStatus] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [homeTown, setHomeTown] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    basicInfo: {
+      firstName: "",
+      lastName: "",
+      pronouns: "",
+      relStatus: "",
+      birthday: "",
+      homeTown: ""
+    }
+  });
+
+
+  
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [basicInfo, setBasicInfo] = useState({});
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastName] = useState("");
+  // const [pronouns, setPronouns] = useState("");
+  // const [relStatus, setRelStatus] = useState("");
+  // const [birthday, setBirthday] = useState("");
+  // const [homeTown, setHomeTown] = useState("");
   const navigate = useNavigate();
+
+
+
+
 
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      await signup(email, password, {
+      await signup(formData {
+        email,
+        password,
         firstName,
         lastName,
         pronouns,
