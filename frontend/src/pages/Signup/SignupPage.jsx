@@ -70,7 +70,6 @@ export function SignupPage() {
 
   return (
     <div className="fullscreen">
-<br />
       <div className="logo-container">
         <img src={logo} alt="Logo" className="logo-img" />
       </div>
