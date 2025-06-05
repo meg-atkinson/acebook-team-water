@@ -4,11 +4,12 @@
 }
 
 .logo-container{
-    height: 5rem;
+    height: 6rem;
     width: 100vw;
     display: flex;
     align-items: left;
     justify-content: left;
+
 }
 
 .logo-img {
