@@ -16,6 +16,12 @@ async function create(req, res){
     const hash = await bcrypt.hash(password, saltRounds);
 
 
+  bcrypt.hash(password, saltRounds, function(err, hash) {
+    if (err) {
+      return res.status(500).json({ error: "Error hashing password" });
+    }
+
+
   const user = new User({
   email: email, 
   password: hash,

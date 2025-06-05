@@ -25,12 +25,12 @@ const photoSchema = mongoose.Schema({
 })
 
 const UserSchema = new mongoose.Schema({
-  email: { type: String, required: true },
-  password: { type: String, required: true },
-  basicInfo: basicInfoSchema,
-  otherInfo: otherInfoSchema,
-  photos: photoSchema,
-  friends:[{type: mongoose.Schema.Types.ObjectId, ref: "User"}]
+    email: { type: String, required: true },
+    password: { type: String, required: true },
+    basicInfo: basicInfoSchema,
+    otherInfo: otherInfoSchema,
+    photos: photoSchema,
+    friends:[{type: mongoose.Schema.Types.ObjectId, ref: "User"}]
 });
 
 const User = mongoose.model("User", UserSchema);
