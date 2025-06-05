@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",
-    "test": "jest"
+    "test": "jest",
+    "data:import": "node seeds/userSeeds",
+    "data:destroy": "node seeds/userSeeds -d"
+    
   },
   "author": "Makers Academy",
   "license": "CC-BY-NC-SA-4.0",

@@ -1,36 +1,38 @@
-const User = require("../models/user");
+const User = require("../models/user.js")
 const bcrypt = require('bcrypt')
 const saltRounds = 10;
 
-function create(req, res) {
-  const email = req.body.email;
-  const password = req.body.password;
-  const basicInfo = req.body.basicInfo;
+async function create(req, res){
 
- bcrypt.hash(password, saltRounds, function(err, hash) {
-   if (err) {
-      return res.status(500).json({ error: "Error hashing password" });
-    }
+  try{
+     const {email, password, basicInfo} = req.body
+
+      const formattedBasicInfo = {
+      ...basicInfo,
+      birthday: new Date(basicInfo.birthday),
+    };
+
+
+    const hash = await bcrypt.hash(password, saltRounds);
+
 
   const user = new User({
   email: email, 
   password: hash,
-  basicInfo: basicInfo,
+  basicInfo: formattedBasicInfo,
 });
 
-  user
-    .save()
-    .then((user) => {
-      console.log("User created, id:", user._id.toString());
-      res.status(201).json({ message: "OK" });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(400).json({ message: "Something went wrong" });
-    }); 
-});
+await user.save();
 
-  
+console.log("User created, id:", user._id.toString());
+res.status(201).json({ message: "User created successfully" });
+
+  }
+
+catch(err){
+  console.error(err);
+  res.status(400).json({message: "Something went wrong", error: err.message})
+}
 }
 
 const UsersController = {
