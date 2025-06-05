@@ -1,6 +1,6 @@
 import Navbar from "../../components/navbar.jsx";
 import MyProfilePanel from "../../components/MyProfilePanel";
-import FriendsList from "../../components/FriendsList";
+import FriendsList from "../../components/friends/FriendsList.jsx";
 import "./FriendsPage.css";
 
 const FriendsPage = () => {

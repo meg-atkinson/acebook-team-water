@@ -1,20 +1,6 @@
-import "./FriendsList.css";
-
-const FriendsList = () => {
-    const friends = [
-        { id: 1, name: "Alice Smith" },
-        { id: 2, name: "Bob Johnson" },
-        { id: 3, name: "Charlie Brown" }
-    ];
-
+export const Friend = (friend) => {
     return (
-    <div className="friends-list-container">
-        <h2>My Friends</h2>
-        {friends.length === 0 ? (
-        <p>No friends found.</p>
-        ) : (
-        friends.map(friend => (
-            <div key={friend.id} className="friend-card">
+        <div key={friend.id} className="friend-card">
             <img
                 src={friend.photoUrl || "https://via.placeholder.com/48"}
                 alt={`${friend.name} profile`}
@@ -30,11 +16,6 @@ const FriendsList = () => {
                     </button>
                 </div>
             {/* Optional: Add a status or other info here */}
-            </div>
-        ))
-        )}
-    </div>
-    );
-};
-
-export default FriendsList;
+        </div>
+    )
+}
