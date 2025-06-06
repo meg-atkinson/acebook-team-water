@@ -169,6 +169,9 @@ export const Status = () => {
     if (!updateStatus) {
         return (
             <>
+                <div className="statusUpdate">
+                    <button onClick={handleClick}>Update status</button>
+                </div>
                 {!currentStatus ? (
                     <p>Loading status...</p>
                 ) : (
@@ -178,9 +181,7 @@ export const Status = () => {
                             <p>{currentStatus.content}</p>
                             <p>{convertDate()}</p>
                         </div>
-                        <div className="statusUpdate">
-                            <button onClick={handleClick}>Update status</button>
-                        </div>
+                        
                         {/* {!currentStatus ? (
                             <p>Loading...</p>
                             ) : (
