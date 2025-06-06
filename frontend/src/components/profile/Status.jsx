@@ -67,7 +67,7 @@ export const Status = () => {
             }
         };
         fetchPostsById();
-    }, []);
+    }, [updateStatus]);
 
 
     // ------------------------------- creating a new status ------------------------------
