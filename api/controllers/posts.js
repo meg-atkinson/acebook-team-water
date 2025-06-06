@@ -8,15 +8,16 @@ async function getAllPosts(req, res) {
     const { userID, targetUserID, postType } = req.query;
     const user = req.user_id;
     const query = {};
-
-    const currentUser = await User.findById(req.user_id).select('friends');
+    // find current user from user_id and select only the friends array field
+    const currentUser = await User.findById(user).select('friends');
+    // if user not found in db return error
     if (!currentUser) {
       return res.status(404).json({ 
           message: "User not found" 
         })}
-    // create allowed users variable - arr of user plus their friends
-    const allowedUserIDs = [req.user_id, ...currentUser.friends];
-    // Filter posts to only show from allowed users
+    // create allowed users variable - array of user ids of user plus their friends
+    const allowedUserIDs = [user, ...currentUser.friends];
+    // Modify query so that it will only return posts where the userID field matches any ObjID in allowedUserIDs array
     query.userID = { $in: allowedUserIDs };
 
     //filter by userID for situation just see own post

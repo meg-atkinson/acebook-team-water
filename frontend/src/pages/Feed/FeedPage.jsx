@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { getPosts } from "../../services/posts";
-import Post from "../../components/Post";
-import LogoutButton from "../../components/LogoutButton";
+// import Post from "../../components/Post";
+// import LogoutButton from "../../components/LogoutButton";
 import Navbar from "../../components/navbar.jsx";
 import NewPost from "../../components/NewPost.jsx";
 import NewsFeed from "../../components/NewsFeed.jsx";
@@ -11,6 +11,7 @@ import NewsFeed from "../../components/NewsFeed.jsx";
 
 export function FeedPage() {
   const [posts, setPosts] = useState([]);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,9 +28,13 @@ export function FeedPage() {
           navigate("/login");
         });
     }
-  }, [navigate, ]);
+  }, [navigate, refreshTrigger]);
 
-  // const handleNewPost = setPosts((data.posts));
+  // Function to trigger a refetch from the database
+  const handleNewPost = () => {
+    // Increment the trigger to cause useEffect to run again
+    setRefreshTrigger(prev => prev + 1);
+  };
 
   const token = localStorage.getItem("token");
   if (!token) {
@@ -41,7 +46,7 @@ export function FeedPage() {
     <>
       <Navbar /> {/*Navbar added to view*/}
       <div>
-        <NewPost  />
+        <NewPost  onPostCreated={handleNewPost}/>
         <h2>News Feed</h2>
         <NewsFeed posts={posts}/>
       </div>
@@ -49,4 +54,3 @@ export function FeedPage() {
   );
 }
 
-//  onPostCreated={handleNewPost}
