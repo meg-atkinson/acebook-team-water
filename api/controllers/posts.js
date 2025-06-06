@@ -54,7 +54,27 @@ async function getPostByID(req, res) {
 
 async function createPost(req, res) {
   try {
-    const post = new Post(req.body);
+    // set userID to current logged in user
+    const userID = req.user_id;
+    // get req bosy data
+    const content = req.body.content
+    const image = req.body.image
+    let targetUserID = req.body.targetUserID
+    // if targetUserID sent is false/null then set to userID
+    if (!targetUserID) {
+      targetUserID = userID;
+    }
+    // create post data from body and userIDs
+    const postData = {
+      content: content,
+      userID: userID,
+      targetUserID: targetUserID,
+    };
+    // if image uploaded add to the postData
+    if (image) {
+      postData.image = req.body.image;
+    }
+    const post = new Post(postData);
     post.save();
 
     const newToken = generateToken(req.user_id);
