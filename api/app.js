@@ -17,6 +17,7 @@ app.use(cors());
 // Parse JSON request bodies, made available on `req.body`
 app.use(bodyParser.json());
 app.use(express.json());
+app.use('/uploads', express.static('uploads')); 
 
 // API Routes
 app.use("/users", usersRouter);
