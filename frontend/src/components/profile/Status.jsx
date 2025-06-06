@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom'
 import { NewStatus } from "./NewStatus"
 
+export const Status = () => {
 
     const [updateStatus, setUpdateStatus] = useState(false)
 
@@ -168,6 +169,9 @@ import { NewStatus } from "./NewStatus"
     if (!updateStatus) {
         return (
             <>
+                <div className="statusUpdate">
+                    <button onClick={handleClick}>Update status</button>
+                </div>
                 {!currentStatus ? (
                     <p>Loading status...</p>
                 ) : (
@@ -177,9 +181,7 @@ import { NewStatus } from "./NewStatus"
                             <p>{currentStatus.content}</p>
                             <p>{convertDate()}</p>
                         </div>
-                        <div className="statusUpdate">
-                            <button onClick={handleClick}>Update status</button>
-                        </div>
+                        
                         {/* {!currentStatus ? (
                             <p>Loading...</p>
                             ) : (
