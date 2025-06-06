@@ -48,6 +48,14 @@ const users = [
         birthday: "03/03/2002",
         homeTown: "Manchester"
     },
+    otherInfo: {
+        interests: "Golf",
+        music: "ABBA",
+        food: "All food",
+        tvShows: "Yellowstone",
+        movies: "Interstellar",
+        quote: "I used to think I was indecisive. But now I'm not so sure."
+    },
     friends: []
 
 },

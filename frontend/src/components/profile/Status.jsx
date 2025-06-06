@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { NewStatus } from "./NewStatus"
 
-export const Status = () => {
+export const Status = ({ user }) => {
     const [updateStatus, setUpdateStatus] = useState(false)
     const [newStatus, setNewStatus] = useState('')
 
@@ -23,11 +23,15 @@ export const Status = () => {
         setUpdateStatus(!updateStatus)
     }
 
+    if (!user || !user.basicInfo) {
+        return <p>Loading status...</p>;
+    }
+
     if (!updateStatus) {
         return (
             <div className="statusContainer">
                 <div className="statusInfo">
-                    <p>users.basicInfo.firstName users.basicInfo.lastName s status.status</p>
+                    <p>{user.basicInfo.firstName} {user.basicInfo.lastName}'s status</p>
                     <p>status.time status.date</p>
                 </div>
                 <div className="statusUpdate">
