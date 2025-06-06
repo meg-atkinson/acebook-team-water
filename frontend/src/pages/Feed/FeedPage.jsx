@@ -27,7 +27,9 @@ export function FeedPage() {
           navigate("/login");
         });
     }
-  }, [navigate]);
+  }, [navigate, ]);
+
+  // const handleNewPost = setPosts((data.posts));
 
   const token = localStorage.getItem("token");
   if (!token) {
@@ -39,11 +41,12 @@ export function FeedPage() {
     <>
       <Navbar /> {/*Navbar added to view*/}
       <div>
-        <NewPost onPostCreated={(post) => setPosts([post, ...posts])} />
+        <NewPost  />
         <h2>News Feed</h2>
-        <NewsFeed posts={posts} />
+        <NewsFeed posts={posts}/>
       </div>
     </>
   );
 }
 
+//  onPostCreated={handleNewPost}
