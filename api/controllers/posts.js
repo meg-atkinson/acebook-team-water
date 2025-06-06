@@ -61,6 +61,7 @@ async function createPost(req, res) {
     const content = req.body.content
     const image = req.body.image
     let targetUserID = req.body.targetUserID
+    const postType = req.body.postType
     // if targetUserID sent is false/null then set to userID
     if (!targetUserID) {
       targetUserID = userID;
@@ -70,6 +71,7 @@ async function createPost(req, res) {
       content: content,
       userID: userID,
       targetUserID: targetUserID,
+      postType: postType || "post",
     };
     // if image uploaded add to the postData
     if (image) {
