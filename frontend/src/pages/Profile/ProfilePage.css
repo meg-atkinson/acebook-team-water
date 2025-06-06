@@ -1,110 +1,96 @@
-.sideProfile {
-    background-color: lightgrey;
+.profileColumnsContainer {
+    display: flex;
     height: 100vh;
-    width: 30vh;
+    gap: 16px;
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+.sideProfile {
+    width: 30%;
+    background-color: #f5f5f5;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .sideProfile img {
     width: 70%;
+    border-radius: 50%;
+    margin-bottom: 1rem;
 }
 
 .mainColumn {
+    width: 70%;
+    background-color: #ffffff;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 
-.profileColumnsContainer {
-    display: flex;
-    flex-direction: row;
-}
-
-
+/* Optional: refine tab button */
 .tabButton {
     margin: 0;
-    height: 2rem;
-    width: 5rem;
+    height: 2.5rem;
+    min-width: 8rem;      /* minimum width */
+    padding: 0 1.5rem;  
+    border-radius: 8px;
+    border: none;
+    background-color: #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-/* Status */
-.statusContainer {
-    background-color: lightslategray;
-    display: flex;
-    flex-direction: column;
+.tabButton:hover {
+    background-color: #ccc;
 }
 
-.statusInfo {
-    display: flex;
-    justify-content: space-between;
+/* Status container and other internal elements can keep mostly the same widths */
+/* Adjust widths inside mainColumn to 100% or relative units */
+
+.statusContainer,
+.wallContainer,
+.infoContainer,
+.photosContainer,
+.friendsContainer {
+    width: 100%;
+    margin-bottom: 1.5rem;
 }
 
-.statusContainer form {
-    display: flex;
-    justify-content: space-between;
-}
-
-/* ------------------------- Wall ---------------------------- */
-
-.wallContainer {
-    width: 70vw;
-}
-
-.mockWallPost {
-    background-color: lightskyblue;
-    display: flex;
-    flex-direction: column;
-}
-
-.mockWallHeadings {
-    display: flex;
-    justify-content: space-between;
-}
-
-
-
-/* --------------------------- Info -------------- */
-.infoContainer {
-    width: 70vw;
-}
-
-
-/* --------------------- Photos ------------------- */
-.photosContainer {
-    width: 70vw;
-}
-
+/* Photos grid */
 .photosGridContainer {
     display: grid;
-    grid-template-columns: auto auto auto;
-    row-gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 1rem;
 }
 
 .photosGridContainer img {
-    width: 12rem;
+    width: 100%;
+    border-radius: 8px;
 }
 
-
-/* -------------------- Friends ------------------------ */
-.friendsContainer {
-    width:70vw;
-    display: grid;
-    grid-column: auto;
-    row-gap: 1rem;
-
-}
-
+/* Friends styling (optional cleanup) */
 .friends {
     display: flex;
     justify-content: space-between;
     background-color: bisque;
+    padding: 1rem;
+    border-radius: 8px;
 }
 
 .friends img {
     height: 10rem;
+    border-radius: 8px;
 }
 
 .friendsInfo {
     display: flex;
     flex-direction: row;
+    gap: 1rem;
 }
 
 .friendsButtons {

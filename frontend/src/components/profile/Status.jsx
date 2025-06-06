@@ -2,10 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom'
 import { NewStatus } from "./NewStatus"
 
-export const Status = () => {
-    
 
-    // Boolean to conditionally render status || new status form
     const [updateStatus, setUpdateStatus] = useState(false)
 
     const handleClick = () => {
@@ -90,6 +87,7 @@ export const Status = () => {
             [event.target.name]: event.target.value
         }));
     }
+
 
 
 

@@ -8,7 +8,7 @@ import { Prods } from "./Prods";
 import { Friends } from "./Friends";
 import { Status } from "./Status";
 
-export const MainColumn = () => {
+export const MainColumn = ({ user }) => {
     const [showWall, setShowWall] = useState(true);
     const [showInfo, setShowInfo] = useState(false);
     const [showPhotos, setShowPhotos] = useState(false);
@@ -17,7 +17,7 @@ export const MainColumn = () => {
 
     return (
     <div className="mainColumn">
-        <Status />
+        <Status user={user} />
         <TabBar 
             showWall={showWall}
             setShowWall={setShowWall}
@@ -30,7 +30,7 @@ export const MainColumn = () => {
             showFriends={showFriends}
             setShowFriends={setShowFriends} />
         <Wall showWall={showWall} />
-        <Info showInfo={showInfo} />
+        <Info showInfo={showInfo} user={user} />
         <Photos showPhotos={showPhotos} />
         <Prods showProds={showProds} />
         <Friends showFriends={showFriends} />
