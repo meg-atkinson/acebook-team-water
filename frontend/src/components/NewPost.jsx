@@ -70,15 +70,15 @@ const NewPost = ({ onPostCreated }) => {
 
         if (response.ok) {
             const createdPost = await response.json();
-            // no idea why this line in there - Olly explain
-            // setFormData((prevFormData) => ({
-            //         ...prevFormData,
-            //         content: "",
-            //         targetUserID: null,
-            //         image: null
-            //     }));
+            console.log('Post created:', createdPost);
+            //reset form 
+            setFormData({
+                    content: "",
+                    targetUserID: null,
+                    image: null
+                });
             if (onPostCreated) {
-                onPostCreated(createdPost);
+                onPostCreated();
             }
         }
     };
