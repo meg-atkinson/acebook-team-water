@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom'
 import { NewStatus } from "./NewStatus"
 
+export const Status = () => {
 
     const [updateStatus, setUpdateStatus] = useState(false)
 
