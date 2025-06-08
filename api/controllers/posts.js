@@ -30,8 +30,8 @@ async function getAllPosts(req, res) {
     // then find all or with relevant parameters
   
     const posts = await Post.find(query)
-          .populate('userID', 'basicInfo') // Populate user info
-          .populate('targetUserID', 'basicInfo') // Populate targeUserinfo
+          .populate('userID', 'basicInfo photos.profilePicture') // Populate user info
+          .populate('targetUserID', 'basicInfo photos.profilePicture') // Populate targeUserinfo
           .sort({ createdAt: -1 }); // Most recent first
 
     // Add full image URLs !!! check this

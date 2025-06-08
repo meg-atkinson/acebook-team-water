@@ -9,9 +9,13 @@ export const SideProfile = ({ user }) => {
         return <p>Loading profile...</p>;
     }
 
+    const profilePicUrl = user.photos.profilePicture
+        ? `http://localhost:3000/${user.photos.profilePicture}`
+        : "https://www.hcihealthcare.ng/wp-content/uploads/2016/10/face-avatar.png"; // fallback image if none
+
     return (
         <div className="sideProfile">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png?20170328184010" />
+            <img src={profilePicUrl} />
             <h2>{user.basicInfo.firstName} {user.basicInfo.lastName}</h2>
             {/* <p>{user.status[0]}</p> */}
             <button>Edit profile</button>
