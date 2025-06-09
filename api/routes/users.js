@@ -8,10 +8,10 @@ const router = express.Router();
 
 router.get("/", UsersController.getAllUsers);
 
+router.get("/me", UsersController.getMyProfile)
+
 router.get("/:id", UsersController.getUserByID);
 
 router.post('/', upload.single('profilePicture'), UsersController.create);
-
-router.get("/me", UsersController.getMyProfile)
 
 module.exports = router;
