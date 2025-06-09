@@ -30,7 +30,7 @@ export const Status = ({ user, setUser }) => {
 
         const fetchPostsById = async () => {
             try {
-                const response = await fetch (`http://localhost:3000/posts?userID=${id}&postType=status`, {
+                const response = await fetch (`http://localhost:3000/posts?userID=${userID}&postType=status`, {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`,
@@ -46,7 +46,7 @@ export const Status = ({ user, setUser }) => {
             }
         };
         fetchPostsById();
-    }, [updateStatus, id]);
+    }, [updateStatus, userID]);
 
 
     // ------------------------------- creating a new status ------------------------------
