@@ -97,8 +97,8 @@ export const ProfilePage = () => {
         }
 
         const userData = await res.json();
-        setUser(userData)
-        console.log(userData)
+        setUser(userData.user)
+        console.log(userData.user)
 
         }
         catch(err){
@@ -119,7 +119,6 @@ if (!user) {
 }
     return (
         <>
-        
             <Navbar />
             <div className="profileColumnsContainer">
 
@@ -129,12 +128,7 @@ if (!user) {
                     <p>Loading user info...</p>
                 )}
                 <MainColumn user={user}/>
-                <div>
-                  
-                <div>
-                    <img>{user.user.photos.profilePicture}</img>
-                </div>
-                </div>
+                
                 
             </div>
         </>
