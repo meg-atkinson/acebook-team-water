@@ -1,8 +1,14 @@
-export const Friend = ({ id, firstName, lastName }) => {
+export const Friend = ({ id, firstName, lastName, profilePicture }) => {
+    const photoUrl = profilePicture
+        ? `http://localhost:3000/${profilePicture}` // or your actual base URL
+        : "https://via.placeholder.com/48";
+
+    console.log("Friend image URL:", photoUrl);
+
     return (
         <div key={id} className="friend-card">
             <img
-                src="https://via.placeholder.com/48"
+                src={photoUrl}
                 alt={`${firstName} ${lastName}'s profile`}
                 className="friend-photo"
             />

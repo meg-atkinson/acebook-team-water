@@ -16,9 +16,12 @@
 }
 
 .sideProfile img {
-    width: 70%;
-    border-radius: 50%;
-    margin-bottom: 1rem;
+    width: 275px !important;
+    height: 185px !important;
+    border-radius: 8px !important;
+    object-fit: cover !important;
+    display: block !important;
+    margin: 0 auto 1rem !important;
 }
 
 .mainColumn {

@@ -1,4 +1,6 @@
 const express = require("express");
+const { create, uploadMiddleware } = require('../controllers/users');
+const upload = require('../middleware/upload');
 
 const UsersController = require("../controllers/users");
 
@@ -8,6 +10,6 @@ router.get("/", UsersController.getAllUsers);
 
 router.get("/:id", UsersController.getUserByID);
 
-router.post("/", UsersController.create);
+router.post('/', upload.single('profilePicture'), UsersController.create);
 
 module.exports = router;

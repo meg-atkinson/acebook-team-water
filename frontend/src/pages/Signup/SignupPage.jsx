@@ -17,7 +17,10 @@ export function SignupPage() {
       relStatus: "",
       birthday: "",
       homeTown: ""
-    }
+    },
+    photos: {
+    profilePicture: ""   // File object
+    },
   });
 
   const handleChange = (event) => {
@@ -36,37 +39,62 @@ export function SignupPage() {
       }));
     }
   }
+  
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        photos: {
+          profilePicture: file
+        },
+      }));
+    }
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
+    const uploadData = new FormData();
+
+    uploadData.append("email", formData.email);
+    uploadData.append("password", formData.password);
+
+    // basicInfo fields
+    uploadData.append("firstName", formData.basicInfo.firstName);
+    uploadData.append("lastName", formData.basicInfo.lastName);
+    uploadData.append("pronouns", formData.basicInfo.pronouns);
+    uploadData.append("relStatus", formData.basicInfo.relStatus);
+    uploadData.append("birthday", formData.basicInfo.birthday);
+    uploadData.append("homeTown", formData.basicInfo.homeTown);
+
+    // Photo file
+    if (formData.photos.profilePicture) {
+      uploadData.append("profilePicture", formData.photos.profilePicture);
+    }
 
     try {
       const response = await fetch("http://localhost:3000/users", {
         method: "POST",
-        headers: { "Content-Type": "application/json"},
-        body: JSON.stringify(formData),
+        body: uploadData,
       });
 
-      if (!response.ok) {
-        const errorMessage = await response.json();
-        throw new Error(errorMessage || `Signup fail: ${response.status}`);
-      } 
-    
-      console.log("Signup successful");
+      if (response.ok) {
+        const createdUser = await response.json();
+        console.log("User created:", createdUser);
+
+       // Redirect to login
       navigate("/login");
+
+    } else {
+      const errorText = await response.text();
+      console.error("Signup failed:", errorText);
+    }
 
     } catch (error) {
       console.error("Signup error:", error.message);
     }
   };
-
-
-
-
-
-
-
-
 
   return (
     <div className="fullscreen">
@@ -150,6 +178,15 @@ export function SignupPage() {
             type="text"
             value={formData.basicInfo.homeTown}
             onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="profilePicture">Profile Picture: </label>
+          <input 
+            name="profilePicture"
+            type="file" 
+            accept="image/*" 
+            style={{paddingBottom:"20px"}}
+            onChange={handleImageChange}
           />
           <br />
           <input role="submit-button" id="submit" type="submit" value="Submit" />
