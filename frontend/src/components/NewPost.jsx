@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import './NewPost.css';
+import { createPost } from '../services/posts';
 
 const placeholderMessages = [
     "What's on your mind?",
@@ -74,35 +75,24 @@ const NewPost = ({ onPostCreated }) => {
         uploadData.append('image', formData.imageFile);
         }
 
+        await createPost(token, uploadData);
 
-        const response = await fetch("http://localhost:3000/posts", {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            body: uploadData,
-    });
-
-        if (response.ok) {
-            const createdPost = await response.json();
-            console.log('Post created:', createdPost);
             //reset form 
-            setFormData({
-                    content: "",
-                    targetUserID: formData.targetUserID,
-                    imageFile: null,
-                    imagePreview: null
-                });
+        setFormData({
+                content: "",
+                targetUserID: formData.targetUserID,
+                imageFile: null,
+                imagePreview: null
+            });
+        // Reset file input
+        const fileInput = document.querySelector('input[type="file"]');
+        if (fileInput) fileInput.value = '';
 
-            // Reset file input
-            const fileInput = document.querySelector('input[type="file"]');
-            if (fileInput) fileInput.value = '';
-
-            if (onPostCreated) {
+        if (onPostCreated) {
                 onPostCreated();
-            }
         }
     };
+
 
 
     return (

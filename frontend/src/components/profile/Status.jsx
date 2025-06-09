@@ -2,8 +2,9 @@ import { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom'
 import { NewStatus } from "./NewStatus"
 
-export const Status = () => {
-    const {id} = useParams();
+
+export const Status = ({ user, setUser }) => {
+
 
     const [updateStatus, setUpdateStatus] = useState(false)
 
@@ -12,8 +13,11 @@ export const Status = () => {
         console.log(updateStatus)
     }
 
+    
     // -------------------------- getting most recent status -----------------------------
     const [currentStatus, setCurrentStatus] = useState(null);
+
+    const userID = user._id
 
     useEffect(() => {
         const token = localStorage.getItem("token")
@@ -23,17 +27,19 @@ export const Status = () => {
             return;
         }
 
+
         const fetchPostsById = async () => {
             try {
                 const response = await fetch (`http://localhost:3000/posts?userID=${id}&postType=status`, {
                     method: "GET",
                     headers: {
-                        "Content-Type": "application/json",
                         "Authorization": `Bearer ${token}`,
                     },
                 });
                 const result = await response.json();
                 console.log(result.posts[0])
+                console.log(userID)
+                console.log(response)
                 setCurrentStatus(result.posts[0])
             } catch (error) {
                 console.error("Error fetching posts:", error)
@@ -50,7 +56,9 @@ export const Status = () => {
     const [newStatus, setNewStatus] = useState({
         content: "",
         postType: "status",
-        targetUserID: id
+
+        targetUserID: userID
+
     })
 
     
@@ -90,43 +98,6 @@ export const Status = () => {
             console.error("Error in updating status:", error.message)
         }
     };
-
-    // ------------------------ get users basic info get request by id --------------------------------
-
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-            console.error("No token found");
-            return;
-        }
-
-        if (!id) {
-            console.error("No userID found in token");
-        }
-
-        const fetchUser = async () => {
-            try {
-                const response = await fetch(`http://localhost:3000/users/${id}`, {
-                    method: "GET",
-                    headers: { 
-                        "Content-Type": "application/json" ,
-                        "Authorization": `Bearer ${token}`,
-                    },
-                });
-                const result = await response.json();
-                setUser(result.user);
-            } catch (error) {
-                console.error("Error fetching user:", error)
-            }  
-        };
-        fetchUser();
-    }, [id]);
-
-// ------------------------------------------------------------------------------------------
-
 
 
     const convertDate = () => {
