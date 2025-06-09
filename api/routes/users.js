@@ -10,4 +10,6 @@ router.get("/:id", UsersController.getUserByID);
 
 router.post("/", UsersController.create);
 
+router.get("/me", UsersController.getMyProfile)
+
 module.exports = router;
