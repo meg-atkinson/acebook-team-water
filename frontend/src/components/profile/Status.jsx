@@ -108,7 +108,7 @@ export const Status = () => {
                 },
                 body: JSON.stringify(newStatus)
             })
-            setUpdateStatus(!updateStatus);
+            setUpdateStatus(prev => !prev);
 
             if (!response.ok) {
                 const errorMessage = await response.json();
