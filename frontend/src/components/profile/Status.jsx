@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { NewStatus } from "./NewStatus"
 
 export const Status = () => {
+    const {id} = useParams();
 
     const [updateStatus, setUpdateStatus] = useState(false)
 
@@ -10,28 +11,6 @@ export const Status = () => {
         setUpdateStatus(!updateStatus)
         console.log(updateStatus)
     }
-
-    // ^^
-
-    // Get userID from url
-    const { userID: userIDFromURL } = useParams();
-
-    // ---------- getting userID out of token because userIDFromUrl isn't working ---------------------
-    function parseJwt(token) {
-        if (!token) return null;
-
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(
-            atob(base64)
-            .split('')
-            .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-            .join('')
-        );
-
-    return JSON.parse(jsonPayload);
-    }
-
 
     // -------------------------- getting most recent status -----------------------------
     const [currentStatus, setCurrentStatus] = useState(null);
@@ -44,13 +23,9 @@ export const Status = () => {
             return;
         }
 
-        const decoded = parseJwt(token);
-        const userID = decoded?.sub;
-
-
         const fetchPostsById = async () => {
             try {
-                const response = await fetch (`http://localhost:3000/posts?userID=${userID}&postType=status`, {
+                const response = await fetch (`http://localhost:3000/posts?userID=${id}&postType=status`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -65,7 +40,7 @@ export const Status = () => {
             }
         };
         fetchPostsById();
-    }, [updateStatus]);
+    }, [updateStatus, id]);
 
 
     // ------------------------------- creating a new status ------------------------------
@@ -75,7 +50,7 @@ export const Status = () => {
     const [newStatus, setNewStatus] = useState({
         content: "",
         postType: "status",
-        targetUserID: userIDFromURL
+        targetUserID: id
     })
 
     
@@ -88,9 +63,6 @@ export const Status = () => {
             [event.target.name]: event.target.value
         }));
     }
-
-
-
 
     
 
@@ -108,7 +80,7 @@ export const Status = () => {
                 },
                 body: JSON.stringify(newStatus)
             })
-            setUpdateStatus(!updateStatus);
+            setUpdateStatus(prev => !prev);
 
             if (!response.ok) {
                 const errorMessage = await response.json();
@@ -131,16 +103,13 @@ export const Status = () => {
             return;
         }
 
-        const decoded = parseJwt(token);
-        const userID = decoded?.sub;
-
-        if (!userID) {
+        if (!id) {
             console.error("No userID found in token");
         }
 
         const fetchUser = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/users/${userID}`, {
+                const response = await fetch(`http://localhost:3000/users/${id}`, {
                     method: "GET",
                     headers: { 
                         "Content-Type": "application/json" ,
@@ -154,7 +123,7 @@ export const Status = () => {
             }  
         };
         fetchUser();
-    }, []);
+    }, [id]);
 
 // ------------------------------------------------------------------------------------------
 
