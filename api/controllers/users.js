@@ -82,7 +82,7 @@ const getUserByID = async (req, res) => {
     console.error(error)
     res.status(500).json({ message: "Server error", error: error.message })
   }
-}
+};
 
 
 const getMyProfile = async (req,res) => {
@@ -94,7 +94,7 @@ const getMyProfile = async (req,res) => {
     console.error("Failed to fetch user profile", error);
     res.status(500).json({message: "Internal server error"})
   }
-}
+};
 
 const UsersController = {
   create: create,

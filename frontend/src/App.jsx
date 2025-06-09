@@ -5,6 +5,7 @@ import { HomePage } from "./pages/Home/HomePage";
 import { LoginPage } from "./pages/Login/LoginPage";
 import { SignupPage } from "./pages/Signup/SignupPage";
 import { FeedPage } from "./pages/Feed/FeedPage";
+import { EditProfilePage } from "./pages/EditProfile/EditProfilePage";
 import { ProfilePage } from "./pages/Profile/ProfilePage";
 import FriendsPage from "./pages/Friends/FriendsPage";
 import { ProfileRedirect } from "./components/ProfileRedirect";
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/friends",
     element: <FriendsPage />,
+  },
+  {
+    path: "/editprofile/:id",
+    element: <EditProfilePage />,
   },
   {
     path: "/profile",
