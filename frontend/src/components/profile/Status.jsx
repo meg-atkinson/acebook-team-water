@@ -40,7 +40,7 @@ export const Status = () => {
             }
         };
         fetchPostsById();
-    }, [updateStatus]);
+    }, [updateStatus, id]);
 
 
     // ------------------------------- creating a new status ------------------------------
@@ -123,7 +123,7 @@ export const Status = () => {
             }  
         };
         fetchUser();
-    }, []);
+    }, [id]);
 
 // ------------------------------------------------------------------------------------------
 
