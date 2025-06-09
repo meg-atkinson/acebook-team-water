@@ -10,7 +10,7 @@ const FriendsList = ({ user }) => {
                 <p>No friends found.</p>
                 ) : (
                 user.friends.map((friend) => (
-                    <Friend key={friend._id } id={friend._id} firstName={friend.basicInfo?.firstName || "Unknown"} lastName={friend.basicInfo?.lastName || ""}/>
+                    <Friend key={friend._id } id={friend._id} firstName={friend.basicInfo?.firstName || "Unknown"} lastName={friend.basicInfo?.lastName || ""} profilePicture={friend.photos?.profilePicture}/>
                 ))
             )}
         </div>

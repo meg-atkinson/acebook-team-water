@@ -1,6 +1,7 @@
 const Post = require("../models/post");
 const User = require("../models/user");
 const { generateToken } = require("../lib/token");
+const fs = require("fs");
 
 // GET all with control structure to also get by userID or targetUserID
 async function getAllPosts(req, res) {
@@ -29,13 +30,21 @@ async function getAllPosts(req, res) {
     // then find all or with relevant parameters
   
     const posts = await Post.find(query)
-          .populate('userID', 'basicInfo') // Populate user info
-          .populate('targetUserID', 'basicInfo') // Populate targeUserinfo
+          .populate('userID', 'basicInfo photos.profilePicture') // Populate user info
+          .populate('targetUserID', 'basicInfo photos.profilePicture') // Populate targeUserinfo
           .sort({ createdAt: -1 }); // Most recent first
+
+    // Add full image URLs !!! check this
+    const postsWithImageUrls = posts.map(post => ({
+      ...post.toObject(),
+      imageUrl: post.imagePath ? `${req.protocol}://${req.get('host')}/${post.imagePath}` : null
+    }));
+
     const token = generateToken(req.user_id);
-    res.status(200).json({ posts: posts, token: token, count: posts.length });
+    res.status(200).json({ posts: postsWithImageUrls, token: token, count: postsWithImageUrls.length });
   } 
   catch(err) {
+    // add more error handling for file upload
     console.error(err);
     res.status(400).json({message: "Something went wrong", error: err.message})
   }
@@ -57,10 +66,10 @@ async function createPost(req, res) {
   try {
     // set userID to current logged in user
     const userID = req.user_id;
-    // get req bosy data
+    // get req body data
     const content = req.body.content
-    const image = req.body.image
     let targetUserID = req.body.targetUserID
+    const postType = req.body.postType
     // if targetUserID sent is false/null then set to userID
     if (!targetUserID) {
       targetUserID = userID;
@@ -70,20 +79,24 @@ async function createPost(req, res) {
       content: content,
       userID: userID,
       targetUserID: targetUserID,
+      postType: postType || "post",
     };
-    // if image uploaded add to the postData
-    if (image) {
-      postData.image = req.body.image;
+
+    // If image was uploaded, add the file path
+    if (req.file) {
+      postData.imagePath = req.file.path; // e.g., "uploads/images/post-1234567890-123456789.jpg"
     }
+
     const post = new Post(postData);
-    post.save();
+    const savedPost = await post.save();
 
     const newToken = generateToken(req.user_id);
-    res.status(201).json({ message: "Post created", token: newToken });
+  
+    res.status(201).json({ message: "Post created", post: savedPost, token: newToken });
   } 
   catch(err) {
     console.error(err);
-    res.status(400).json({message: "Something went wrong", error: err.message})
+    res.status(500).json({message: "Something went wrong", error: err.message})
   }
 }
 

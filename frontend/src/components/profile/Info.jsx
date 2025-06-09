@@ -1,16 +1,19 @@
-export const Info = ({ showInfo }) => {
-
-    if (showInfo) {
+export const Info = ({ showInfo, user }) => {
+    if (!showInfo) {
+        return null;
+    }
+    if (!user || !user.otherInfo) {
+        return <p>Loading info...</p>;
+    }
         return (
             <div className="infoContainer">
-                <h2>Your personal info:</h2>
-                <p>Personal interests: user.extraInfo.interests</p>
-                <p>Favourite music: user.extraInfo.music</p>
-                <p>Favourite food: user.extraInfo.food</p>
-                <p>Favourite TV shows: user.extraInfo.tv</p>
-                <p>Favourite movies: user.extraInfo.movies</p>
-                <p>Favourite quote: user.extraInfo.quote</p>
+                <h2>Your Personal Info:</h2>
+                <p>Personal interests: {user.otherInfo.interests}</p>
+                <p>Favourite music: {user.otherInfo.music}</p>
+                <p>Favourite food: {user.otherInfo.food}</p>
+                <p>Favourite TV shows: {user.otherInfo.tvShows}</p>
+                <p>Favourite movies: {user.otherInfo.movies}</p>
+                <p>Favourite quote: {user.otherInfo.quote}</p>
             </div>
         )
     }
-}

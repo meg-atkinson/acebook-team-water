@@ -30,7 +30,7 @@ const PostSchema = new Schema({
     default: 'post'
   },
 
-  image: {
+  imagePath: {
         type: String,
         default: null
     },

@@ -16,7 +16,8 @@ const NewPost = ({ onPostCreated }) => {
     const [formData, setFormData] = useState({
         content: "",
         targetUserID: null,
-        image: null
+        imageFile: null,
+        imagePreview: null
     });
     // get user ID from url 
     const { userID: userIDFromURL } = useParams();
@@ -25,7 +26,7 @@ const NewPost = ({ onPostCreated }) => {
     // conditional to check if posting on someone's wall
     useEffect(() => {
         // If route is "/user/:userID" → targetUserID is from the URL
-        if (location.pathname.startsWith("/user/")) {
+        if (location.pathname.startsWith("/users/")) {
             setFormData((prevFormData) => ({
                     ...prevFormData,
                     targetUserID: userIDFromURL
@@ -49,7 +50,8 @@ const NewPost = ({ onPostCreated }) => {
             const reader = new FileReader();
             reader.onloadend = () => setFormData((prevFormData) => ({
                 ...prevFormData,
-                image: reader.result
+                imagePreview: reader.result,
+                imageFile: file 
             }));
             reader.readAsDataURL(file);
             }
@@ -57,15 +59,28 @@ const NewPost = ({ onPostCreated }) => {
     
     const handleSubmit = async (event) => {
         event.preventDefault()
-        console.log(formData)
+        //console.log(formData)
         const token = localStorage.getItem("token");
+        // make FormData() object to upload
+        const uploadData = new FormData();
+        // populate uploadData()
+        uploadData.append('content', formData.content);
+        // conditional for targetUserID
+        if (formData.targetUserID) {
+        uploadData.append('targetUserID', formData.targetUserID);
+        }
+        // populate upload data 
+        if (formData.imageFile) {
+        uploadData.append('image', formData.imageFile);
+        }
+
+
         const response = await fetch("http://localhost:3000/posts", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(formData),
+            body: uploadData,
     });
 
         if (response.ok) {
@@ -74,9 +89,15 @@ const NewPost = ({ onPostCreated }) => {
             //reset form 
             setFormData({
                     content: "",
-                    targetUserID: null,
-                    image: null
+                    targetUserID: formData.targetUserID,
+                    imageFile: null,
+                    imagePreview: null
                 });
+
+            // Reset file input
+            const fileInput = document.querySelector('input[type="file"]');
+            if (fileInput) fileInput.value = '';
+
             if (onPostCreated) {
                 onPostCreated();
             }
@@ -91,7 +112,12 @@ const NewPost = ({ onPostCreated }) => {
                 <label>Create Post
                     <br />
                     <br />
-                    <input type="text" name="content" value={formData.content} placeholder={randomPlaceholder} onChange={handleChange}/>
+                    <input 
+                        type="text" 
+                        name="content" 
+                        value={formData.content} 
+                        placeholder={randomPlaceholder} 
+                        onChange={handleChange}/>
                 </label>
                 <div className="form-footer">
                     <input
@@ -100,11 +126,16 @@ const NewPost = ({ onPostCreated }) => {
                         onChange={handleImageChange}
                         className="image-upload"
                     />
-                    {formData.image && (
+                    {formData.imagePreview && (
                         <div className="image-preview">
-                            <img src={formData.image} alt="Preview" />
+                            <img 
+                            src={formData.imagePreview} 
+                            alt="Preview" 
+                            style={{ maxWidth: '200px', maxHeight: '200px' }}
+                            />
                         </div>
                     )}
+
                     <input type="submit" value="Post" />
                 </div>
             </form>

@@ -14,6 +14,12 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+.sideProfile img {
+    width: 70%;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
 .friends-list-panel {
     width: 70%;
     background-color: #ffffff;
