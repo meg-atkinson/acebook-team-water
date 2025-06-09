@@ -7,6 +7,7 @@ import { SignupPage } from "./pages/Signup/SignupPage";
 import { FeedPage } from "./pages/Feed/FeedPage";
 import { ProfilePage } from "./pages/Profile/ProfilePage";
 import FriendsPage from "./pages/Friends/FriendsPage";
+import { ProfileRedirect } from "./components/ProfileRedirect";
 
 // docs: https://reactrouter.com/en/main/start/overview
 const router = createBrowserRouter([
@@ -27,13 +28,17 @@ const router = createBrowserRouter([
     element: <FeedPage />,
   },
   {
-    path: "/profile",
-    element: <ProfilePage />,
-  },
-  {
     path: "/friends",
     element: <FriendsPage />,
   },
+  {
+    path: "/profile",
+    element: <ProfileRedirect />
+  },
+  {
+    path: "/profile/:id",
+    element: <ProfilePage />
+  }
 ]);
 
 function App() {
