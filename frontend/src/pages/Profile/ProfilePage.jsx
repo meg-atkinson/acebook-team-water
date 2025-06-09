@@ -17,52 +17,16 @@ export const ProfilePage = () => {
     // const [posts, setPosts] = useState([]);
 
 
-    function parseJwt(token) {
-        if (!token) return null;
-
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(
-            atob(base64)
-            .split('')
-            .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-            .join('')
-        );
-
-    return JSON.parse(jsonPayload);
-    }
 
     useEffect(() => {
         const token = localStorage.getItem("token");
 
         if (!token) {
             console.error("No token found");
+            navigate("/login")
             return;
         }
-
-        const decoded = parseJwt(token);
-        const userID = decoded?.sub;
-
-        if (!userID) {
-            console.error("No userID found in token");
-        }
-
-        // const fetchUser = async () => {
-        //     try {
-        //         const response = await fetch(`http://localhost:3000/users/${userID}`, {
-        //             method: "GET",
-        //             headers: { 
-        //                 "Content-Type": "application/json" ,
-        //                 "Authorization": `Bearer ${token}`,
-        //             },
-        //         });
-        //         const result = await response.json();
-        //         setUser(result.user);
-        //     } catch (error) {
-        //         console.error("Error fetching user:", error)
-        //     }  
-        // };
-        // fetchUser();
+      
 
         const fetchUserProfile = async () => {
 
@@ -90,6 +54,7 @@ export const ProfilePage = () => {
         fetchUserProfile();
     }, [navigate, id]);
     
+
     if (!user) {
         return (
         <>
@@ -98,6 +63,7 @@ export const ProfilePage = () => {
         </>
     );
     }
+
     return (
         <>
             <Navbar />
@@ -109,7 +75,7 @@ export const ProfilePage = () => {
                     <p>Loading user info...</p>
                 )}
                 <MainColumn user={user}/>
-                
+
                 
             </div>
         </>

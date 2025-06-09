@@ -2,7 +2,9 @@ import { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom'
 import { NewStatus } from "./NewStatus"
 
+
 export const Status = ({ user, setUser }) => {
+
 
     const [updateStatus, setUpdateStatus] = useState(false)
 
@@ -11,28 +13,7 @@ export const Status = ({ user, setUser }) => {
         console.log(updateStatus)
     }
 
-    // ^^
-
-    // Get userID from url
-    // const { userID: userIDFromURL } = useParams();
-
-    // ---------- getting userID out of token because userIDFromUrl isn't working ---------------------
-    // function parseJwt(token) {
-    //     if (!token) return null;
-
-    //     const base64Url = token.split('.')[1];
-    //     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    //     const jsonPayload = decodeURIComponent(
-    //         atob(base64)
-    //         .split('')
-    //         .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-    //         .join('')
-    //     );
-
-    // return JSON.parse(jsonPayload);
-    // }
-
-
+    
     // -------------------------- getting most recent status -----------------------------
     const [currentStatus, setCurrentStatus] = useState(null);
 
@@ -46,15 +27,10 @@ export const Status = ({ user, setUser }) => {
             return;
         }
 
-        // const decoded = parseJwt(token);
-        // const userID = decoded?.sub;
-        
-        
-
 
         const fetchPostsById = async () => {
             try {
-                const response = await fetch (`http://localhost:3000/posts?userID=${userID}&postType=status`, {
+                const response = await fetch (`http://localhost:3000/posts?userID=${id}&postType=status`, {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`,
@@ -70,7 +46,7 @@ export const Status = ({ user, setUser }) => {
             }
         };
         fetchPostsById();
-    }, [updateStatus]);
+    }, [updateStatus, id]);
 
 
     // ------------------------------- creating a new status ------------------------------
@@ -80,7 +56,9 @@ export const Status = ({ user, setUser }) => {
     const [newStatus, setNewStatus] = useState({
         content: "",
         postType: "status",
+
         targetUserID: userID
+
     })
 
     
@@ -93,9 +71,6 @@ export const Status = ({ user, setUser }) => {
             [event.target.name]: event.target.value
         }));
     }
-
-
-
 
     
 
@@ -113,7 +88,7 @@ export const Status = ({ user, setUser }) => {
                 },
                 body: JSON.stringify(newStatus)
             })
-            setUpdateStatus(!updateStatus);
+            setUpdateStatus(prev => !prev);
 
             if (!response.ok) {
                 const errorMessage = await response.json();
@@ -123,40 +98,6 @@ export const Status = ({ user, setUser }) => {
             console.error("Error in updating status:", error.message)
         }
     };
-
-    // ------------------------ get users basic info get request by id --------------------------------
-
-
-    // useEffect(() => {
-    //     // const token = localStorage.getItem("token");
-
-    //     // if (!token) {
-    //     //     console.error("No token found");
-    //     //     return;
-    //     // }
-
-    //     // const decoded = parseJwt(token);
-    //     // const userID = decoded?.sub;
-
-    //     // if (!userID) {
-    //     //     console.error("No userID found in token");
-    //     // }
-
-    //     const fetchUserData = async () => {
-    //         try {
-    //             const userData = await
-    //             });
-    //             const result = await response.json();
-    //             setUser(result.user);
-    //         } catch (error) {
-    //             console.error("Error fetching user:", error)
-    //         }  
-    //     };
-    //     fetchUser();
-    // }, []);
-
-// ------------------------------------------------------------------------------------------
-
 
 
     const convertDate = () => {

@@ -47,3 +47,16 @@
     justify-content: right;
     align-items: flex-end;
 }
+
+.input-error {
+  border: 2px solid red;
+  background-color: #ffe6e6;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.8em;
+  margin-top: -5px;
+  margin-bottom: 10px;
+  display: block;
+}

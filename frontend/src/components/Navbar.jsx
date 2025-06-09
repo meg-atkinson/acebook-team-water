@@ -2,8 +2,15 @@
 
 import './Navbar.css';
 import logo from '../assets/Acebook4.png';
+import {useNavigate} from 'react-router-dom'
 
 function Navbar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    navigate("/login")
+  }
   return (
     <nav className="navbar">
       <div className="navbar-left">
@@ -16,7 +23,7 @@ function Navbar() {
       </div>
       <div className='navbar-right'>
         <ul>
-          <li><a href="/login">Log Out</a></li>
+          <li><button onClick={handleLogout} className="logout-button">Logout</button></li>
         </ul>
       </div>
     </nav>

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export function SignupPage() {
   let navigate = useNavigate();
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     email: "",
@@ -22,6 +23,38 @@ export function SignupPage() {
     profilePicture: ""   // File object
     },
   });
+
+  const validateForm = () => {
+    const newErrors = {};
+
+  if (!formData.email.includes("@")) {
+    newErrors.email = "Invalid email address";
+  }
+  if (formData.password.length < 1) {
+    newErrors.password = "Password must be at least 1 character";
+  }
+  if (!formData.basicInfo.firstName.trim()) {
+    newErrors.firstName = "First name is required";
+  }
+  if (!formData.basicInfo.lastName.trim()) {
+    newErrors.lastName = "Last name is required";
+  }
+  if (!formData.basicInfo.pronouns.trim()) {
+    newErrors.pronouns = "Pronouns are required";
+  }
+  if(!formData.basicInfo.birthday.trim()){
+    newErrors.birthday = "Birthday is required"
+  }
+  if(!formData.basicInfo.homeTown.trim()){
+    newErrors.homeTown = "Hometown required"
+  }
+
+  setErrors(newErrors)
+  return Object.keys(newErrors).length === 0
+  };
+
+
+
 
   const handleChange = (event) => {
     if (["firstName", "lastName", "pronouns", "relStatus", "birthday", "homeTown"].includes(event.target.name)) {
@@ -54,6 +87,10 @@ export function SignupPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if(!validateForm()){
+      return;
+    }
     
     const uploadData = new FormData();
 
@@ -114,7 +151,9 @@ export function SignupPage() {
             type="text"
             value={formData.email}
             onChange={handleChange}
+            className = {errors.email ? "input-error" : ""}
           />
+          {errors.email && <span className="error-text">{errors.email}</span>}
           <br />
           <label htmlFor="password">Password: </label>
           <input
@@ -123,7 +162,9 @@ export function SignupPage() {
             type="password"
             value={formData.password}
             onChange={handleChange}
+            className = {errors.password ? "input-error" : ""}
           />
+          {errors.password && <span className="error-text">{errors.password}</span>}
           <br />
           <br />
           <label htmlFor="firstName">First Name: </label>
@@ -133,7 +174,9 @@ export function SignupPage() {
             type="text"
             value={formData.basicInfo.firstName}
             onChange={handleChange}
+            className= {errors.firstName ? "input-error" : ""}
           />
+          {errors.firstName && <span className="error-text">{errors.firstName}</span>}
           <br />
           <label htmlFor="lastName">Last Name: </label>
           <input
@@ -142,7 +185,9 @@ export function SignupPage() {
             type="text"
             value={formData.basicInfo.lastName}
             onChange={handleChange}
+            className= {errors.lastName ? "input-error": ""}
           />  
+          {errors.lastName && <span className="error-text">{errors.lastName}</span>}
           <br />
           <label htmlFor="pronouns">Pronouns: </label>
           <input
@@ -151,7 +196,9 @@ export function SignupPage() {
             type="text"
             value={formData.basicInfo.pronouns}
             onChange={handleChange}
+            className={errors.pronouns ? "input-error" : ""}
           /> 
+          {errors.pronouns && <span className="error-text">{errors.pronouns}</span>}
           <br />
           <label htmlFor="relStatus">Relationship Status: </label>
           <input
@@ -169,7 +216,9 @@ export function SignupPage() {
             type="text"
             value={formData.basicInfo.birthday}
             onChange={handleChange}
+            className={errors.birthday ? "input-error": ""}
           /> 
+          {errors.birthday && <span className="error-text">{errors.birthday}</span>}
           <br />
           <label htmlFor="homeTown">Home Town: </label>
           <input
@@ -178,7 +227,9 @@ export function SignupPage() {
             type="text"
             value={formData.basicInfo.homeTown}
             onChange={handleChange}
+            className={errors.homeTown ? "input-error": ""}
           />
+          {errors.homeTown && <span className="error-text">{errors.homeTown}</span>}
           <br />
           <label htmlFor="profilePicture">Profile Picture: </label>
           <input 
