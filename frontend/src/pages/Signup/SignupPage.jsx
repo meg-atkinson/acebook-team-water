@@ -107,7 +107,7 @@ export function SignupPage() {
       </div>
 
       <div className="form">
-        <form onSubmit={handleSubmit}>
+        <form encType="multipart/form-data" onSubmit={handleSubmit}>
           <label htmlFor="email">Email: </label>
           <input
             name="email"

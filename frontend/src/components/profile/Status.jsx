@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom'
 import { NewStatus } from "./NewStatus"
 
-export const Status = () => {
+export const Status = ({ user, setUser }) => {
 
     const [updateStatus, setUpdateStatus] = useState(false)
 
@@ -14,27 +14,29 @@ export const Status = () => {
     // ^^
 
     // Get userID from url
-    const { userID: userIDFromURL } = useParams();
+    // const { userID: userIDFromURL } = useParams();
 
     // ---------- getting userID out of token because userIDFromUrl isn't working ---------------------
-    function parseJwt(token) {
-        if (!token) return null;
+    // function parseJwt(token) {
+    //     if (!token) return null;
 
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(
-            atob(base64)
-            .split('')
-            .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-            .join('')
-        );
+    //     const base64Url = token.split('.')[1];
+    //     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    //     const jsonPayload = decodeURIComponent(
+    //         atob(base64)
+    //         .split('')
+    //         .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+    //         .join('')
+    //     );
 
-    return JSON.parse(jsonPayload);
-    }
+    // return JSON.parse(jsonPayload);
+    // }
 
 
     // -------------------------- getting most recent status -----------------------------
     const [currentStatus, setCurrentStatus] = useState(null);
+
+    const userID = user._id
 
     useEffect(() => {
         const token = localStorage.getItem("token")
@@ -44,8 +46,10 @@ export const Status = () => {
             return;
         }
 
-        const decoded = parseJwt(token);
-        const userID = decoded?.sub;
+        // const decoded = parseJwt(token);
+        // const userID = decoded?.sub;
+        
+        
 
 
         const fetchPostsById = async () => {
@@ -53,12 +57,13 @@ export const Status = () => {
                 const response = await fetch (`http://localhost:3000/posts?userID=${userID}&postType=status`, {
                     method: "GET",
                     headers: {
-                        "Content-Type": "application/json",
                         "Authorization": `Bearer ${token}`,
                     },
                 });
                 const result = await response.json();
                 console.log(result.posts[0])
+                console.log(userID)
+                console.log(response)
                 setCurrentStatus(result.posts[0])
             } catch (error) {
                 console.error("Error fetching posts:", error)
@@ -75,7 +80,7 @@ export const Status = () => {
     const [newStatus, setNewStatus] = useState({
         content: "",
         postType: "status",
-        targetUserID: userIDFromURL
+        targetUserID: userID
     })
 
     
@@ -121,40 +126,34 @@ export const Status = () => {
 
     // ------------------------ get users basic info get request by id --------------------------------
 
-    const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        const token = localStorage.getItem("token");
+    // useEffect(() => {
+    //     // const token = localStorage.getItem("token");
 
-        if (!token) {
-            console.error("No token found");
-            return;
-        }
+    //     // if (!token) {
+    //     //     console.error("No token found");
+    //     //     return;
+    //     // }
 
-        const decoded = parseJwt(token);
-        const userID = decoded?.sub;
+    //     // const decoded = parseJwt(token);
+    //     // const userID = decoded?.sub;
 
-        if (!userID) {
-            console.error("No userID found in token");
-        }
+    //     // if (!userID) {
+    //     //     console.error("No userID found in token");
+    //     // }
 
-        const fetchUser = async () => {
-            try {
-                const response = await fetch(`http://localhost:3000/users/${userID}`, {
-                    method: "GET",
-                    headers: { 
-                        "Content-Type": "application/json" ,
-                        "Authorization": `Bearer ${token}`,
-                    },
-                });
-                const result = await response.json();
-                setUser(result.user);
-            } catch (error) {
-                console.error("Error fetching user:", error)
-            }  
-        };
-        fetchUser();
-    }, []);
+    //     const fetchUserData = async () => {
+    //         try {
+    //             const userData = await
+    //             });
+    //             const result = await response.json();
+    //             setUser(result.user);
+    //         } catch (error) {
+    //             console.error("Error fetching user:", error)
+    //         }  
+    //     };
+    //     fetchUser();
+    // }, []);
 
 // ------------------------------------------------------------------------------------------
 
