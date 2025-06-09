@@ -88,6 +88,7 @@ const getUserByID = async (req, res) => {
 const getMyProfile = async (req,res) => {
   try {
     const user = await User.findById(req.user_id).select('_id name email basicInfo friends');
+    
     res.status(200).json(user)
   } catch (error) {
     console.error("Failed to fetch user profile", error);
