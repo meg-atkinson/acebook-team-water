@@ -108,50 +108,6 @@ export const ProfilePage = () => {
 
         fetchUserProfile();
     }, [navigate, id]);
-
-
-
-
-    // useEffect(() => {
-    //     const token = localStorage.getItem("token");
-    //     const loggedIn = token !== null;
-    //     if (loggedIn) {
-    //     getPosts(token)
-    //         .then((data) => {
-    //         setPosts(data.posts);
-    //         localStorage.setItem("token", data.token);
-    //         })
-    //         .catch((err) => {
-    //         console.error(err);
-    //         navigate("/login");
-    //         });
-    //     }
-    // }, [navigate]);
-
-    // // Redirects users to log in if no token exists
-    // const token = localStorage.getItem("token");
-    // if (!token) {
-    //     navigate("/login");
-    //     return;
-    // } ORIGINAL CODE FOR POSTS, SHOULD BE ABLE TO USE CODE ABOVE WITH A FEW TWEAKS INSTEAD?
-
-
-
-
-    //     if (loggedIn) {
-    //     getPosts(token)
-    //         .then((data) => {
-    //         setPosts(data.posts);
-    //         localStorage.setItem("token", data.token);
-    //         })
-    //         .catch((err) => {
-    //         console.error(err);
-    //         navigate("/login");
-    //         });
-    //     }
-    // }, [navigate]);
-
-    // Redirects users to log in if no token exists
     
 if (!user) {
   return (
@@ -173,12 +129,11 @@ if (!user) {
                     <p>Loading user info...</p>
                 )}
                 <MainColumn user={user}/>
-
-                <SideProfile />
-                <MainColumn />  
                 <div>
-                    <h1>{user.user.email}</h1>
-            
+                  
+                <div>
+                    <img>{user.user.photos.profilePicture}</img>
+                </div>
                 </div>
                 
             </div>
