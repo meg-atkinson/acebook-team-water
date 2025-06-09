@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-
-import { getPosts } from "../../services/posts";
-import Post from "../../components/Post";
+import { useNavigate, useParams } from "react-router-dom";
+// import { getPosts } from "../../services/posts";
+// import Post from "../../components/Post";   
 
 import './ProfilePage.css'
 
@@ -11,9 +10,11 @@ import { SideProfile } from "../../components/profile/SideColumn";
 import { MainColumn } from "../../components/profile/MainColumn";
 
 export const ProfilePage = () => {
+    const {id} = useParams();
+    const [user, setUser] = useState(null)
     const navigate = useNavigate();
-    const [posts, setPosts] = useState([]);
-    const [user, setUser] = useState(null);
+    // const [posts, setPosts] = useState([]);
+
 
     function parseJwt(token) {
         if (!token) return null;
@@ -62,7 +63,54 @@ export const ProfilePage = () => {
         };
         fetchUser();
 
-    }, []);
+        const fetchUserProfile = async () => {
+
+        try{
+        
+        if(!id){
+            const meRes = await fetch("http://localhost:3000/users/me", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            if (!meRes.ok) throw new Error("Unauthorized")
+
+            const meData = await meRes.json();
+            setUser(meData)
+            navigate(`/profile/${meData._id}`, {replace: true});
+            return;
+        }
+
+
+        const res = await fetch(`http://localhost:3000/users/${id}`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!res.ok){
+            throw new Error('Failed to fetch user info')
+        }
+
+        const userData = await res.json();
+        setUser(userData)
+        console.log(userData)
+
+        }
+        catch(err){
+        console.error(err)
+        navigate('/login')
+        }}
+
+        fetchUserProfile();
+    }, [navigate, id]);
+
+
+
 
     // useEffect(() => {
     //     const token = localStorage.getItem("token");
@@ -87,16 +135,52 @@ export const ProfilePage = () => {
     //     return;
     // } ORIGINAL CODE FOR POSTS, SHOULD BE ABLE TO USE CODE ABOVE WITH A FEW TWEAKS INSTEAD?
 
+
+
+
+    //     if (loggedIn) {
+    //     getPosts(token)
+    //         .then((data) => {
+    //         setPosts(data.posts);
+    //         localStorage.setItem("token", data.token);
+    //         })
+    //         .catch((err) => {
+    //         console.error(err);
+    //         navigate("/login");
+    //         });
+    //     }
+    // }, [navigate]);
+
+    // Redirects users to log in if no token exists
+    
+if (!user) {
+  return (
+    <>
+      <Navbar />
+      <p>Loading profile...</p>
+    </>
+  );
+}
     return (
         <>
+        
             <Navbar />
             <div className="profileColumnsContainer">
+
                 {user ? (
                 <SideProfile user={user}/>
                 ) : (
                     <p>Loading user info...</p>
                 )}
                 <MainColumn user={user}/>
+
+                <SideProfile />
+                <MainColumn />  
+                <div>
+                    <h1>{user.user.email}</h1>
+            
+                </div>
+                
             </div>
         </>
     )
