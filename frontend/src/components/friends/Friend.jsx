@@ -3,12 +3,18 @@
 export const Friend = ({ id, firstName, lastName, profilePicture, loggedInUserData }) => {
 
     const loggedUserFriends = loggedInUserData
-    const friendsArray = loggedInUserData?.friends.id || [];
-    const isFriend = friendsArray.includes(id);
+    const friendsArray = loggedInUserData?.friends || [];
+    const loggedInUserId = loggedInUserData?._id || [];
+    const friendsIds = friendsArray.map((friend) => friend._id)
+    const isFriend = friendsIds.includes(id);
     
-    console.log(`loggedInData: ${loggedUserFriends}`)
-    console.log(`friendsArray: ${friendsArray}`)
-    console.log(`Object in friendsArray: ${friendsArray[0]}`)
+    console.log(`loggedInData: ${JSON.stringify(loggedUserFriends)}`)
+    console.log('friendsArray:', JSON.stringify(friendsArray, null, 2))
+    // console.log(`Object in friendsArray: ${friendsArray[0]._id}`)
+    console.log("friendsIds:", friendsIds)
+    console.log("id of friend", id)
+    console.log("isFriend", isFriend)
+    // console.log("My own id (aka logged on user)", loggedInUserData._id)
 
 
     const photoUrl = profilePicture
@@ -39,7 +45,9 @@ export const Friend = ({ id, firstName, lastName, profilePicture, loggedInUserDa
             <div className="friend-name">{firstName} {lastName}</div>
             
             {loggedInUserData ? ( // If looking at friends' profiles
-                isFriend ? ( // Friend of friend is user's friend
+                id === loggedInUserId ? ( // If friend's id is equal to my own id, aka that's me so render no buttons
+                    <p>(you)</p>
+                ) : ( isFriend ? ( // Friend of friend is user's friend
                     <div className="friend-actions friend-buttons">
                         <button onClick={() => handleUnfriend(id)} className="unfriend-button">
                             Unfriend
@@ -54,18 +62,20 @@ export const Friend = ({ id, firstName, lastName, profilePicture, loggedInUserDa
                             Add as friend
                         </button>
                     </div>
+                ))
+                ) : ( // if not looking at friends' profiles
+                    <div className="friend-actions non-friend">
+                        <button onClick={() => handleUnfriend(id)} className="unfriend-button">
+                            Unfriend
+                        </button>
+                        <button onClick={() => handleProd(id)} className="prod-button">
+                            Prod
+                        </button>
+                    </div>
                 )
-            ) : ( // if not looking at friends' profiles
-                <div className="friend-actions non-friend">
-                    <button onClick={() => handleUnfriend(id)} className="unfriend-button">
-                        Unfriend
-                    </button>
-                    <button onClick={() => handleProd(id)} className="prod-button">
-                        Prod
-                    </button>
-                </div>
-            )}
+            }
             {/* Optional: Add a status or other info here */}
+            {/* <p>{friendsArray}</p> */}
         </div>
     )
 }
