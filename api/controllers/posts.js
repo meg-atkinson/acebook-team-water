@@ -11,6 +11,7 @@ async function getAllPosts(req, res) {
     const query = {};
     // find current user from user_id and select only the friends array field
     const currentUser = await User.findById(user).select('friends');
+    console.log(currentUser);
     // if user not found in db return error
     if (!currentUser) {
       return res.status(404).json({ 

@@ -8,7 +8,7 @@ import { Prods } from "./Prods";
 import { Friends } from "./Friends";
 import { Status } from "./Status";
 
-export const MainColumn = ({ user }) => {
+export const MainColumn = ({ user, posts }) => {
     const [showWall, setShowWall] = useState(true);
     const [showInfo, setShowInfo] = useState(false);
     const [showPhotos, setShowPhotos] = useState(false);
@@ -29,7 +29,7 @@ export const MainColumn = ({ user }) => {
             setShowProds={setShowProds}
             showFriends={showFriends}
             setShowFriends={setShowFriends} />
-        <Wall showWall={showWall} />
+        <Wall showWall={showWall} posts={posts}/>
         <Info showInfo={showInfo} user={user} />
         <Photos showPhotos={showPhotos} />
         <Prods showProds={showProds} />
