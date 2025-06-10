@@ -3,7 +3,7 @@
 export const Friend = ({ id, firstName, lastName, profilePicture, loggedInUserData }) => {
 
     const loggedUserFriends = loggedInUserData
-    const friendsArray = loggedInUserData?.friends || [];
+    const friendsArray = loggedInUserData?.friends.id || [];
     const isFriend = friendsArray.includes(id);
     
     console.log(`loggedInData: ${loggedUserFriends}`)

@@ -18,40 +18,35 @@ export const Friends = ({ showFriends, user }) => {
 
     
 
-    useEffect(() => {
-        if(!idFromUrl) return; 
+useEffect(() => {
+    if (!idFromUrl) return;
 
-        const token = localStorage.getItem("token");
-        if(!token) return
+    const token = localStorage.getItem("token");
+    if (!token) return;
 
+    const decoded = jwtDecode(token);
+    const loggedInUserId = decoded.sub;
 
-        const decoded = jwtDecode(token);
-        const loggedInUserId = decoded.sub;
+    if (loggedInUserId !== idFromUrl) {
+        fetchUser(loggedInUserId, token);
+    }
 
-        console.log(`loggedInUserId: ${loggedInUserId}`)
-        console.log(`idFromUrl: ${idFromUrl}`)
-        
-
-        if (loggedInUserId !== idFromUrl) {
-            fetchUser(loggedInUserId, token) //looking at friends profile
-        }
-
-
-        async function fetchUser(userId, token){
-            try{
-                const response = await fetch(`http://localhost:3000/users/${userId}`, {
-                    headers: {
+    async function fetchUser(userId, token) {
+        try {
+            const response = await fetch(`http://localhost:3000/users/${userId}`, {
+                headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`,
-        },
-                });
-                const result = await response.json();
-                setLoggedInUserData(result.user)
-                console.log("Logged in user =", loggedInUserData)
-            } catch(error){
-                console.error(error)
-            }}
-    }, [idFromUrl]);
+                },
+            });
+            const result = await response.json();
+            console.log("RESULT USER:", result.user);
+            setLoggedInUserData(result.user); // This updates state ONCE
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}, [idFromUrl]);
 
     if (showFriends) {
         return (

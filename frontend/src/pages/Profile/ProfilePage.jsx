@@ -47,7 +47,9 @@ export const ProfilePage = () => {
 
         const userData = await getUser(token, id)
         setUser(userData.user)
-        console.log(userData.user)
+
+        // ISSUE, CAN SEE DETAILS OF PROFILE USER YOU ARE VISITING !!!!!!!!
+        // console.log(userData.user)
         // get the posts to pass down to other components
         const postData = await getPosts(token);
         setPosts(postData.posts);
