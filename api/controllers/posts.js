@@ -11,6 +11,7 @@ async function getAllPosts(req, res) {
     const query = {};
     // find current user from user_id and select only the friends array field
     const currentUser = await User.findById(user).select('friends');
+    console.log(currentUser);
     // if user not found in db return error
     if (!currentUser) {
       return res.status(404).json({ 
@@ -89,6 +90,12 @@ async function createPost(req, res) {
 
     const post = new Post(postData);
     const savedPost = await post.save();
+
+    if (savedPost.imagePath) {
+      await User.findByIdAndUpdate(userID, {
+        $push: { 'photos.otherPhotos': savedPost.imagePath }
+      });
+    }
 
     const newToken = generateToken(req.user_id);
   
