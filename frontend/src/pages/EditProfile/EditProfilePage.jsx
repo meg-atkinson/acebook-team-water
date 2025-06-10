@@ -6,81 +6,57 @@ import './EditProfilePage.css';
 import Navbar from "../../components/navbar";
 import { SideProfile } from "../../components/profile/SideColumn";
 import { Info } from "../../components/profile/Info";
+import { getUser } from "../../services/user";
 
-export const EditProfilePage = () => {
-    const { userID: userIDFromURL } = useParams();
-    const [user, setUser] = useState(null);
+export const ProfilePage = () => {
+    const {id} = useParams();
+    const [user, setUser] = useState(null)
     const navigate = useNavigate();
-
-    function parseJwt(token) {
-        try {
-            if (!token) return null;
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(
-                atob(base64)
-                    .split('')
-                    .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-                    .join('')
-            );
-            return JSON.parse(jsonPayload);
-        } catch (e) {
-            console.error("Invalid JWT", e);
-            return null;
-        }
-    }
 
     useEffect(() => {
         const token = localStorage.getItem("token");
+
         if (!token) {
             console.error("No token found");
-            navigate('/login');
+            navigate("/login")
+            return;
+        }
+      
+
+        const fetchUserProfile = async () => {
+
+        try{
+        
+        if(!id){
+            const meRes = await getMe(token)
+            setUser(meData)
+            navigate(`/profile/${meData._id}`, {replace: true});
             return;
         }
 
-        const decoded = parseJwt(token);
-        console.log("Decoded token:", decoded); // ✅ Log decoded token
+        // if not logged in user, get friends profile based on url
 
-        const userID = decoded?.sub;
+        const userData = await getUser(token, id)
+        setUser(userData.user)
+        console.log(userData.user)
 
-        if (!userID) {
-            console.error("Token is missing 'sub' field");
-            navigate('/login');
-            return;
         }
+        catch(err){
+        console.error(err)
+        navigate('/login')
+        }}
 
-        const fetchUser = async () => {
-            try {
-                const response = await fetch("http://localhost:3000/users/me", {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    }
-                });
-
-                if (response.ok) {
-                    const responseData = await response.json();
-                    setUser(responseData);
-                } else {
-                    const errorText = await response.text();
-                    console.error("Failed to fetch user data:", errorText); // ✅ Log error text
-                }
-            } catch (error) {
-                console.error("Error fetching user:", error);
-            }
-        };
-
-        fetchUser();
-    }, [navigate]);
+        fetchUserProfile();
+    }, [navigate, id]);
+    
 
     if (!user) {
         return (
-            <>
-                <Navbar />
-                <p>Profile not available</p>
-            </>
-        );
+        <>
+        <Navbar />
+        <p>Loading profile...</p>
+        </>
+    );
     }
 
     return (
