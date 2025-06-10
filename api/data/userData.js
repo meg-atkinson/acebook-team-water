@@ -21,7 +21,7 @@ const users = [
         quote: ""
     },
     photos: {
-        profilePicture: "uploads/images/blank-profile-picture-973460_1280.webp",
+        profilePicture: "uploads/images/1F471-200D-2640-FE0F_color.png",
         otherPhotos: []
     },
     friends: []
@@ -45,7 +45,7 @@ const users = [
         quote: ""
     },
     photos: {
-        profilePicture: "uploads/images/blank-profile-picture-973460_1280.webp",
+        profilePicture: "uploads/images/1F468-200D-1F4BB_color.png",
         otherPhotos: []
     },
     friends: []
@@ -69,7 +69,7 @@ const users = [
         quote: ""
     },
     photos: {
-        profilePicture: "uploads/images/blank-profile-picture-973460_1280.webp",
+        profilePicture: "uploads/images/1F469-200D-1F3ED_color.png",
         otherPhotos: []
     },
     friends: []
@@ -93,7 +93,7 @@ const users = [
         quote: "I used to think I was indecisive. But now I'm not so sure."
     },
     photos: {
-        profilePicture: "uploads/images/blank-profile-picture-973460_1280.webp",
+        profilePicture: "uploads/images/1F64B-200D-2642-FE0F_color.png",
         otherPhotos: []
     },
     friends: []
@@ -118,7 +118,7 @@ const users = [
         quote: ""
     },
     photos: {
-        profilePicture: "uploads/images/blank-profile-picture-973460_1280.webp",
+        profilePicture: "uploads/images/1F469_color.png",
         otherPhotos: []
     },
     friends: []
