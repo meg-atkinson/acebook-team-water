@@ -9,7 +9,6 @@ import { jwtDecode } from "jwt-decode";
 export const Friends = ({ showFriends, user }) => {
     
     
-    
     const { id: idFromUrl } = useParams();
     const [loggedInUserData, setLoggedInUserData] = useState(null);
 
@@ -20,38 +19,39 @@ export const Friends = ({ showFriends, user }) => {
     
 
     useEffect(() => {
+        if(!idFromUrl) return; 
+
         const token = localStorage.getItem("token");
+        if(!token) return
+
+
         const decoded = jwtDecode(token);
-        
-        
         const loggedInUserId = decoded.sub;
 
         console.log(`loggedInUserId: ${loggedInUserId}`)
         console.log(`idFromUrl: ${idFromUrl}`)
         
 
-        if (loggedInUserId !== idFromUrl) { //looking at friends profile
-
-            const fetchUser = async () => {
-                try {
-                    const response = await fetch(`http://localhost:3000/users/${loggedInUserId}`, {
-                        method: "GET",
-                        headers: { 
-                            "Content-Type": "application/json" ,
-                            "Authorization": `Bearer ${token}`,
-                        },
-                    });
-                    const result = await response.json();
-                    setLoggedInUserData(result.user);
-                    console.log(loggedInUserData)
-                } catch (error) {
-                    console.error("Error fetching user:", error)
-                }  
-            };
-
-            fetchUser(); 
+        if (loggedInUserId !== idFromUrl) {
+            fetchUser(loggedInUserId, token) //looking at friends profile
         }
-    }, [idFromUrl, loggedInUserData]);
+
+
+        async function fetchUser(userId, token){
+            try{
+                const response = await fetch(`http://localhost:3000/users/${userId}`, {
+                    headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+        },
+                });
+                const result = await response.json();
+                setLoggedInUserData(result.user)
+                console.log("Logged in user =", loggedInUserData)
+            } catch(error){
+                console.error(error)
+            }}
+    }, [idFromUrl]);
 
     if (showFriends) {
         return (

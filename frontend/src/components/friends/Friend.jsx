@@ -1,18 +1,14 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 
 export const Friend = ({ id, firstName, lastName, profilePicture, loggedInUserData }) => {
-    const [friendsArray, setFriendsArray] = useState([]);
 
-    useEffect(() => {
-        if (loggedInUserData) {
-            setFriendsArray(loggedInUserData.friends)
-        }
-    }, [loggedInUserData])
+    const loggedUserFriends = loggedInUserData
+    const friendsArray = loggedInUserData?.friends || [];
+    const isFriend = friendsArray.includes(id);
     
-    console.log(`loggedInData: ${loggedInUserData}`)
+    console.log(`loggedInData: ${loggedUserFriends}`)
     console.log(`friendsArray: ${friendsArray}`)
     console.log(`Object in friendsArray: ${friendsArray[0]}`)
-    const isFriend = friendsArray.includes(id);
 
 
     const photoUrl = profilePicture
@@ -73,3 +69,13 @@ export const Friend = ({ id, firstName, lastName, profilePicture, loggedInUserDa
         </div>
     )
 }
+
+
+
+
+// Within friends what's being passed to friends is the user whose profile you are looking at wether its yourself or another user.
+// it's checking wether the logged in users id is equal to the url to check if its your own profile or another user
+// the only user information passed to that page is related to the user who's profile it is. So we aren't getting logged in users info
+// to compare friends. It mapping friend component for each friend that the profile owner has. 
+
+// want to render an add friend if you aren't friends. At the moment is shows add friend on people you are friends with. 
