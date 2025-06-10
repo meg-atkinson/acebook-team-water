@@ -4,8 +4,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import './EditProfilePage.css';
 
 import Navbar from "../../components/navbar";
-import { SideProfile } from "../../components/profile/SideColumn";
-import { UpdateOtherInfo } from "../../components/updateOtherInfo";
+import { EditSideProfile } from "../../components/edit/EditSide";
+import { UpdateOtherInfo } from "../../components/edit/updateOtherInfo";
 import { getUser } from "../../services/user";
 
 export const EditProfilePage = () => {
@@ -15,9 +15,10 @@ export const EditProfilePage = () => {
     const navigate = useNavigate();
     
 
-    useEffect(() => {
-        const token = localStorage.getItem("token");
 
+    useEffect(() => {
+        const token = localStorage.getItem("token");        
+        
         if (!token) {
             console.error("No token found");
             navigate("/login")
@@ -65,7 +66,7 @@ return (
             <Navbar />
             <div className="profileColumnsContainer">
                 {user ? (
-                <SideProfile user={user}/>
+                <EditSideProfile user={user}/>
                 ) : (
                     <p>Loading user info...</p>
                 )}

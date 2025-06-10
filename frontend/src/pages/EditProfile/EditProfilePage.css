@@ -7,7 +7,7 @@
     background-color: #f9f9f9;
 }
 
-.sideProfile {
+.editSideProfile {
     width: 30%;
     background-color: #f5f5f5;
     padding: 16px;
@@ -15,7 +15,7 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.sideProfile img {
+.editSideProfile img {
     width: 275px !important;
     height: 185px !important;
     border-radius: 8px !important;
@@ -24,7 +24,7 @@
     margin: 0 auto 1rem !important;
 }
 
-.mainColumn {
+.editOtherInfo {
     width: 70%;
     background-color: #ffffff;
     padding: 16px;
