@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Form, useNavigate, useParams } from "react-router-dom";
 // import { getPosts } from "../../services/posts";
 // import Post from "../../components/Post";   
-import {getMe} from '../services'
+// import {getMe} from '../services'
 
 import './ProfilePage.css'
 
@@ -17,7 +17,7 @@ export const ProfilePage = () => {
     const {id} = useParams();
     const [user, setUser] = useState(null)
     const [posts, setPosts] = useState([]);
-    const [refreshTrigger, setRefreshTrigger] = useState(0);
+    // const [refreshTrigger, setRefreshTrigger] = useState(0);
     const navigate = useNavigate();
     // const [posts, setPosts] = useState([]);
 
@@ -42,7 +42,6 @@ export const ProfilePage = () => {
             const meRes = await getMe(token)
             setUser(meRes)
             navigate(`/profile/${meRes._id}`, {replace: true});
-           
             return;
         }
 
@@ -80,13 +79,14 @@ export const ProfilePage = () => {
             <div className="profileColumnsContainer">
 
                 {user ? (
-                <SideProfile user={user}/>
+                <>
+                <SideProfile user={user} />
+                <MainColumn user={user} posts={posts}/>
+                </>
                 ) : (
                     <p>Loading user info...</p>
                 )}
-                <MainColumn user={user} posts={posts}/>
 
-                
             </div>
         </>
     )

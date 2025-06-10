@@ -1,0 +1,32 @@
+.input-wrapper {
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 2px 28px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #ffffff;
+    outline: none;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.input-wrapper input:focus {
+    border-color: #007bff;
+}
+
+.input-wrapper input::placeholder {
+    color: #999;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .input-wrapper {
+    max-width: 100%;
+    }
+}
