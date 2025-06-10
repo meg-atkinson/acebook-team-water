@@ -5,7 +5,7 @@ export const NewStatus = ({ handleSubmit, newStatus, handleChange, handleClick }
                 <form onSubmit={handleSubmit}>
                     <input name="content" value={newStatus.content} onChange={handleChange} placeholder="Write your new status here" />
                     <div className="updateCancelButttons">
-                        <input type="submit" value="Update" onClick={() => window.location.reload()}/>
+                        <input type="submit" value="Update"/>
                         <button onClick={handleClick}>Cancel</button>
                     </div>
                 </form>

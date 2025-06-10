@@ -6,27 +6,27 @@ const multer = require('multer');
 
 const upload = multer({ dest: 'uploads/images' });
 
-function parseBasicInfo(body) {
-  const basicFields = ["firstName", "lastName", "pronouns", "relStatus", "birthday", "homeTown"];
-  const basicInfo = {};
-  for (const field of basicFields) {
-    if (body[field]) {
-      basicInfo[field] = body[field];
-    }
-  }
-  return basicInfo;
-}
+// function parseBasicInfo(body) {
+//   const basicFields = ["firstName", "lastName", "pronouns", "relStatus", "birthday", "homeTown"];
+//   const basicInfo = {};
+//   for (const field of basicFields) {
+//     if (body[field]) {
+//       basicInfo[field] = body[field];
+//     }
+//   }
+//   return basicInfo;
+// }
 
 async function create(req, res){
 
   try{
-     
-      const basicInfoRaw = parseBasicInfo(req.body);
-      const formattedBasicInfo = {
-      ...basicInfoRaw,
-      birthday: new Date(basicInfoRaw.birthday),
-    };
-    const { email, password } = req.body
+    //   const basicInfoRaw = parseBasicInfo(req.body);
+    //   const formattedBasicInfo = {
+    //   ...basicInfoRaw,
+    //   birthday: new Date(basicInfoRaw.birthday),
+    // };
+    const { email, password, firstName, lastName, pronouns, relStatus, birthday, homeTown } = req.body
+
 
     const hash = await bcrypt.hash(password, saltRounds);
 
@@ -38,7 +38,14 @@ async function create(req, res){
   const user = new User({
   email: email, 
   password: hash,
-  basicInfo: formattedBasicInfo,
+  basicInfo: {
+    firstName: firstName,
+    lastName: lastName,
+    pronouns: pronouns,
+    relStatus: relStatus,
+    birthday: new Date(birthday),
+    homeTown: homeTown
+  },
   photos: {
         profilePicture: profilePicturePath,
       },
@@ -87,7 +94,7 @@ const getUserByID = async (req, res) => {
 
 const getMyProfile = async (req,res) => {
   try {
-    const user = await User.findById(req.user_id).select('_id name email basicInfo friends');
+    const user = await User.findById(req.user_id).select('_id name email basicInfo photos friends');
     
     res.status(200).json(user)
   } catch (error) {
