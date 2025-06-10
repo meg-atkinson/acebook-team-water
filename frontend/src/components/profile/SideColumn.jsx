@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 export const SideProfile = ({ user }) => {
 
     const convertBirthday = () => {
@@ -9,6 +11,11 @@ export const SideProfile = ({ user }) => {
         return <p>Loading profile...</p>;
     }
 
+    const navigate = useNavigate();
+    const handleEditProfile = () => {
+        navigate(`/editprofile/${user.id}`); //switch out with settled user.id identifier
+    };
+
     const profilePicUrl = user.photos.profilePicture
         ? `http://localhost:3000/${user.photos.profilePicture}`
         : "https://www.hcihealthcare.ng/wp-content/uploads/2016/10/face-avatar.png"; // fallback image if none
@@ -18,7 +25,7 @@ export const SideProfile = ({ user }) => {
             <img src={profilePicUrl} />
             <h2>{user.basicInfo.firstName} {user.basicInfo.lastName}</h2>
             {/* <p>{user.status[0]}</p> */}
-            <button>Edit profile</button>
+            <button onClick={handleEditProfile}>Edit profile</button>
             <br />
             <p>{user.basicInfo.pronouns}</p>
             <p>{convertBirthday()}</p>

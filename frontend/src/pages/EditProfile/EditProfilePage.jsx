@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import './EditProfilePage.css';
 
@@ -8,10 +8,20 @@ import { SideProfile } from "../../components/profile/SideColumn";
 import { Info } from "../../components/profile/Info";
 import { getUser } from "../../services/user";
 
-export const ProfilePage = () => {
+export const EditProfilePage = () => {
     const {id} = useParams();
+    const location = useLocation();
     const [user, setUser] = useState(null)
     const navigate = useNavigate();
+
+        // Debug logging
+    console.log("=== DEBUG INFO ===");
+    console.log("Current URL:", window.location.href);
+    console.log("Location pathname:", location.pathname);
+    console.log("useParams() result:", useParams());
+    console.log("ID from useParams:", id);
+    console.log("ID type:", typeof id);
+    console.log("==================");
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -22,29 +32,28 @@ export const ProfilePage = () => {
             return;
         }
       
-
         const fetchUserProfile = async () => {
-
-        try{
-        
-        if(!id){
-            const meRes = await getMe(token)
-            setUser(meData)
-            navigate(`/profile/${meData._id}`, {replace: true});
-            return;
-        }
+            try{
+                if(!id){
+                    console.log("No ID found, calling getMe");
+                    const meRes = await getMe(token)
+                    setUser(meData)
+                    navigate(`/editprofile/${meData._id}`, {replace: true});
+                    return;
+            }
 
         // if not logged in user, get friends profile based on url
+                console.log("About to call getUser with ID:", id);
+                const userData = await getUser(token, id)
+                setUser(userData.user)
+                console.log(userData.user)
+            }
 
-        const userData = await getUser(token, id)
-        setUser(userData.user)
-        console.log(userData.user)
-
+            catch(err){
+                console.error("Error in fetchUserProfile:", err)
+                navigate('/login')
+            }
         }
-        catch(err){
-        console.error(err)
-        navigate('/login')
-        }}
 
         fetchUserProfile();
     }, [navigate, id]);
@@ -55,15 +64,21 @@ export const ProfilePage = () => {
         <>
         <Navbar />
         <p>Loading profile...</p>
+        <p>Debug: Current ID = "{id}"</p>
+        <p>Debug: URL = {window.location.href}</p>
         </>
     );
     }
 
-    return (
+return (
         <>
             <Navbar />
             <div className="profileColumnsContainer">
-                <SideProfile user={user} />
+                {user ? (
+                <SideProfile user={user}/>
+                ) : (
+                    <p>Loading user info...</p>
+                )}
                 <Info user={user} />
             </div>
         </>
