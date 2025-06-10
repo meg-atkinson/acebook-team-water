@@ -10,8 +10,7 @@ export const Friends = ({ showFriends, user }) => {
     
     
     
-    const { userID } = useParams();
-    const idFromUrl = userID
+    const { id: idFromUrl } = useParams();
     const [loggedInUserData, setLoggedInUserData] = useState(null);
 
     // Mutual friends (friends of friends who you are not friends with) has different buttons
@@ -44,6 +43,7 @@ export const Friends = ({ showFriends, user }) => {
                     });
                     const result = await response.json();
                     setLoggedInUserData(result.user);
+                    console.log(loggedInUserData)
                 } catch (error) {
                     console.error("Error fetching user:", error)
                 }  
