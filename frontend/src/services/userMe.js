@@ -18,4 +18,4 @@ export async function getMe(token) {
     const meData = await response.json();
     return meData;
 
-};
+}

@@ -2,9 +2,11 @@
 
 import './Navbar.css';
 import logo from '../assets/Acebook4.png';
-import {useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom';
+import {useUser} from '../App';
 
 function Navbar() {
+  const { user } = useUser();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -17,7 +19,14 @@ function Navbar() {
         <img src={logo} alt="Logo" className="logo" />
         <ul className="nav-links">
           <li><a href="/feed">Home</a></li>
-          <li><a href="/profile">Profile</a></li>
+          {/* Only show profile link if user is loaded */}
+          <li>
+            {user ? (
+              <a href={`/profile/${user.id}`}>Profile</a>
+            ) : (
+              <span className="loading-profile-link">Profile</span>
+            )}
+          </li>
           <li><a href="/friends">Friends</a></li>
         </ul>
       </div>
