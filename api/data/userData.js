@@ -22,7 +22,7 @@ const users = [
     },
     photos: {
         profilePicture: "uploads/images/blank-profile-picture-973460_1280.webp",
-        otherPhotos: ""
+        otherPhotos: []
     },
     friends: []
 },
@@ -46,7 +46,7 @@ const users = [
     },
     photos: {
         profilePicture: "uploads/images/blank-profile-picture-973460_1280.webp",
-        otherPhotos: ""
+        otherPhotos: []
     },
     friends: []
 },
@@ -70,7 +70,7 @@ const users = [
     },
     photos: {
         profilePicture: "uploads/images/blank-profile-picture-973460_1280.webp",
-        otherPhotos: ""
+        otherPhotos: []
     },
     friends: []
 },
@@ -94,7 +94,7 @@ const users = [
     },
     photos: {
         profilePicture: "uploads/images/blank-profile-picture-973460_1280.webp",
-        otherPhotos: ""
+        otherPhotos: []
     },
     friends: []
 
@@ -119,7 +119,7 @@ const users = [
     },
     photos: {
         profilePicture: "uploads/images/blank-profile-picture-973460_1280.webp",
-        otherPhotos: ""
+        otherPhotos: []
     },
     friends: []
 }
