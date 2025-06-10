@@ -33,7 +33,7 @@ export const MainColumn = ({ user, posts }) => {
         <Info showInfo={showInfo} user={user} />
         <Photos showPhotos={showPhotos} />
         <Prods showProds={showProds} />
-        <Friends showFriends={showFriends} />
+        <Friends showFriends={showFriends} user={user} />
     </div>
     )
 }
