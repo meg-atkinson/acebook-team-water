@@ -51,7 +51,7 @@ export const Friends = ({ showFriends, user }) => {
 
             fetchUser(); 
         }
-    }, [idFromUrl]);
+    }, [idFromUrl, loggedInUserData]);
 
     if (showFriends) {
         return (
