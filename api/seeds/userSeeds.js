@@ -19,9 +19,15 @@ const importData = async () => {
 
         const user1Id = createdUsers[0]._id
         const user2Id = createdUsers[1]._id
+        const user3Id = createdUsers[2]._id
+        const user4Id = createdUsers[3]._id
+        const user5Id = createdUsers[4]._id
 
-        await User.findByIdAndUpdate(user1Id, { $addToSet: {friends: user2Id}})
-        await User.findByIdAndUpdate(user2Id, { $addToSet: {friends: user1Id}})
+        await User.findByIdAndUpdate(user1Id, { $addToSet: {friends: { $each: [user2Id, user3Id, user4Id, user5Id]}} });
+        await User.findByIdAndUpdate(user2Id, { $addToSet: {friends: { $each: [user1Id, user3Id, user4Id, user5Id]}} });
+        await User.findByIdAndUpdate(user3Id, { $addToSet: {friends: { $each: [user1Id, user2Id, user4Id]}} }); // not 5
+        await User.findByIdAndUpdate(user4Id, { $addToSet: {friends: { $each: [user1Id, user2Id, user3Id]}} }); // not 5
+        await User.findByIdAndUpdate(user5Id, { $addToSet: {friends: { $each: [user1Id, user2Id]}} });
 
         const updatedPosts = postData.map((post,i) => {
             return {
