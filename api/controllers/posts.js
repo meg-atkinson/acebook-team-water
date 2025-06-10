@@ -91,6 +91,12 @@ async function createPost(req, res) {
     const post = new Post(postData);
     const savedPost = await post.save();
 
+    if (savedPost.imagePath) {
+      await User.findByIdAndUpdate(userID, {
+        $push: { 'photos.otherPhotos': savedPost.imagePath }
+      });
+    }
+
     const newToken = generateToken(req.user_id);
   
     res.status(201).json({ message: "Post created", post: savedPost, token: newToken });

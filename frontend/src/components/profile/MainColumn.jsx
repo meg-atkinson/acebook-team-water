@@ -31,7 +31,7 @@ export const MainColumn = ({ user, posts }) => {
             setShowFriends={setShowFriends} />
         <Wall showWall={showWall} posts={posts}/>
         <Info showInfo={showInfo} user={user} />
-        <Photos showPhotos={showPhotos} />
+        <Photos showPhotos={showPhotos} user={user} />
         <Prods showProds={showProds} />
         <Friends showFriends={showFriends} user={user} />
     </div>

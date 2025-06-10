@@ -48,10 +48,17 @@ async function create(req, res){
   },
   photos: {
         profilePicture: profilePicturePath,
+        otherPhotos: []
       },
 });
 
 await user.save();
+
+if (user.photos.profilePicture) {
+      await User.findByIdAndUpdate(user._id, {
+        $push: { 'photos.otherPhotos': user.photos.profilePicture }
+      });
+    }
 
 console.log("User created, id:", user._id.toString());
 res.status(201).json({ message: "User created successfully" });
