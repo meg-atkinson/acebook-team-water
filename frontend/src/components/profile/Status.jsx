@@ -10,7 +10,7 @@ export const Status = ({ user, setUser }) => {
 
     const handleClick = () => {
         setUpdateStatus(!updateStatus)
-        console.log(updateStatus)
+        // console.log(updateStatus)
     }
 
     
@@ -37,9 +37,9 @@ export const Status = ({ user, setUser }) => {
                     },
                 });
                 const result = await response.json();
-                console.log(result.posts[0])
-                console.log(userID)
-                console.log(response)
+                // console.log(result.posts[0])
+                // console.log(userID)
+                // console.log(response)
                 setCurrentStatus(result.posts[0])
             } catch (error) {
                 console.error("Error fetching posts:", error)
