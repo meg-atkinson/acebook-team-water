@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Form, useNavigate, useParams } from "react-router-dom";
 // import { getPosts } from "../../services/posts";
 // import Post from "../../components/Post";   
 
@@ -9,10 +9,14 @@ import Navbar from "../../components/navbar";
 import { SideProfile } from "../../components/profile/SideColumn";
 import { MainColumn } from "../../components/profile/MainColumn";
 import { getUser } from "../../services/user";
+import { getMe } from "../../services/userMe";
+import { getPosts } from "../../services/posts";
 
 export const ProfilePage = () => {
     const {id} = useParams();
     const [user, setUser] = useState(null)
+    const [posts, setPosts] = useState([]);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
     const navigate = useNavigate();
     // const [posts, setPosts] = useState([]);
 
@@ -33,7 +37,7 @@ export const ProfilePage = () => {
         try{
         
         if(!id){
-            const meRes = await getMe(token)
+            const meData = await getMe(token)
             setUser(meData)
             navigate(`/profile/${meData._id}`, {replace: true});
             return;
@@ -44,7 +48,10 @@ export const ProfilePage = () => {
         const userData = await getUser(token, id)
         setUser(userData.user)
         console.log(userData.user)
-
+        // get the posts to pass down to other components
+        const postData = await getPosts(token);
+        setPosts(postData.posts);
+        
         }
         catch(err){
         console.error(err)
@@ -74,7 +81,7 @@ export const ProfilePage = () => {
                 ) : (
                     <p>Loading user info...</p>
                 )}
-                <MainColumn user={user}/>
+                <MainColumn user={user} posts={posts}/>
 
                 
             </div>
