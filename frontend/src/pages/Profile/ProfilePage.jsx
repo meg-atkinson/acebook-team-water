@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Form, useNavigate, useParams } from "react-router-dom";
 // import { getPosts } from "../../services/posts";
 // import Post from "../../components/Post";   
+import {getMe} from '../services'
 
 import './ProfilePage.css'
 
@@ -30,16 +31,18 @@ export const ProfilePage = () => {
             navigate("/login")
             return;
         }
-      
+    
 
         const fetchUserProfile = async () => {
 
         try{
         
         if(!id){
-            const meData = await getMe(token)
-            setUser(meData)
-            navigate(`/profile/${meData._id}`, {replace: true});
+
+            const meRes = await getMe(token)
+            setUser(meRes)
+            navigate(`/profile/${meRes._id}`, {replace: true});
+           
             return;
         }
 
