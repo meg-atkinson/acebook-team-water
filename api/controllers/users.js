@@ -200,6 +200,36 @@ const updateOtherInfo = async (req, res) =>{
   }
 }
 
+// Friend request controllers:
+// Add friend, update friendsRequest array
+const putFriendRequest = async (req, res) => {
+  try {
+    const senderId = req.user_id;
+    const receiverId = req.params.id;
+
+    if (!senderId || !receiverId) {
+      return res.status(400).json({ message: 'MIssing sender of rceiver id'});
+    }
+    
+
+    // Create new friend update object
+    const updatedReceiver = await User.findByIdAndUpdate(receiverId,
+      { $push: { 'friendRequests': senderId } },
+      { new: true }
+    );
+
+    if (!updatedReceiver) {
+      return res.status(404).json({ message: 'Receiver not found' });
+    }
+
+    res.status(200).json({ message: "Friend request sent", updatedReceiver });
+
+    
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
 
 const UsersController = {
@@ -209,7 +239,8 @@ const UsersController = {
   getUserByID: getUserByID,
   updateBasicInfo: updateBasicInfo,
   updateOtherInfo: updateOtherInfo,
-  uploadMiddleware: upload.single('profilePicture')
+  uploadMiddleware: upload.single('profilePicture'),
+  putFriendRequest: putFriendRequest
 };
 
 module.exports = UsersController;
