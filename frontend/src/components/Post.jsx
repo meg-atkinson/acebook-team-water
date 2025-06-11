@@ -1,9 +1,16 @@
+import {useNavigate} from "react-router-dom"
+
 function Post({ post }) {
+  const navigate = useNavigate()
   const user = post.userID;
+
+  const handleClick = () =>  {
+    navigate(`/profile/${user._id}`)
+  }
 
   return (
     <>
-      <div className="post-author-info">
+      <div className="post-author-info" onClick={handleClick} style={{cursor: "pointer"}}>
         <img
           src={
             user?.photos?.profilePicture

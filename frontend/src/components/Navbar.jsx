@@ -12,6 +12,7 @@ import { useState } from 'react';
 function Navbar() {
   const { user } = useUser();
   const navigate = useNavigate();
+  const [input, setInput] = useState("")
 
   const handleLogout = () => {
     localStorage.removeItem("token")
@@ -37,8 +38,8 @@ function Navbar() {
           <li><a href="/friends">Friends</a></li>
         </ul>
         <ul className='search-bar-container'>
-        <SearchBar setResults={setResults} />
-        <SearchResultsList results={results} />
+        <SearchBar input={input} setInput={setInput} setResults={setResults}/>
+        <SearchResultsList setResults={setResults} results={results} setInput={setInput} />
         </ul>
       </div>
       <div className='navbar-right'>
