@@ -21,20 +21,19 @@ const NewPost = ({ onPostCreated }) => {
         imagePreview: null
     });
     // get user ID from url 
-    const { userID: userIDFromURL } = useParams();
+    const userIDFromURL = useParams();
     const location = useLocation();
 
     // conditional to check if posting on someone's wall
     useEffect(() => {
         // If route is "/user/:userID" → targetUserID is from the URL
-        if (location.pathname.startsWith("/users/")) {
+        if (location.pathname.startsWith("/profile/")) {
             setFormData((prevFormData) => ({
                     ...prevFormData,
-                    targetUserID: userIDFromURL
+                    targetUserID: userIDFromURL.id
                 }));
         }
     }, [location.pathname, userIDFromURL]);
-
     const randomPlaceholder = placeholderMessages[Math.floor(Math.random() * placeholderMessages.length)];
 
     const handleChange = (event) => {
@@ -76,14 +75,15 @@ const NewPost = ({ onPostCreated }) => {
         }
 
         await createPost(token, uploadData);
-
-            //reset form 
+        
+        //reset form - not working?
         setFormData({
                 content: "",
                 targetUserID: formData.targetUserID,
                 imageFile: null,
                 imagePreview: null
             });
+        
         // Reset file input
         const fileInput = document.querySelector('input[type="file"]');
         if (fileInput) fileInput.value = '';
@@ -99,7 +99,7 @@ const NewPost = ({ onPostCreated }) => {
         <div>
             <form encType='multipart/form-data' onSubmit={handleSubmit}>
                 <br />
-                <label>Create Post
+                <label>
                     <br />
                     <br />
                     <input 

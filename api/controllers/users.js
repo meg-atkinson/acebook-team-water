@@ -73,36 +73,23 @@ const getAllUsers = async (req, res) => {
 // Map over array and
 // Destructure objects within array to retrieve object.firstName and object.lastName
 const getUserByID = async (req, res) => {
+
   try {
     const user = await User.findById(req.params.id).populate("friends", "basicInfo photos");
-   
-    // Add full image URLs !!! check this
-    const userWithImageUrls = {
-      ...user.toObject(),
-      profileImageUrl: user.photos.profilePicture ? `${req.protocol}://${req.get('host')}/${user.photos.profilePicture}` : null
-    };
-   
-   
-   
+
+    // // Add full image URLs !!! check this it seemed to be breaking earlier..
+    // const userWithImageUrls = {
+    //   ...user.toObject(),
+    //   profileImageUrl: user.photos.profilePicture ? `${req.protocol}://${req.get('host')}/${user.photos.profilePicture}` : null
+    // };
     const token = generateToken(req.user_id);
-    res.status(200).json({ user: userWithImageUrls, token: token });
+    res.status(200).json({ user: user, token: token });
+
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: "Server error", error: error.message })
   }
 }
-
-
-// const getMyProfile = async (req,res) => {
-//   try {
-//     const user = await User.findById(req.user_id).select('_id name email basicInfo photos friends');
-    
-//     res.status(200).json(user)
-//   } catch (error) {
-//     console.error("Failed to fetch user profile", error);
-//     res.status(500).json({message: "Internal server error"})
-//   }
-// }
 
 const UsersController = {
   getCurrentUser: getCurrentUser,

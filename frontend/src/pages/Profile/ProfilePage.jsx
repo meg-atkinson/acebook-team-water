@@ -15,12 +15,15 @@ export const ProfilePage = () => {
     const { user } = useUser()
     const [profile, setProfile] = useState(null)
     const [posts, setPosts] = useState([]);
-    // const [refreshTrigger, setRefreshTrigger] = useState(0);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
+
     const navigate = useNavigate();
     // check the url of the page for the id of that user
     const { id }  = useParams();
+    const targetUserID = id;
 
     useEffect(() => {
+
         const token = localStorage.getItem("token");
 
         if (!token) {
@@ -37,7 +40,7 @@ export const ProfilePage = () => {
                 const userData = await getUser(token, id)
                 setProfile(userData.user)
                 // get the posts to pass down to other components
-                const postData = await getPosts(token, id);
+                const postData = await getPosts(token, id, targetUserID);
                 setPosts(postData.posts);
                 }
                 catch(err){
@@ -47,8 +50,13 @@ export const ProfilePage = () => {
         };
 
         fetchUserProfile();
-    }, [navigate, id, user]);
+    }, [navigate, id, user, refreshTrigger, targetUserID]);
 
+    // Function to trigger a refetch from the database
+    const handleNewPost = () => {
+    // Increment the trigger to cause useEffect to run again
+    setRefreshTrigger(prev => prev + 1);
+    };
 
     if (!profile) {
         return (
@@ -69,7 +77,11 @@ export const ProfilePage = () => {
                 ) : (
                     <p>Loading user info...</p>
                 )}
-                <MainColumn profile={profile} posts={posts}/>
+                <MainColumn 
+                    profile={profile} 
+                    posts={posts} 
+                    onPostCreated={handleNewPost}
+                />
 
                 
             </div>

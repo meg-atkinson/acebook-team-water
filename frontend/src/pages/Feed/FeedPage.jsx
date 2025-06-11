@@ -14,6 +14,7 @@ export function FeedPage() {
   const [posts, setPosts] = useState([]);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const navigate = useNavigate();
+  const targetUserID = "";
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -23,7 +24,7 @@ export function FeedPage() {
     return;
   }
     if (loggedIn && user?.id) {
-      getPosts(token, user.id)
+      getPosts(token, user.id, targetUserID)
         .then((data) => {
           setPosts(data.posts);
           localStorage.setItem("token", data.token);
@@ -46,7 +47,7 @@ export function FeedPage() {
     <>
       <Navbar /> {/*Navbar added to view*/}
       <div>
-        <NewPost  onPostCreated={handleNewPost}/>
+        <NewPost  onPostCreated={handleNewPost} />
         <h2>News Feed</h2>
         <NewsFeed posts={posts}/>
       </div>
