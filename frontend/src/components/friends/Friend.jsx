@@ -11,30 +11,30 @@ export const Friend = ({ friend }) => {
     const isFriend = friendsIds.includes(friend._id); 
 
     useEffect(() => {
-            const token = localStorage.getItem("token")
-            if (!token) {
-                console.error("No token found");
-                return;
+        const token = localStorage.getItem("token")
+        if (!token) {
+            console.error("No token found");
+            return;
+        }
+        
+        
+        const fetchUserById = async () => {
+            try {
+                const result = await getUser(token, user.id)
+                setLoggedInUser(result.user)
+            } catch (error) {
+                console.error("Error fetching posts:", error)
             }
-            
-            
-            const fetchUserById = async () => {
-                try {
-                    const result = await getUser(token, user.id)
-                    setLoggedInUser(result.user)
-                } catch (error) {
-                    console.error("Error fetching posts:", error)
-                }
-            };
-            fetchUserById();
-        }, [user.id]);
+        };
+        fetchUserById();
+    }, [user.id]);
     
-    console.log('friendsArray:', JSON.stringify(friendsArray, null, 2))
-    // console.log(`Object in friendsArray: ${friendsArray[0]._id}`)
-    console.log("friendsIds:", friendsIds)
-    console.log("id of user", user)
-    console.log("id of friend", friend._id)
-    console.log("isFriend", isFriend)
+    // console.log('friendsArray:', JSON.stringify(friendsArray, null, 2))
+    // // console.log(`Object in friendsArray: ${friendsArray[0]._id}`)
+    // console.log("friendsIds:", friendsIds)
+    // console.log("id of user", user)
+    // console.log("id of friend", friend._id)
+    // console.log("isFriend", isFriend)
     // console.log("My own id (aka logged on user)", loggedInUserData._id)
 
 
