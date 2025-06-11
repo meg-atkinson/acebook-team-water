@@ -4,53 +4,50 @@ import { getUser } from "../../services/user";
 import Navbar from "../../components/navbar.jsx";
 import { SideProfile } from "../../components/profile/SideColumn.jsx";
 import FriendsList from "../../components/friends/FriendsList.jsx";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import "./FriendsPage.css";
 
 const FriendsPage = () => {
     // gets current logged in user 
     const { user } = useUser()
     // set the "profile" i.e. the user whos page we are on
-    const [profile, setProfile] = useState(null)
-    const navigate = useNavigate();
+    const [loggedInUser, setLoggedInUser] = useState(null)
+    // const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-
+        const token = localStorage.getItem("token")
         if (!token) {
             console.error("No token found");
             return;
         }
-
-        const fetchUser = async () => {
+        
+        const fetchUserById = async () => {
             try {
-                // get profile to display based on url
-                const userData = await getUser(token, user.id)
-                setProfile(userData.user)
-            } catch(err) {
-                console.error(err)
-                navigate('/login')
+                const result = await getUser(token, user.id)
+                setLoggedInUser(result.user)
+            } catch (error) {
+                console.error("Error fetching posts:", error)
             }
         };
-        fetchUser();
-    }, [navigate, user]);
+        fetchUserById();
+    }, [user.id]);
 
-
-    console.log(profile)
+    // console.log("logged in user's id:", user.id)
+    // console.log("loggedInUser:", loggedInUser)
     return (
         <>
         <Navbar />
-        {!user ? (
-            <p>Loading profile...</p>
+        {!loggedInUser ? (
+            <p>Loading friends...</p>
         ) : (
             <>
                 <div className="friends-page-container">
                     <div className="profile-panel">
                         {/* not sure same comp can be child of two dif pages */}
-                        {/* <SideProfile profile={profile}/> */}
+                        <SideProfile profile={loggedInUser}/>
                     </div>
                     <div className="friends-list-panel">
-                        <FriendsList profile={profile}/>
+                        <FriendsList loggedInUser={loggedInUser}/>
                     </div>
                 </div>
             </>
