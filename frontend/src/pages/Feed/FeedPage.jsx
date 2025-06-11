@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../App";
 import { getPosts } from "../../services/posts";
-// import Post from "../../components/Post";
-// import LogoutButton from "../../components/LogoutButton";
 import Navbar from "../../components/navbar.jsx";
 import NewPost from "../../components/NewPost.jsx";
 import NewsFeed from "../../components/NewsFeed.jsx";
@@ -42,14 +40,22 @@ export function FeedPage() {
     setRefreshTrigger(prev => prev + 1);
   };
 
+  // function to trigger post rerender upon like - hand down to LikeButton
+  const handlePostLikeToggle = (toggledPost) => {
+      setPosts(prevPosts => 
+          prevPosts.map(post => 
+              post._id === toggledPost._id ? toggledPost : post
+          )
+      );
+  };
 
   return (
     <>
       <Navbar /> {/*Navbar added to view*/}
       <div>
-        <NewPost  onPostCreated={handleNewPost} />
+        <NewPost  onPostCreated={handleNewPost}/>
         <h2>News Feed</h2>
-        <NewsFeed posts={posts}/>
+        <NewsFeed posts={posts} onPostLikeToggle={handlePostLikeToggle}/>
       </div>
     </>
   );

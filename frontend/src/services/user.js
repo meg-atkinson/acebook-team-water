@@ -2,6 +2,7 @@
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 
+// get user by ID 
 export async function getUser(token, id) {
     const requestOptions = {
         method: "GET",
@@ -18,4 +19,24 @@ export async function getUser(token, id) {
 
     const userData = await response.json();
     return userData;
+}
+
+// get currently logged-in user
+export async function getMe(token) {
+    const requestOptions = {
+        method: "GET",
+        headers: {
+        Authorization: `Bearer ${token}`,
+        },
+    };
+
+    const response = await fetch(`${BACKEND_URL}/users/me`, requestOptions);
+    
+    if (!response.ok){
+        throw new Error('Unauthorized')
+    }
+
+    const meData = await response.json();
+    return meData;
+
 }

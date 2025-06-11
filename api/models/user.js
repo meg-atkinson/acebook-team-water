@@ -33,6 +33,29 @@ const UserSchema = new mongoose.Schema({
     friends:[{type: mongoose.Schema.Types.ObjectId, ref: "User"}]
 });
 
+// Virtual to access profile pic URL
+photoSchema.virtual('profilePictureUrl').get(function() {
+    if (this.profilePicture) {
+        return `http://localhost:3000/${this.profilePicture}`;
+    }
+    return null;
+});
+
+// Virtual for other photos URLs (returns array of full URLs) - needed yet?
+photoSchema.virtual('otherPhotosUrls').get(function() {
+    if (this.otherPhotos && this.otherPhotos.length > 0) {
+        return this.otherPhotos.map(photo => `http://localhost:3000/${photo}`);
+    }
+    return [];
+});
+
+// Set virtuals on both schemas to make sure return w JSON
+photoSchema.set('toJSON', { virtuals: true });
+photoSchema.set('toObject', { virtuals: true });
+UserSchema.set('toJSON', { virtuals: true });
+UserSchema.set('toObject', { virtuals: true });
+
+
 const User = mongoose.model("User", UserSchema);
 
 module.exports = User;

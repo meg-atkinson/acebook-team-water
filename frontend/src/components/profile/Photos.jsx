@@ -1,14 +1,16 @@
 export const Photos = ({ showPhotos, profile }) => {
     if (showPhotos) {
-        const photos = profile?.photos?.otherPhotos || [];
+        // use the virtual from the backend to acces otherPhotosUrl property on a user
+        // so don't need to construct url in front end
+        const photos = profile?.photos?.otherPhotosUrls || [];
     
         return (
         <div className="photosContainer">
             <div className="photosGridContainer">
-            {photos.map((photoPath, index) => (
+            {photos.map((photo, index) => (
                 <img 
                 key={index} 
-                src={`http://localhost:3000/${photoPath}`}
+                src={photo}
                 alt={`Photo ${index + 1}`}
                 />
             ))}

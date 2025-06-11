@@ -7,6 +7,8 @@ const upload = require('../middleware/upload');
 
 router.get("/", PostsController.getAllPosts);
 router.get("/:id", PostsController.getPostByID);
+router.put("/like", PostsController.likePost);
+router.put("/unlike", PostsController.unlikePost);
 router.post("/", upload.single('image'), PostsController.createPost);
 
 
