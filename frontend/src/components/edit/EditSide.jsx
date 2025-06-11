@@ -94,7 +94,7 @@ export const EditSideProfile = ({ user }) => {
 
         // check and replace the existing data
         try {
-            const response = await fetch(`http://localhost:3000/users/${user._id}`, {
+            const response = await fetch(`http://localhost:3000/users/me/basic-info`, {
                 method: "PUT",
                 body: uploadData,
             });

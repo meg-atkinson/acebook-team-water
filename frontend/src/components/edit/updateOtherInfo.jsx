@@ -50,7 +50,7 @@ export const UpdateOtherInfo = ({updateInfo, user}) => {
 
         // check and replace the existing data
         try {
-            const response = await fetch(`http://localhost:3000/users/${user._id}`, {
+            const response = await fetch(`http://localhost:3000/users/me/other-info`, {
                 method: "PUT",
                 body: uploadData,
             });
