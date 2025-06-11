@@ -1,27 +1,48 @@
-// import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { getUser } from "../../services/user";
+import { useUser } from "../../App";
 
-export const Friend = ({ id, firstName, lastName, profilePicture, loggedInUserData }) => {
+export const Friend = ({ friend }) => {
+    const [loggedInUser, setLoggedInUser] = useState(null);
 
-    const loggedUserFriends = loggedInUserData
-    const friendsArray = loggedInUserData?.friends || [];
-    const loggedInUserId = loggedInUserData?._id || [];
-    const friendsIds = friendsArray.map((friend) => friend._id)
-    const isFriend = friendsIds.includes(id);
+    const { user } = useUser()
+    const friendsArray = loggedInUser?.friends || []; // Create an array of logged in user's friends' objects
+    const friendsIds = friendsArray.map((myFriend) => myFriend._id) // Array of just their ids
+    const isFriend = friendsIds.includes(friend._id); 
+
+    useEffect(() => {
+            const token = localStorage.getItem("token")
+            if (!token) {
+                console.error("No token found");
+                return;
+            }
+            
+            
+            const fetchUserById = async () => {
+                try {
+                    const result = await getUser(token, user.id)
+                    setLoggedInUser(result.user)
+                } catch (error) {
+                    console.error("Error fetching posts:", error)
+                }
+            };
+            fetchUserById();
+        }, [user.id]);
     
-    console.log(`loggedInData: ${JSON.stringify(loggedUserFriends)}`)
     console.log('friendsArray:', JSON.stringify(friendsArray, null, 2))
     // console.log(`Object in friendsArray: ${friendsArray[0]._id}`)
     console.log("friendsIds:", friendsIds)
-    console.log("id of friend", id)
+    console.log("id of user", user)
+    console.log("id of friend", friend._id)
     console.log("isFriend", isFriend)
     // console.log("My own id (aka logged on user)", loggedInUserData._id)
 
 
-    const photoUrl = profilePicture
-        ? `http://localhost:3000/${profilePicture}` // or your actual base URL
-        : "https://via.placeholder.com/48";
+    // const profilePicture = friend.photos.profilePicture
+    //     ? `http://localhost:3000/${profilePicture}` // or your actual base URL
+    //     : "https://via.placeholder.com/48";
 
-    console.log("Friend image URL:", photoUrl);
+    // console.log("Friend image URL:", profilePicture);
 
     const handleUnfriend = () => {
 
@@ -36,39 +57,39 @@ export const Friend = ({ id, firstName, lastName, profilePicture, loggedInUserDa
     }
 
     return (
-        <div key={id} className="friend-card">
-            <img
+        <div key={friend._id} className="friend-card">
+            {/* <img
                 src={photoUrl}
-                alt={`${firstName} ${lastName}'s profile`}
+                alt={`${friend.basicInfo.firstName} ${friend.basicInfo.lastName}'s profile`}
                 className="friend-photo"
-            />
-            <div className="friend-name">{firstName} {lastName}</div>
+            /> */}
+            <div className="friend-name">{friend.basicInfo.firstName} {friend.basicInfo.lastName}</div>
             
-            {loggedInUserData ? ( // If looking at friends' profiles
-                id === loggedInUserId ? ( // If friend's id is equal to my own id, aka that's me so render no buttons
+            {user ? ( // If looking at friends' profiles
+                friend._id === user.id ? ( // If friend's id is equal to my own id, aka that's me so render no buttons
                     <p>(you)</p>
                 ) : ( isFriend ? ( // Friend of friend is user's friend
                     <div className="friend-actions friend-buttons">
-                        <button onClick={() => handleUnfriend(id)} className="unfriend-button">
+                        <button onClick={() => handleUnfriend(friend._id)} className="unfriend-button">
                             Unfriend
                         </button>
-                        <button onClick={() => handleProd(id)} className="prod-button">
+                        <button onClick={() => handleProd(friend._id)} className="prod-button">
                             Prod
                         </button>
                     </div>
                 ) : ( //Friend of friend is NOT user's friend
                     <div className="friend-actions non-friend-button">
-                        <button onClick={() => handleFriend(id)} className="addFriendButton">
+                        <button onClick={() => handleFriend(friend._id)} className="addFriendButton">
                             Add as friend
                         </button>
                     </div>
                 ))
                 ) : ( // if not looking at friends' profiles
                     <div className="friend-actions non-friend">
-                        <button onClick={() => handleUnfriend(id)} className="unfriend-button">
+                        <button onClick={() => handleUnfriend(friend._id)} className="unfriend-button">
                             Unfriend
                         </button>
-                        <button onClick={() => handleProd(id)} className="prod-button">
+                        <button onClick={() => handleProd(friend._id)} className="prod-button">
                             Prod
                         </button>
                     </div>

@@ -1,7 +1,7 @@
 
-import { Friend } from "./Friend";
+import { Friend } from "../friends/Friend";
 
-export const Friends = ({ showFriends, profile }) => {
+export const Friends = ({ showFriends, profile, user }) => {
 
     const userFriends = profile.friends;
 
@@ -11,7 +11,7 @@ export const Friends = ({ showFriends, profile }) => {
                 {userFriends.map((friend) => {
                     return (
                         <div className="friends" key={friend._id}>
-                            <Friend friend={friend} />
+                            <Friend friend={friend} user={user}/>
                         </div>
                     )
                 })}
