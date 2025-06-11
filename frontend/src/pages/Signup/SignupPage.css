@@ -1,7 +1,18 @@
-.fullscreen{
-    width: 100vw;
-    height: 100vh;
+
+.fullscreen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: relative;
 }
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 60px; /* Space for the button */
+}
+
+
 
 .logo-container{
     height: 8rem;
@@ -60,3 +71,23 @@
   margin-bottom: 10px;
   display: block;
 }
+
+.login-account {
+margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.login-account-btn { 
+    background-color: #26c951;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+

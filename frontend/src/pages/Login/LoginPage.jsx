@@ -23,6 +23,10 @@ export function LoginPage() {
     }
   }
 
+  const handleClick = () =>{
+    navigate("/signup")
+  } 
+
   function handleEmailChange(event) {
     setEmail(event.target.value);
   }
@@ -51,6 +55,9 @@ export function LoginPage() {
         />
         <input role="submit-button" id="submit" type="submit" value="Submit" />
       </form>
+      <div className="create-account">
+      <button onClick={handleClick} className="create-account-btn">Create new account</button>
+      </div>
     </>
   );
 }

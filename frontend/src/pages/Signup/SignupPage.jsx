@@ -54,6 +54,10 @@ export function SignupPage() {
   };
 
 
+  const handleClick = () => {
+    navigate("/login")
+  }
+
 
 
   const handleChange = (event) => {
@@ -135,6 +139,7 @@ export function SignupPage() {
 
   return (
     <div className="fullscreen">
+      <div className="content">
       <div className="logo-container">
         <img src={logo} alt="Logo" className="logo-img" />
       </div>
@@ -178,6 +183,7 @@ export function SignupPage() {
           />
           {errors.firstName && <span className="error-text">{errors.firstName}</span>}
           <br />
+          
           <label htmlFor="lastName">Last Name: </label>
           <input
             placeholder="Last Name"
@@ -241,8 +247,14 @@ export function SignupPage() {
           />
           <br />
           <input role="submit-button" id="submit" type="submit" value="Submit" />
+          <div className="login-account">
+    <button onClick={handleClick} className="login-account-btn">Already a user?</button>
+    </div>
         </form>
       </div>
+
+    
+    </div>
     </div>
   );
 }

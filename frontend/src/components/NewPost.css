@@ -71,3 +71,19 @@ input[type="submit"]:hover {
     border: 1px solid #ccc;
 }
 
+
+
+.create-account {
+    padding-top: 20px;
+}
+
+.create-account-btn { 
+    background-color: #26c951;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
