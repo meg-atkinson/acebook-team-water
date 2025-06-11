@@ -1,17 +1,18 @@
-export const Wall = ({ showWall }) => {
+import Post from "../Post";
+import NewPost from "../NewPost";
 
+export const Wall = ({ posts, showWall, onPostCreated, profile}) => {
+    if (!Array.isArray(posts)) return <p>Unexpected data</p>;
     if (showWall) {
         return (
             <div className="wallContainer">
-                <div className="mockWallPost">
-                    <div className="mockWallHeadings">
-                        <p>Friend posted on your wall:</p>
-                        <p>@ time, date</p>
-                    </div>
-                    <div className="mockWallContent">
-                        <p>content</p>
-                    </div>
+            <h2>{`${profile.basicInfo.firstName}'s`} Wall</h2>
+            <NewPost  onPostCreated={onPostCreated}/>
+            {posts.map((post) => (
+                <div className="post-card" key={post._id}>
+                <Post post={post} />
                 </div>
+            ))}
             </div>
         )
     }

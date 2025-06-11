@@ -1,0 +1,23 @@
+.result-info {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* space between pic and name */
+    padding: 8px 12px;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* circle */
+    object-fit: cover; /* maintain aspect ratio, crop if needed */
+    border: 1px solid #ccc;
+}
+
+.author-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #333;
+    white-space: nowrap; /* prevent line break */
+    overflow: hidden;
+    text-overflow: ellipsis; /* truncate if too long */
+}

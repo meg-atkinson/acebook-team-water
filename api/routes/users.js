@@ -7,11 +7,11 @@ const UsersController = require("../controllers/users");
 
 const router = express.Router();
 
-router.get("/", UsersController.getAllUsers);
+router.get("/", tokenChecker, UsersController.getAllUsers);
 
-router.get("/me", UsersController.getMyProfile)
+router.get("/me", tokenChecker, UsersController.getCurrentUser)
 
-router.get("/:id", UsersController.getUserByID);
+router.get("/:id", tokenChecker, UsersController.getUserByID);
 
 router.post('/', upload.single('profilePicture'), UsersController.create);
 

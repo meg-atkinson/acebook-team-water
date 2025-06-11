@@ -1,28 +1,18 @@
 import { useState, useEffect } from "react";
-
+import { useUser } from "../../App";
+import { getUser } from "../../services/user";
 import Navbar from "../../components/navbar.jsx";
-import MyProfilePanel from "../../components/MyProfilePanel";
+import { SideProfile } from "../../components/profile/SideColumn.jsx";
 import FriendsList from "../../components/friends/FriendsList.jsx";
+import { useNavigate } from "react-router-dom";
 import "./FriendsPage.css";
 
 const FriendsPage = () => {
-    const [user, setUser] = useState(null);
-    
-    // This function takes the token stored in local storage and extracts userID:
-    function parseJwt(token) {
-        if (!token) return null;
-
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(
-            atob(base64)
-            .split('')
-            .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-            .join('')
-        );
-
-    return JSON.parse(jsonPayload);
-    }
+    // gets current logged in user 
+    const { user } = useUser()
+    // set the "profile" i.e. the user whos page we are on
+    const [profile, setProfile] = useState(null)
+    const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -32,31 +22,21 @@ const FriendsPage = () => {
             return;
         }
 
-        const decoded = parseJwt(token);
-        const userID = decoded?.sub;
-
-        if (!userID) {
-            console.error("No userID found in token");
-        }
-
         const fetchUser = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/users/${userID}`, {
-                    method: "GET",
-                    headers: { 
-                        "Content-Type": "application/json" ,
-                        "Authorization": `Bearer ${token}`,
-                    },
-                });
-                const result = await response.json();
-                setUser(result.user);
-            } catch (error) {
-                console.error("Error fetching user:", error)
-            }  
+                // get profile to display based on url
+                const userData = await getUser(token, user.id)
+                setProfile(userData.user)
+            } catch(err) {
+                console.error(err)
+                navigate('/login')
+            }
         };
         fetchUser();
-    }, []);
+    }, [navigate, user]);
 
+
+    console.log(profile)
     return (
         <>
         <Navbar />
@@ -66,10 +46,11 @@ const FriendsPage = () => {
             <>
                 <div className="friends-page-container">
                     <div className="profile-panel">
-                        <MyProfilePanel user={user}/>
+                        {/* not sure same comp can be child of two dif pages */}
+                        {/* <SideProfile profile={profile}/> */}
                     </div>
                     <div className="friends-list-panel">
-                        <FriendsList user={user}/>
+                        <FriendsList profile={profile}/>
                     </div>
                 </div>
             </>

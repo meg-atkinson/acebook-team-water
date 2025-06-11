@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useUser } from "../../App";
 import { getPosts } from "../../services/posts";
 // import Post from "../../components/Post";
 // import LogoutButton from "../../components/LogoutButton";
@@ -10,15 +10,21 @@ import NewsFeed from "../../components/NewsFeed.jsx";
 
 
 export function FeedPage() {
+  const { user } = useUser()
   const [posts, setPosts] = useState([]);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const navigate = useNavigate();
+  const targetUserID = "";
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     const loggedIn = token !== null;
-    if (loggedIn) {
-      getPosts(token)
+    if (!token) {
+      navigate("/login");
+    return;
+  }
+    if (loggedIn && user?.id) {
+      getPosts(token, user.id, targetUserID)
         .then((data) => {
           setPosts(data.posts);
           localStorage.setItem("token", data.token);
@@ -28,7 +34,7 @@ export function FeedPage() {
           navigate("/login");
         });
     }
-  }, [navigate, refreshTrigger]);
+  }, [navigate, refreshTrigger, user]);
 
   // Function to trigger a refetch from the database
   const handleNewPost = () => {
@@ -36,17 +42,12 @@ export function FeedPage() {
     setRefreshTrigger(prev => prev + 1);
   };
 
-  const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/login");
-    return;
-  }
 
   return (
     <>
       <Navbar /> {/*Navbar added to view*/}
       <div>
-        <NewPost  onPostCreated={handleNewPost}/>
+        <NewPost  onPostCreated={handleNewPost} />
         <h2>News Feed</h2>
         <NewsFeed posts={posts}/>
       </div>

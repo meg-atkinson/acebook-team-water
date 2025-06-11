@@ -8,7 +8,7 @@ import { Prods } from "./Prods";
 import { Friends } from "./Friends";
 import { Status } from "./Status";
 
-export const MainColumn = ({ user }) => {
+export const MainColumn = ({ profile, posts, onPostCreated }) => {
     const [showWall, setShowWall] = useState(true);
     const [showInfo, setShowInfo] = useState(false);
     const [showPhotos, setShowPhotos] = useState(false);
@@ -17,7 +17,7 @@ export const MainColumn = ({ user }) => {
 
     return (
     <div className="mainColumn">
-        <Status user={user} />
+        <Status profile={profile} />
         <TabBar 
             showWall={showWall}
             setShowWall={setShowWall}
@@ -29,11 +29,16 @@ export const MainColumn = ({ user }) => {
             setShowProds={setShowProds}
             showFriends={showFriends}
             setShowFriends={setShowFriends} />
-        <Wall showWall={showWall} />
-        <Info showInfo={showInfo} user={user} />
-        <Photos showPhotos={showPhotos} />
+        <Wall 
+            showWall={showWall} 
+            posts={posts} 
+            profile={profile} 
+            onPostCreated={onPostCreated}
+        />
+        <Info showInfo={showInfo} profile={profile} />
+        <Photos showPhotos={showPhotos} profile={profile} />
         <Prods showProds={showProds} />
-        <Friends showFriends={showFriends} />
+        <Friends showFriends={showFriends} profile={profile}/>
     </div>
     )
 }
