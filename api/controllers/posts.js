@@ -7,7 +7,7 @@ const fs = require("fs");
 // GET all with control structure to also get by userID or targetUserID
 async function getAllPosts(req, res) {
   try {
-    const { userID, targetUserID } = req.query;
+    const { userID, targetUserID, postType } = req.query;
     const loggedInUserID = req.user_id; 
     // for homepage select only the friends array field for the logged in user
     const currentUser = await User.findById(loggedInUserID).select('friends');
@@ -32,6 +32,9 @@ async function getAllPosts(req, res) {
     } else {
       // PROFILE PAGE: Show ALL posts on the specified user's wall
       query.targetUserID = targetUserID;
+    }
+    if (postType) {
+      query.postType = postType;
     }
 
   // then find all or with relevant parameters
