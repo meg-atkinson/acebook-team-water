@@ -1,8 +1,7 @@
-import React, { useState } from "react";
 import "./SearchBar.css";
 
-export const SearchBar = ({ setResults }) => {
-        const [input, setInput] = useState("");
+export const SearchBar = ({ input, setInput, setResults }) => {
+        
 
         const fetchData = async (value) => {
             try {
@@ -20,7 +19,7 @@ export const SearchBar = ({ setResults }) => {
             }
             
             const json = await response.json();
-            console.log("Raw data received:", json);
+            // console.log("Raw data received:", json);
             
             const results = json.filter((user) => {
                 if (!user || !user.basicInfo) return false;

@@ -1,8 +1,18 @@
 import "./SearchResult.css";
+import {useNavigate} from "react-router-dom"
 
-export const SearchResult = ({ result }) => {
+export const SearchResult = ({ result, setResults, setInput}) => {
+const navigate = useNavigate()
+
+const handleClick = () => {
+    navigate(`/profile/${result._id}`)
+    setResults([])
+    setInput("")
+
+}
+
     return (
-        <div className="result-info">
+        <div className="result-info" onClick={handleClick} style={{cursor: "pointer"}} >   
         <img
             src={
                 result?.photos?.profilePicture
