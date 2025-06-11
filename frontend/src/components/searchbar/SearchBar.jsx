@@ -6,7 +6,14 @@ export const SearchBar = ({ setResults }) => {
 
         const fetchData = async (value) => {
             try {
-            const response = await fetch("http://localhost:3000/users/");
+            
+            const token = localStorage.getItem("token");
+
+            const response = await fetch("http://localhost:3000/users/", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
