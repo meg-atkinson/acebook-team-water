@@ -14,13 +14,11 @@ export const Status = ({ profile }) => {
         setUpdateStatus(!updateStatus)
         // console.log(updateStatus)
     }
-    console.log('Profile changed:', profile._id)
     
     // -------------------------- getting most recent status -----------------------------
     const [currentStatus, setCurrentStatus] = useState(null);
 
     const userID = profile._id
-    console.log('UserID:', userID)
     const type = 'status'
     const pageBelongsToUser = user && user.id === userID;
 
@@ -34,8 +32,6 @@ export const Status = ({ profile }) => {
         const fetchPostsById = async () => {
             try {
                 const statusPosts = await getPostsByType(token, userID, type);
-                
-                console.log('First post structure:', statusPosts.posts[0])
                 setCurrentStatus(statusPosts.posts[0])
             } catch (error) {
                 console.error("Error fetching posts:", error)
