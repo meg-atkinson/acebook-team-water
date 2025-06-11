@@ -12,7 +12,7 @@ export const Status = ({ profile }) => {
 
     const handleClick = () => {
         setUpdateStatus(!updateStatus)
-        console.log(updateStatus)
+        // console.log(updateStatus)
     }
 
     

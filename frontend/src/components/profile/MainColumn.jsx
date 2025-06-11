@@ -36,7 +36,7 @@ export const MainColumn = ({ profile, posts, onPostCreated }) => {
             onPostCreated={onPostCreated}
         />
         <Info showInfo={showInfo} profile={profile} />
-        <Photos showPhotos={showPhotos} />
+        <Photos showPhotos={showPhotos} profile={profile} />
         <Prods showProds={showProds} />
         <Friends showFriends={showFriends} profile={profile}/>
     </div>

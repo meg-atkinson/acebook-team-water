@@ -4,6 +4,10 @@ import './Navbar.css';
 import logo from '../assets/Acebook4.png';
 import {useNavigate} from 'react-router-dom';
 import {useUser} from '../App';
+import { SearchBar } from './searchbar/SearchBar';
+import { SearchResultsList } from './searchbar/SearchResultsList';
+import { useState } from 'react';
+
 
 function Navbar() {
   const { user } = useUser();
@@ -13,6 +17,9 @@ function Navbar() {
     localStorage.removeItem("token")
     navigate("/login")
   }
+
+  const [results, setResults] = useState([]);
+
   return (
     <nav className="navbar">
       <div className="navbar-left">
@@ -28,6 +35,10 @@ function Navbar() {
             )}
           </li>
           <li><a href="/friends">Friends</a></li>
+        </ul>
+        <ul className='search-bar-container'>
+        <SearchBar setResults={setResults} />
+        <SearchResultsList results={results} />
         </ul>
       </div>
       <div className='navbar-right'>

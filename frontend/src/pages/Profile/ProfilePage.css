@@ -66,13 +66,16 @@
 
 /* Photos grid */
 .photosGridContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centers the items */
     gap: 1rem;
 }
 
 .photosGridContainer img {
-    width: 100%;
+    width: 150px;
+    height: 110px;
+    object-fit: cover;
     border-radius: 8px;
 }
 

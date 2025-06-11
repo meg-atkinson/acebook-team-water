@@ -1,3 +1,4 @@
+
 import { Friend } from "./Friend";
 
 export const Friends = ({ showFriends, profile }) => {
@@ -15,6 +16,7 @@ export const Friends = ({ showFriends, profile }) => {
                     )
                 })}
             </div>
+
         )
     }
 }

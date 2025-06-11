@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUser } from "../../App";
+
 import './ProfilePage.css'
 
 import Navbar from "../../components/navbar";
@@ -16,6 +17,7 @@ export const ProfilePage = () => {
     const [profile, setProfile] = useState(null)
     const [posts, setPosts] = useState([]);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
+
 
     const navigate = useNavigate();
     // check the url of the page for the id of that user
@@ -49,6 +51,7 @@ export const ProfilePage = () => {
             }
         };
 
+
         fetchUserProfile();
     }, [navigate, id, user, refreshTrigger, targetUserID]);
 
@@ -71,7 +74,7 @@ export const ProfilePage = () => {
         <>
             <Navbar />
             <div className="profileColumnsContainer">
-
+      
                 {profile ? (
                 <SideProfile profile={profile}/>
                 ) : (
@@ -82,8 +85,6 @@ export const ProfilePage = () => {
                     posts={posts} 
                     onPostCreated={handleNewPost}
                 />
-
-                
             </div>
         </>
     )
