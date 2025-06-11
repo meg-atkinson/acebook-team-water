@@ -69,7 +69,7 @@ export const Friend = ({ friend }) => {
                 friend._id === user.id ? ( // If friend's id is equal to my own id, aka that's me so render no buttons
                     <p>(you)</p>
                 ) : ( isFriend ? ( // Friend of friend is user's friend
-                    <div className="friend-actions friend-buttons">
+                    <div className="friend-actions">
                         <button onClick={() => handleUnfriend(friend._id)} className="unfriend-button">
                             Unfriend
                         </button>
@@ -78,14 +78,14 @@ export const Friend = ({ friend }) => {
                         </button>
                     </div>
                 ) : ( //Friend of friend is NOT user's friend
-                    <div className="friend-actions non-friend-button">
+                    <div className="friend-actions">
                         <button onClick={() => handleFriend(friend._id)} className="addFriendButton">
                             Add as friend
                         </button>
                     </div>
                 ))
                 ) : ( // if not looking at friends' profiles
-                    <div className="friend-actions non-friend">
+                    <div className="friend-actions">
                         <button onClick={() => handleUnfriend(friend._id)} className="unfriend-button">
                             Unfriend
                         </button>
