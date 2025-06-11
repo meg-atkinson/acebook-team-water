@@ -15,4 +15,8 @@ router.get("/:id", tokenChecker, UsersController.getUserByID);
 
 router.post('/', upload.single('profilePicture'), UsersController.create);
 
+router.put("/me/basic-info", tokenChecker, upload.single('profilePicture'), UsersController.updateBasicInfo)
+
+router.put("/me/other-info", tokenChecker, UsersController.updateOtherInfo)
+
 module.exports = router;
