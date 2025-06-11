@@ -19,6 +19,3 @@ export async function getMe(token) {
     return meData;
 
 }
-
-
-export default getMe

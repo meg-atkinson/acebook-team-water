@@ -20,7 +20,7 @@ app.use(express.json());
 app.use('/uploads', express.static('uploads')); 
 
 // API Routes
-app.use("/users", usersRouter);
+app.use("/users", tokenChecker, usersRouter);
 app.use("/posts", tokenChecker, postsRouter);
 app.use("/tokens", authenticationRouter);
 

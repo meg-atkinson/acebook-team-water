@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react"
-import { useParams } from 'react-router-dom'
 import { NewStatus } from "./NewStatus"
+import { getPostsByType } from "../../services/posts"
+import { useUser } from "../../App"
 
 
-export const Status = ({ user, setUser }) => {
-
+export const Status = ({ profile }) => {
+    // this gets the user who is logged in
+    const { user } = useUser()
 
     const [updateStatus, setUpdateStatus] = useState(false)
 
@@ -17,30 +19,21 @@ export const Status = ({ user, setUser }) => {
     // -------------------------- getting most recent status -----------------------------
     const [currentStatus, setCurrentStatus] = useState(null);
 
-    const userID = user._id
+    const userID = profile._id
+    const type = 'status'
+    const pageBelongsToUser = user && user.id === userID;
 
     useEffect(() => {
         const token = localStorage.getItem("token")
-
         if (!token) {
             console.error("No token found");
             return;
         }
 
-
         const fetchPostsById = async () => {
             try {
-                const response = await fetch (`http://localhost:3000/posts?userID=${userID}&postType=status`, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                    },
-                });
-                const result = await response.json();
-                // console.log(result.posts[0])
-                // console.log(userID)
-                // console.log(response)
-                setCurrentStatus(result.posts[0])
+                const statusPosts = await getPostsByType(token, userID, type)
+                setCurrentStatus(statusPosts.posts[0])
             } catch (error) {
                 console.error("Error fetching posts:", error)
             }
@@ -56,7 +49,6 @@ export const Status = ({ user, setUser }) => {
     const [newStatus, setNewStatus] = useState({
         content: "",
         postType: "status",
-
         targetUserID: userID
 
     })
@@ -110,14 +102,16 @@ export const Status = ({ user, setUser }) => {
         return (
             <>
                 <div className="statusUpdate">
+                    {pageBelongsToUser &&
                     <button onClick={handleClick}>Update status</button>
+                    }
                 </div>
                 {!currentStatus ? (
                     <p>Loading status...</p>
                 ) : (
                     <div className="statusContainer">
                         <div className="statusInfo">
-                            <p>{user.basicInfo.firstName} {user.basicInfo.lastName}</p>
+                            <p>{profile.basicInfo.firstName} {profile.basicInfo.lastName}</p>
                             <p>{currentStatus.content}</p>
                             <p>{convertDate()}</p>
                         </div>

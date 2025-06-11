@@ -3,33 +3,38 @@ const User = require("../models/user");
 const { generateToken } = require("../lib/token");
 const fs = require("fs");
 
+
 // GET all with control structure to also get by userID or targetUserID
 async function getAllPosts(req, res) {
   try {
-    const { userID, targetUserID, postType } = req.query;
-    const user = req.user_id;
-    const query = {};
-    // find current user from user_id and select only the friends array field
-    const currentUser = await User.findById(user).select('friends');
-    console.log(currentUser);
+    const { userID, targetUserID } = req.query;
+    const loggedInUserID = req.user_id; 
+    // for homepage select only the friends array field for the logged in user
+    const currentUser = await User.findById(loggedInUserID).select('friends');
     // if user not found in db return error
     if (!currentUser) {
       return res.status(404).json({ 
-          message: "User not found" 
+          message: "Logged-in user not found" 
         })}
     // create allowed users variable - array of user ids of user plus their friends
-    const allowedUserIDs = [user, ...currentUser.friends];
-    // Modify query so that it will only return posts where the userID field matches any ObjID in allowedUserIDs array
-    query.userID = { $in: allowedUserIDs };
+    const allowedUserIDs = [userID, ...currentUser.friends];
+    let query = {};
+    // Different scenarios:
+    if (!targetUserID || targetUserID === "") {
+      // HOME PAGE: Show all posts from logged-in user and their friends (feed)
+      // Only use userID if it matches the logged-in user (for security)
+      if (userID && userID === loggedInUserID) {
+        query.userID = { $in: allowedUserIDs };
+      } else {
+        // Fallback: use logged-in user's feed
+        query.userID = { $in: allowedUserIDs };
+      }
+    } else {
+      // PROFILE PAGE: Show ALL posts on the specified user's wall
+      query.targetUserID = targetUserID;
+    }
 
-    //filter by userID for situation just see own post
-    if (userID) query.userID = userID;
-    // filter by targetUserID for walls
-    if (targetUserID) query.targetUserID = targetUserID;
-    // filter by postType - for status v post
-    if (postType) query.postType = postType;
-    // then find all or with relevant parameters
-  
+  // then find all or with relevant parameters
     const posts = await Post.find(query)
           .populate('userID', 'basicInfo photos.profilePicture') // Populate user info
           .populate('targetUserID', 'basicInfo photos.profilePicture') // Populate targeUserinfo
