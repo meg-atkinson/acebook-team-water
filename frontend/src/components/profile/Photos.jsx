@@ -1,6 +1,6 @@
-export const Photos = ({ showPhotos, user }) => {
+export const Photos = ({ showPhotos, profile }) => {
     if (showPhotos) {
-        const photos = user?.photos?.otherPhotos || [];
+        const photos = profile?.photos?.otherPhotos || [];
     
         return (
         <div className="photosContainer">

@@ -25,6 +25,8 @@ async function create(req, res){
     let profilePicturePath = null;
     if (req.file) {
       profilePicturePath = req.file.path; // multer saved file path
+    } else {
+      profilePicturePath = 'uploads/images/blank-profile-picture-973460_1280.webp'; // set your default path here
     }
 
   const user = new User({
@@ -84,7 +86,7 @@ const getUserByID = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).populate("friends", "basicInfo photos");
 
-    // // Add full image URLs !!! check this it seemed to be breaking earlier..
+    // Add full image URLs !!! check this it seemed to be breaking earlier..
     // const userWithImageUrls = {
     //   ...user.toObject(),
     //   profileImageUrl: user.photos.profilePicture ? `${req.protocol}://${req.get('host')}/${user.photos.profilePicture}` : null
