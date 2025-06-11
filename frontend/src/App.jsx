@@ -46,10 +46,6 @@ const router = createBrowserRouter([
     path: "/friends",
     element: <FriendsPage />,
   },
-  // {
-  //   path: "/profile",
-  //   element: <ProfileRedirect />
-  // },
   {
     path: "/profile/:id",
     element: <ProfilePage />
