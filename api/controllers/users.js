@@ -164,7 +164,25 @@ const updateOtherInfo = async (req, res) =>{
   try {
     const { interests, music, food, tvShows, movies, quote } = req.body;
 
-    // create update object with these fields
+    // check if the user objects exist
+    await User.findByIdAndUpdate(
+      req.user_id,
+      {
+        $setOnInsert: {
+          otherInfo: {
+            interests: "",
+            music: "",
+            food: "",
+            tvShows: "",
+            movies: "",
+            quote: ""
+          }
+        }
+      },
+      { usert: false }
+    );
+
+    // update object fields
     const updateObj = {};
     if (interests !== undefined) updateObj['otherInfo.interests'] = interests;
     if (music !== undefined) updateObj['otherInfo.music'] = music;
