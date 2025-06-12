@@ -96,7 +96,7 @@ const NewPost = ({ onPostCreated }) => {
 
     return (
         <div className="create-post">
-            <form encType='multipart/form-data' onSubmit={handleSubmit}>
+            <form className="create-form" encType='multipart/form-data' onSubmit={handleSubmit}>
                 <br />
                 <label>
                     <br />
