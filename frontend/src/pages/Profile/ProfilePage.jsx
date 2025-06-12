@@ -111,7 +111,8 @@ console.log("Computed hasProdded:", hasProdded);
                     onPostCreated={handleNewPost}
                     isOwnProfile={isOwnProfile}
                     onPostLikeToggle={handlePostLikeToggle}
-
+                    currentUser={user}
+                    hasProdded={hasProdded}
                 />
             </div>
         </>

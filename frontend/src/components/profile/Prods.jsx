@@ -1,11 +1,21 @@
 import { useState, useEffect } from 'react';
+import { ProdButton } from "../prods/ProdButton"
+import { useUser } from '../../App';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-export const Prods = ({ showProds }) => {
+export const Prods = ({ showProds, profile, hasProdded }) => {
     const [prods, setProds] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    const { user } = useUser()
+        // get the actual profile we are on from the profile prop
+    const userID = profile?._id;
+        // boolean for conditional rendering 
+    const pageBelongsToUser = user && userID && (user.id === userID || user._id === userID);
+
+    
 
     const fetchProds = async () => {
         setLoading(true);
@@ -72,11 +82,11 @@ export const Prods = ({ showProds }) => {
                 <div>
                 {prods.map((prod) => (
                     <div key={`${prod.from._id}-${prod.createdAt}`}>
-                    <p>
-                        {prod.from.basicInfo?.firstName || 'Someone'} prodded you!
-                        - {formatDate(prod.createdAt)}
-                    </p>
-                    </div>
+                        <p>
+                            {prod.from.basicInfo?.firstName || 'Someone'} prodded you! — {formatDate(prod.createdAt)}
+                        </p>
+                    {pageBelongsToUser && <ProdButton toUserId={prod.from._id} />}
+                </div>
                 ))}
                 </div>
             )}

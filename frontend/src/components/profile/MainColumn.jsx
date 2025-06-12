@@ -8,13 +8,15 @@ import { Friends } from "./Friends";
 import { Status } from "./Status";
 
 
-export const MainColumn = ({ profile, posts, onPostCreated, onPostLikeToggle, isOwnProfile }) => {
+export const MainColumn = ({ profile, posts, onPostCreated, onPostLikeToggle, isOwnProfile, currentUser, hasProdded }) => {
 
     const [showWall, setShowWall] = useState(true);
     const [showInfo, setShowInfo] = useState(false);
     const [showPhotos, setShowPhotos] = useState(false);
     const [showProds, setShowProds] = useState(false);
     const [showFriends, setShowFriends] = useState(false);
+
+    console.log("MainColumn profile:", profile);
 
     return (
     <div className="mainColumn">
@@ -30,7 +32,9 @@ export const MainColumn = ({ profile, posts, onPostCreated, onPostLikeToggle, is
             setShowProds={setShowProds}
             showFriends={showFriends}
             setShowFriends={setShowFriends}
-            isOwnProfile={isOwnProfile} />
+            isOwnProfile={isOwnProfile} 
+            profile={profile}
+            />
         <Wall 
             showWall={showWall} 
             posts={posts} 
@@ -40,7 +44,7 @@ export const MainColumn = ({ profile, posts, onPostCreated, onPostLikeToggle, is
         />
         <Info showInfo={showInfo} profile={profile} />
         <Photos showPhotos={showPhotos} profile={profile} />
-        {isOwnProfile && <Prods showProds={showProds} />}
+        {isOwnProfile && <Prods showProds={showProds} profile={profile} hasProdded={hasProdded} />}
         <Friends showFriends={showFriends} profile={profile}/>
     </div>
     )
