@@ -10,13 +10,12 @@ const basicInfoSchema = mongoose.Schema({
 });
 
 const otherInfoSchema = mongoose.Schema({
-    interests: [{type: String}],
-    music: [{type: String}],
-    food: [{type: String}],
-    tvShows: [{type: String}],
-    movies: [{type: String}],
-    quote: {type: String}
-
+    interests: {type: String, default: ""},
+    music: {type: String, default: ""},
+    food: {type: String, default: ""},
+    tvShows: {type: String, default: ""},
+    movies: {type: String, default: ""},
+    quote: {type: String, default: ""}
 });
 
 const photoSchema = mongoose.Schema({
