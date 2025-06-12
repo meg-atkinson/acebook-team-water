@@ -1,30 +1,27 @@
 import { useState } from "react"
+import { acceptFriendRequest } from "../../services/user"
 
 export const AcceptRequestButton = ({ senderId }) => {
     const [requestAccepted, setRequestAccepted] = useState(false)
-    
+    const token = localStorage.getItem("token")
 
-    const handleAcceptFriend = () => {
+    console.log("senderId", senderId)
 
-        const token = localStorage.getItem("token")
+    const handleAcceptFriend = async () => {
         if (!token) {
             console.error("No token found");
             return;
         }
 
-        const acceptFriendRequest = async () => {
-            try {
-                const result = await acceptFriendRequest(token, senderId)
-                // console.log(result.user)
-                setRequestAccepted(prev => !prev)
-                console.log(requestAccepted)
-            } catch (error) {
-                console.error("Error sending friend request", error)
-            }
-
+        try {
+        const result = await acceptFriendRequest(token, senderId)
         
+        setRequestAccepted(true)
+        console.log(result)
+        console.log(requestAccepted)
+        } catch (error) {
+            console.error("Error sending friend request", error)
         }
-        acceptFriendRequest();
     }
 
 

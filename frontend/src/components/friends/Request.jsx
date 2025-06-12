@@ -5,6 +5,7 @@ import { RejectRequestButton } from "./RejectRequestButton"
 
 export const Request = ({ senderId }) => {
     const [sender, setSender] = useState(null)
+    
     // fetch request to get info by id
     useEffect(() => {
         const token = localStorage.getItem("token")
@@ -24,6 +25,7 @@ export const Request = ({ senderId }) => {
             }
         };
         fetchSenderById()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []) // !!! Vscode wants to add senderId to the dependency array, 
         // however as it's passed as a prop and never changes it will break the code
         // removing the array will also cause it to infinitely loop
@@ -38,7 +40,7 @@ export const Request = ({ senderId }) => {
                 <>
                     <p>{sender.basicInfo.firstName} {sender.basicInfo.lastName}</p>
                     <AcceptRequestButton senderId={senderId}/>
-                    <RejectRequestButton />
+                    <RejectRequestButton senderId={senderId}/>
                 </>
             )}
         </div>

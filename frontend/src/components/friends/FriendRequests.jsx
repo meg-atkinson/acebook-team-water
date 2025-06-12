@@ -8,6 +8,7 @@ export const FriendRequests = ({ loggedInUser }) => {
         if (loggedInUser && 'friendRequests' in loggedInUser ) {
         setFriendRequests(loggedInUser.friendRequests)
     }
+    console.log("Friend request")
     }, [loggedInUser])
 
 
