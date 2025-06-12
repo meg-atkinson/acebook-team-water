@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+const prodsRoutes = require('./routes/prods');
 const usersRouter = require("./routes/users");
 const postsRouter = require("./routes/posts");
 const authenticationRouter = require("./routes/authentication");
@@ -17,7 +18,8 @@ app.use(cors());
 // Parse JSON request bodies, made available on `req.body`
 app.use(bodyParser.json());
 app.use(express.json());
-app.use('/uploads', express.static('uploads')); 
+app.use('/uploads', express.static('uploads'));
+app.use('/prods', prodsRoutes);
 
 // API Routes
 app.use("/users", usersRouter);

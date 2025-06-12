@@ -68,7 +68,12 @@ export const ProfilePage = () => {
         );
     };
 
+
+    const isOwnProfile = user?.id === id;
+
+
     // loading if no profile returns
+
     if (!profile) {
         return (
         <>
@@ -82,9 +87,8 @@ export const ProfilePage = () => {
         <>
             <Navbar />
             <div className="profileColumnsContainer">
-
                 {profile ? (
-                <SideProfile profile={profile}/>
+                <SideProfile profile={profile} currentUser={user}/>
                 ) : (
                     <p>Loading user info...</p>
                 )}
@@ -92,7 +96,9 @@ export const ProfilePage = () => {
                     profile={profile} 
                     posts={posts} 
                     onPostCreated={handleNewPost}
+                    isOwnProfile={isOwnProfile}
                     onPostLikeToggle={handlePostLikeToggle}
+
                 />
             </div>
         </>

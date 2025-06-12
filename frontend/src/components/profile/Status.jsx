@@ -106,7 +106,7 @@ export const Status = ({ profile }) => {
                     }
                 </div>
                 {!currentStatus ? (
-                    <p>Loading status...</p>
+                    <p>...</p>
                 ) : (
                     <div className="statusContainer">
                         <div className="statusInfo">
