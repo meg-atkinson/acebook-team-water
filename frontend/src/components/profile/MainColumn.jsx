@@ -1,5 +1,4 @@
 import { useState } from "react"
-
 import { TabBar } from "./TabBar"
 import { Wall } from "./Wall"
 import { Info } from "./Info";
@@ -8,7 +7,7 @@ import { Prods } from "./Prods";
 import { Friends } from "./Friends";
 import { Status } from "./Status";
 
-export const MainColumn = ({ profile, posts, onPostCreated }) => {
+export const MainColumn = ({ profile, posts, onPostCreated, onPostLikeToggle }) => {
     const [showWall, setShowWall] = useState(true);
     const [showInfo, setShowInfo] = useState(false);
     const [showPhotos, setShowPhotos] = useState(false);
@@ -34,6 +33,7 @@ export const MainColumn = ({ profile, posts, onPostCreated }) => {
             posts={posts} 
             profile={profile} 
             onPostCreated={onPostCreated}
+            onPostLikeToggle={onPostLikeToggle}
         />
         <Info showInfo={showInfo} profile={profile} />
         <Photos showPhotos={showPhotos} profile={profile} />

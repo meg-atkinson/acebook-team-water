@@ -20,6 +20,8 @@ const CommentSchema = new Schema({
     maxlength: [500, 'Comment cannot exceed 500 characters'],
     minlength: [1, 'Comment cannot be empty']
   },
+  likes:[{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
+  // not yet used
   parentComment: {
     type: Schema.Types.ObjectId,
     ref: 'Comment',

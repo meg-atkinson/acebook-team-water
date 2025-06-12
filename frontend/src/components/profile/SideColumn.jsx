@@ -24,15 +24,9 @@ export const SideProfile = ({ profile }) => {
         return <p>Loading profile...</p>;
     }
 
-    // const profilePicUrl = `http://localhost:3000/${profile.photos.profilePicture}`
-    //     ? `http://localhost:3000/${profile.photos.profilePicture}`
-    //     : "https://www.hcihealthcare.ng/wp-content/uploads/2016/10/face-avatar.png"; // fallback image if none
-
-    const profilePicUrl = `http://localhost:3000/${profile.photos.profilePicture}`;
-
     return (
         <div className="sideProfile">
-            <img src={profilePicUrl} />
+            <img src={profile?.photos?.profilePictureUrl} /> 
             <h2>{profile.basicInfo.firstName} {profile.basicInfo.lastName}</h2>
             {/* <p>{profile.status[0]}</p> */}
             {pageBelongsToUser &&

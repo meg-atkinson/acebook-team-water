@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUser } from "../../App";
-
 import './ProfilePage.css'
-
 import Navbar from "../../components/navbar";
 import { SideProfile } from "../../components/profile/SideColumn";
 import { MainColumn } from "../../components/profile/MainColumn";
@@ -55,12 +53,22 @@ export const ProfilePage = () => {
         fetchUserProfile();
     }, [navigate, id, user, refreshTrigger, targetUserID]);
 
-    // Function to trigger a refetch from the database
+    // Function to trigger a refetch from the database - hand down to NewPost
     const handleNewPost = () => {
     // Increment the trigger to cause useEffect to run again
-    setRefreshTrigger(prev => prev + 1);
+        setRefreshTrigger(prev => prev + 1);
     };
 
+    // function to trigger post rerender upon like - hand down to LikeButton
+    const handlePostLikeToggle = (toggledPost) => {
+        setPosts(prevPosts => 
+            prevPosts.map(post => 
+                post._id === toggledPost._id ? toggledPost : post
+            )
+        );
+    };
+
+    // loading if no profile returns
     if (!profile) {
         return (
         <>
@@ -69,12 +77,12 @@ export const ProfilePage = () => {
         </>
     );
     }
-
+    // otherwise display profile
     return (
         <>
             <Navbar />
             <div className="profileColumnsContainer">
-      
+
                 {profile ? (
                 <SideProfile profile={profile}/>
                 ) : (
@@ -84,6 +92,7 @@ export const ProfilePage = () => {
                     profile={profile} 
                     posts={posts} 
                     onPostCreated={handleNewPost}
+                    onPostLikeToggle={handlePostLikeToggle}
                 />
             </div>
         </>
