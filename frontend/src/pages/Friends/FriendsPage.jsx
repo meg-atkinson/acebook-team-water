@@ -4,6 +4,7 @@ import { getUser } from "../../services/user";
 import Navbar from "../../components/navbar.jsx";
 import { SideProfile } from "../../components/profile/SideColumn.jsx";
 import FriendsList from "../../components/friends/FriendsList.jsx";
+import { FriendRequests } from "../../components/friends/FriendRequests.jsx";
 // import { useNavigate } from "react-router-dom";
 import "./FriendsPage.css";
 
@@ -43,6 +44,7 @@ const FriendsPage = () => {
                         <SideProfile profile={loggedInUser}/>
                     <div className="friends-list-panel">
                         <FriendsList loggedInUser={loggedInUser}/>
+                        <FriendRequests loggedInUser={loggedInUser}/>
                     </div>
                 </div>
             </>

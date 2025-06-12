@@ -10,19 +10,23 @@ const basicInfoSchema = mongoose.Schema({
 });
 
 const otherInfoSchema = mongoose.Schema({
-    interests: [{type: String}],
-    music: [{type: String}],
-    food: [{type: String}],
-    tvShows: [{type: String}],
-    movies: [{type: String}],
-    quote: {type: String}
-
+    interests: {type: String, default: ""},
+    music: {type: String, default: ""},
+    food: {type: String, default: ""},
+    tvShows: {type: String, default: ""},
+    movies: {type: String, default: ""},
+    quote: {type: String, default: ""}
 });
 
 const photoSchema = mongoose.Schema({
     profilePicture: {type: String},
     otherPhotos: [{type: String}]
-})
+});
+
+const prodSchema = mongoose.Schema({
+    from: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    createdAt: { type: Date, default: Date.now }
+});
 
 const UserSchema = new mongoose.Schema({
     email: { type: String, required: true },
@@ -30,7 +34,9 @@ const UserSchema = new mongoose.Schema({
     basicInfo: basicInfoSchema,
     otherInfo: otherInfoSchema,
     photos: photoSchema,
-    friends:[{type: mongoose.Schema.Types.ObjectId, ref: "User"}]
+    friends:[{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
+    friendRequests: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
+    prods: [prodSchema]
 });
 
 // Virtual to access profile pic URL

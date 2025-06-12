@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt')
+// const { FriendRequests } = require('../../frontend/src/components/friends/FriendRequests')
 
 
 const users = [
@@ -24,7 +25,9 @@ const users = [
         profilePicture: "uploads/images/1F471-200D-2640-FE0F_color.png",
         otherPhotos: []
     },
-    friends: []
+    friends: [],
+    friendRequests: [],
+    prods: []
 },
     { 
     email: "george@me.com",
@@ -48,7 +51,9 @@ const users = [
         profilePicture: "uploads/images/1F468-200D-1F4BB_color.png",
         otherPhotos: []
     },
-    friends: []
+    friends: [],
+    friendRequests: [],
+    prods: []
 },
 { 
     email: "sarah@me.com",
@@ -72,7 +77,9 @@ const users = [
         profilePicture: "uploads/images/1F469-200D-1F3ED_color.png",
         otherPhotos: []
     },
-    friends: []
+    friends: [],
+    friendRequests: [],
+    prods: []
 },
 { 
     email: "olly@me.com",
@@ -96,7 +103,9 @@ const users = [
         profilePicture: "uploads/images/1F64B-200D-2642-FE0F_color.png",
         otherPhotos: []
     },
-    friends: []
+    friends: [],
+    friendRequests: [],
+    prods: []
 
 },
 { 
@@ -121,7 +130,9 @@ const users = [
         profilePicture: "uploads/images/1F469_color.png",
         otherPhotos: []
     },
-    friends: []
+    friends: [],
+    friendRequests: [],
+    prods: []
 }
 
 

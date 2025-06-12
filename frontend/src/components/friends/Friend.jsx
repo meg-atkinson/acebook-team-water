@@ -2,14 +2,21 @@ import { useState, useEffect } from "react";
 import { getUser } from "../../services/user";
 import { useUser } from "../../App";
 import { useNavigate } from 'react-router-dom'
+import { AddFriendButton } from "./AddFriendButtion";
+
+
 export const Friend = ({ friend }) => {
     const [loggedInUser, setLoggedInUser] = useState(null);
     const navigate = useNavigate();
 
     const { user } = useUser()
     const friendsArray = loggedInUser?.friends || []; // Create an array of logged in user's friends' objects
+    
     const friendsIds = friendsArray.map((myFriend) => myFriend._id) // Array of just their ids
     const isFriend = friendsIds.includes(friend._id); 
+
+    // Get friends friendRequestsArray, if exists/not empty
+    // --
 
     useEffect(() => {
         const token = localStorage.getItem("token")
@@ -45,13 +52,6 @@ export const Friend = ({ friend }) => {
 
     // console.log("Friend image URL:", profilePicture);
 
-    const handleUnfriend = () => {
-
-    }
-
-    const handleFriend = () => {
-
-    }
 
     const handleClick = () => {
         navigate(`/profile/${friend._id}`)
@@ -68,6 +68,7 @@ export const Friend = ({ friend }) => {
                 alt={`${friend.basicInfo.firstName} ${friend.basicInfo.lastName}'s profile`}
                 className="friend-photo"
                 onClick={handleClick}
+                style={{cursor: "pointer"}}
             />
             <div className="friend-name">{friend.basicInfo.firstName} {friend.basicInfo.lastName}</div>
             </div>
@@ -76,29 +77,21 @@ export const Friend = ({ friend }) => {
                     <p>(you)</p>
                 ) : ( isFriend ? ( // Friend of friend is user's friend
                     <div className="friend-actions">
-                        <button onClick={() => handleUnfriend(friend._id)} className="unfriend-button">
+                        <button className="unfriend-button">
                             Unfriend
-                        </button>
-                        <button onClick={() => handleProd(friend._id)} className="prod-button">
-                            Prod
                         </button>
                     </div>
                 ) : ( //Friend of friend is NOT user's friend
                     <div className="friend-actions">
-                        <button onClick={() => handleFriend(friend._id)} className="addFriendButton">
-                            Add as friend
-                        </button>
+                        <AddFriendButton receiver={friend}/>
                     </div>
                     
                 ))
                 
                 ) : ( // if not looking at friends' profiles
                     <div className="friend-actions">
-                        <button onClick={() => handleUnfriend(friend._id)} className="unfriend-button">
+                        <button className="unfriend-button">
                             Unfriend
-                        </button>
-                        <button onClick={() => handleProd(friend._id)} className="prod-button">
-                            Prod
                         </button>
                     </div>
                 )

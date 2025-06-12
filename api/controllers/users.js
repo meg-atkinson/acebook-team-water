@@ -166,6 +166,8 @@ const updateOtherInfo = async (req, res) =>{
   try {
     const { interests, music, food, tvShows, movies, quote } = req.body;
 
+    console.log("Received req.body:", req.body); // Debug log
+
     // check if the user objects exist
     await User.findByIdAndUpdate(
       req.user_id,
@@ -181,17 +183,55 @@ const updateOtherInfo = async (req, res) =>{
           }
         }
       },
-      { usert: false }
+      { upsert: false }
     );
+
+    // Helper function to convert arrays to comma-separated strings
+    const arrayToString = (field) => {
+      if (Array.isArray(field)) {
+        return field.filter(item => item && item.trim()).join(', ');
+      }
+      if (typeof field === 'string') {
+        try {
+          const parsed = JSON.parse(field);
+          if (Array.isArray(parsed)) {
+            return parsed.filter(item => item && item.trim()).join(', ');
+          }
+          return field;
+        } catch (e) {
+          return field;
+        }
+      }
+      return field || "";
+    };
+
+    // parse and clean the arrays
+    const stringInterests = arrayToString(interests);
+    const stringMusic = arrayToString(music);
+    const stringFood = arrayToString(food);
+    const stringTvShows = arrayToString(tvShows);
+    const stringMovies = arrayToString(movies);
+
+    // Debug logging
+    console.log("Converted to strings:", {
+      interests: stringInterests,
+      music: stringMusic,
+      food: stringFood,
+      tvShows: stringTvShows,
+      movies: stringMovies
+    });
 
     // update object fields
     const updateObj = {};
-    if (interests !== undefined) updateObj['otherInfo.interests'] = interests;
-    if (music !== undefined) updateObj['otherInfo.music'] = music;
-    if (food !== undefined) updateObj['otherInfo.food'] = food;
-    if (tvShows !== undefined) updateObj['otherInfo.tvShows'] = tvShows;
-    if (movies !== undefined) updateObj['otherInfo.movies'] = movies;
-    if (quote !== undefined) updateObj['otherInfo.quote'] = quote;
+    if (interests !== undefined) updateObj['otherInfo.interests'] = stringInterests;
+    if (music !== undefined) updateObj['otherInfo.music'] = stringMusic;
+    if (food !== undefined) updateObj['otherInfo.food'] = stringFood;
+    if (tvShows !== undefined) updateObj['otherInfo.tvShows'] = stringTvShows;
+    if (movies !== undefined) updateObj['otherInfo.movies'] = stringMovies;
+    if (quote !== undefined) updateObj['otherInfo.quote'] = quote || "";
+
+    // Debug logging
+    console.log("Udate object:", updateObj);
 
     // update the info
     const updatedUser = await User.findByIdAndUpdate(
@@ -218,6 +258,91 @@ const updateOtherInfo = async (req, res) =>{
   }
 }
 
+// Friend request controllers:
+// Add friend (create friends request), update friendsRequest array
+const putFriendRequest = async (req, res) => {
+  try {
+    const senderId = req.user_id;
+    const receiverId = req.params.id;
+
+    if (!senderId || !receiverId) {
+      return res.status(400).json({ message: 'MIssing sender or rceiver id'});
+    }
+    
+
+    // Create new friend update object
+    const updatedReceiver = await User.findByIdAndUpdate(receiverId,
+      { $push: { 'friendRequests': senderId } },
+      { new: true }
+    );
+
+    if (!updatedReceiver) {
+      return res.status(404).json({ message: 'Receiver not found' });
+    }
+
+    res.status(200).json({ message: "Friend request sent", updatedReceiver });
+
+    
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Accept a friend request, aka remove from friendRequests array and add to Friend's array
+const putAcceptFriend = async (req, res) => {
+  try {
+    const receiverId = req.user_id;
+    const senderId = req.params.id;
+
+    if (!senderId || !receiverId) {
+      return res.status(400).json({ message: 'MIssing sender or rceiver id'});
+    }
+
+    const updatedReceiver = await User.findByIdAndUpdate(receiverId,
+      { 
+        $pull: { 'friendRequests': senderId }, // first remove sender from friendRequests
+        $push: { 'friends': senderId } // secondly, add sender to friends
+      }, 
+      { new: true }
+    );
+
+    const updatedSender = await User.findByIdAndUpdate(senderId,
+      { $push: { 'friends': receiverId } },
+      { new: true }
+    );
+
+    res.status(200).json({ message: "Friend added", updatedReceiver, updatedSender});
+
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+
+// Reject a friend request, aka remove sender's id from friendsRequest arrray
+const putRejectFriend = async (req, res) => {
+  try {
+    const receiverId = req.user_id;
+    const senderId = req.params.id;
+
+    if (!senderId || !receiverId) {
+      return res.status(400).json({ message: 'MIssing sender or rceiver id'});
+    }
+
+    const updatedReceiver = await User.findByIdAndUpdate(receiverId,
+      { $pull: { 'friendRequests': senderId} }, 
+      { new: true }
+    )
+
+    res.status(200).json({ message: "Request rejected", updatedReceiver });
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server error" });
+  }
+  
+}
 
 
 const UsersController = {
@@ -227,7 +352,10 @@ const UsersController = {
   getUserByID: getUserByID,
   updateBasicInfo: updateBasicInfo,
   updateOtherInfo: updateOtherInfo,
-  uploadMiddleware: upload.single('profilePicture')
+  uploadMiddleware: upload.single('profilePicture'),
+  putFriendRequest: putFriendRequest,
+  putAcceptFriend: putAcceptFriend,
+  putRejectRequest: putRejectFriend
 };
 
 module.exports = UsersController;
