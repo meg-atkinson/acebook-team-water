@@ -20,6 +20,8 @@ router.put("/me/other-info", tokenChecker, UsersController.updateOtherInfo),
 
 router.put("/friend-request/:id", tokenChecker, UsersController.putFriendRequest),
 
-router.put("friend-request/accept/:id", tokenChecker, UsersController.putAcceptFriend)
+router.put("/friend-request/accept/:id", tokenChecker, UsersController.putAcceptFriend)
+
+router.put("/friend-request/reject/:id", tokenChecker, UsersController.putRejectRequest)
 
 module.exports = router;

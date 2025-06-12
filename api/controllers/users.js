@@ -241,24 +241,49 @@ const putAcceptFriend = async (req, res) => {
       return res.status(400).json({ message: 'MIssing sender or rceiver id'});
     }
 
-    // first remove sender from friendRequests
     const updatedReceiver = await User.findByIdAndUpdate(receiverId,
-      { $pull: { 'friendRequests': senderId } },
+      { 
+        $pull: { 'friendRequests': senderId }, // first remove sender from friendRequests
+        $push: { 'friends': senderId } // secondly, add sender to friends
+      }, 
       { new: true }
     );
 
-    // secondly, add sender to friends
-    const updatedUpdatedReceiver = await updatedReceiver.findByIdAndUpdate(receiverId,
-      { $push: { 'friends': senderId } },
-      {new: true}
-    )
+    const updatedSender = await User.findByIdAndUpdate(senderId,
+      { $push: { 'friends': receiverId } },
+      { new: true }
+    );
 
-    res.status(200).json({ message: "Friend added", updatedUpdatedReceiver });
+    res.status(200).json({ message: "Friend added", updatedReceiver, updatedSender});
 
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: "Server error" });
   }
+}
+
+
+// Reject a friend request, aka remove sender's id from friendsRequest arrray
+const putRejectFriend = async (req, res) => {
+  try {
+    const receiverId = req.user_id;
+    const senderId = req.params.id;
+
+    if (!senderId || !receiverId) {
+      return res.status(400).json({ message: 'MIssing sender or rceiver id'});
+    }
+
+    const updatedReceiver = await User.findByIdAndUpdate(receiverId,
+      { $pull: { 'friendRequests': senderId} }, 
+      { new: true }
+    )
+
+    res.status(200).json({ message: "Request rejected", updatedReceiver });
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server error" });
+  }
+  
 }
 
 
@@ -271,7 +296,8 @@ const UsersController = {
   updateOtherInfo: updateOtherInfo,
   uploadMiddleware: upload.single('profilePicture'),
   putFriendRequest: putFriendRequest,
-  putAcceptFriend: putAcceptFriend
+  putAcceptFriend: putAcceptFriend,
+  putRejectRequest: putRejectFriend
 };
 
 module.exports = UsersController;
