@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { getUser } from "../../services/user";
 import { useUser } from "../../App";
-
+import { useNavigate } from 'react-router-dom'
 export const Friend = ({ friend }) => {
     const [loggedInUser, setLoggedInUser] = useState(null);
+    const navigate = useNavigate();
 
     const { user } = useUser()
     const friendsArray = loggedInUser?.friends || []; // Create an array of logged in user's friends' objects
@@ -48,12 +49,12 @@ export const Friend = ({ friend }) => {
 
     }
 
-    const handleProd = () => {
+    const handleFriend = () => {
 
     }
 
-    const handleFriend = () => {
-
+    const handleClick = () => {
+        navigate(`/profile/${friend._id}`)
     }
 
     return (
@@ -66,6 +67,7 @@ export const Friend = ({ friend }) => {
                 src={`http://localhost:3000/${friend.photos.profilePicture}`}
                 alt={`${friend.basicInfo.firstName} ${friend.basicInfo.lastName}'s profile`}
                 className="friend-photo"
+                onClick={handleClick}
             />
             <div className="friend-name">{friend.basicInfo.firstName} {friend.basicInfo.lastName}</div>
             </div>
