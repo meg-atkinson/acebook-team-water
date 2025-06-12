@@ -88,6 +88,32 @@ export async function rejectFriendRequest(token, receiverId) {
     return updatedUserData;
 }
 
+
+// remove a friend
+export async function removeFriend(token, userId) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: 
+            {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+        body: JSON.stringify({})
+    };
+
+    const response = await fetch(`${BACKEND_URL}/users/friend/remove/${userId}`, requestOptions);
+    console.log(response)
+
+    if (!response.ok){
+        throw new Error('Failed to remove friend')
+    }
+
+    const updatedUserData = await response.json()
+    return updatedUserData;
+}
+
+
+
 // get currently logged-in user
 export async function getMe(token) {
     const requestOptions = {

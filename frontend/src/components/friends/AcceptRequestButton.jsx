@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { acceptFriendRequest } from "../../services/user"
 
-export const AcceptRequestButton = ({ senderId }) => {
+export const AcceptRequestButton = ({ senderId, onSuccess }) => {
     const [requestAccepted, setRequestAccepted] = useState(false)
     const token = localStorage.getItem("token")
 
@@ -17,6 +17,7 @@ export const AcceptRequestButton = ({ senderId }) => {
         const result = await acceptFriendRequest(token, senderId)
         
         setRequestAccepted(true)
+        onSuccess();
         console.log(result)
         console.log(requestAccepted)
         } catch (error) {

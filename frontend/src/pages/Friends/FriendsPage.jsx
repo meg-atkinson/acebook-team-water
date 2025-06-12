@@ -15,6 +15,7 @@ const FriendsPage = () => {
     const [loggedInUser, setLoggedInUser] = useState(null)
     // const navigate = useNavigate();
 
+
     useEffect(() => {
         const token = localStorage.getItem("token")
         if (!token) {
@@ -43,8 +44,8 @@ const FriendsPage = () => {
                 <div className="friends-page-container">
                         <SideProfile profile={loggedInUser}/>
                     <div className="friends-list-panel">
-                        <FriendsList loggedInUser={loggedInUser}/>
-                        <FriendRequests loggedInUser={loggedInUser}/>
+                        <FriendsList loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>
+                        <FriendRequests loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>
                     </div>
                 </div>
             </>

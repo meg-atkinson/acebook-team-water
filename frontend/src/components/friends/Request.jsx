@@ -3,7 +3,7 @@ import { getUser } from "../../services/user"
 import { AcceptRequestButton } from "./AcceptRequestButton"
 import { RejectRequestButton } from "./RejectRequestButton"
 
-export const Request = ({ senderId }) => {
+export const Request = ({ senderId, onAcceptFriend }) => {
     const [sender, setSender] = useState(null)
     
     // fetch request to get info by id
@@ -39,7 +39,7 @@ export const Request = ({ senderId }) => {
             ) : (
                 <>
                     <p>{sender.basicInfo.firstName} {sender.basicInfo.lastName}</p>
-                    <AcceptRequestButton senderId={senderId}/>
+                    <AcceptRequestButton senderId={senderId} onSuccess={() => onAcceptFriend(senderId)}/>
                     <RejectRequestButton senderId={senderId}/>
                 </>
             )}
