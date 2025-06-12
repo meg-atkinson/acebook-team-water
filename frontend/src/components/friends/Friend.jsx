@@ -57,10 +57,6 @@ export const Friend = ({ friend }) => {
 
     }
 
-    const handleFriend = () => {
-
-    }
-
     return (
         <div key={friend._id} className="friend-card">
             {/* <img

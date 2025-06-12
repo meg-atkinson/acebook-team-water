@@ -2,8 +2,6 @@ const express = require("express");
 const { create, uploadMiddleware } = require('../controllers/users');
 const upload = require('../middleware/upload');
 const tokenChecker = require("../middleware/tokenChecker");
-const { generateToken } = require("../lib/token");
-
 const UsersController = require("../controllers/users");
 
 const router = express.Router();
@@ -20,6 +18,8 @@ router.put("/me/basic-info", tokenChecker, upload.single('profilePicture'), User
 
 router.put("/me/other-info", tokenChecker, UsersController.updateOtherInfo),
 
-router.put("/friend-request/:id", tokenChecker, UsersController.putFriendRequest)
+router.put("/friend-request/:id", tokenChecker, UsersController.putFriendRequest),
+
+router.put("friend-request/accept/:id", tokenChecker, UsersController.putAcceptFriend)
 
 module.exports = router;

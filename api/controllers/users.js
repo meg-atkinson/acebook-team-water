@@ -201,14 +201,14 @@ const updateOtherInfo = async (req, res) =>{
 }
 
 // Friend request controllers:
-// Add friend, update friendsRequest array
+// Add friend (create friends request), update friendsRequest array
 const putFriendRequest = async (req, res) => {
   try {
     const senderId = req.user_id;
     const receiverId = req.params.id;
 
     if (!senderId || !receiverId) {
-      return res.status(400).json({ message: 'MIssing sender of rceiver id'});
+      return res.status(400).json({ message: 'MIssing sender or rceiver id'});
     }
     
 
@@ -231,6 +231,36 @@ const putFriendRequest = async (req, res) => {
   }
 };
 
+// Accept a friend request, aka remove from friendRequests array and add to Friend's array
+const putAcceptFriend = async (req, res) => {
+  try {
+    const receiverId = req.user_id;
+    const senderId = req.params.id;
+
+    if (!senderId || !receiverId) {
+      return res.status(400).json({ message: 'MIssing sender or rceiver id'});
+    }
+
+    // first remove sender from friendRequests
+    const updatedReceiver = await User.findByIdAndUpdate(receiverId,
+      { $pull: { 'friendRequests': senderId } },
+      { new: true }
+    );
+
+    // secondly, add sender to friends
+    const updatedUpdatedReceiver = await updatedReceiver.findByIdAndUpdate(receiverId,
+      { $push: { 'friends': senderId } },
+      {new: true}
+    )
+
+    res.status(200).json({ message: "Friend added", updatedUpdatedReceiver });
+
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
 
 const UsersController = {
   getCurrentUser: getCurrentUser,
@@ -240,7 +270,8 @@ const UsersController = {
   updateBasicInfo: updateBasicInfo,
   updateOtherInfo: updateOtherInfo,
   uploadMiddleware: upload.single('profilePicture'),
-  putFriendRequest: putFriendRequest
+  putFriendRequest: putFriendRequest,
+  putAcceptFriend: putAcceptFriend
 };
 
 module.exports = UsersController;

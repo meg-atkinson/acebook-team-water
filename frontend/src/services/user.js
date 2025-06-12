@@ -39,3 +39,24 @@ export async function sendFriendRequest(token, receiverId) {
     const updatedUserData = await response.json()
     return updatedUserData;
 }
+
+export async function acceptFriendRequest(token, receiverId) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: 
+            {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+        body: JSON.stringify({})
+    };
+
+    const response = await fetch(`${BACKEND_URL}/users/friend-request/accept${receiverId}`, requestOptions);
+
+    if (!response.ok){
+        throw new Error('Failed to send friend request')
+    }
+
+    const updatedUserData = await response.json()
+    return updatedUserData;
+}

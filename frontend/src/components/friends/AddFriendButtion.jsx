@@ -7,7 +7,6 @@ export const AddFriendButton = ({ receiver }) => {
     const receiverId = receiver._id
     const [requestSent, setRequestSent] = useState(false)
 
-    console.log(receiverId)
 
 
     const handleAddFriend = () => {
