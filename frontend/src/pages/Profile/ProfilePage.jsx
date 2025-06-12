@@ -70,7 +70,7 @@ export const ProfilePage = () => {
 
 
     const isOwnProfile = user?.id === id;
-
+    
 
     // loading if no profile returns
 
@@ -82,13 +82,26 @@ export const ProfilePage = () => {
         </>
     );
     }
+
+    // const hasProdded = targetUserID.prods?.some(prod => prod.from === user.id);
+    console.log("Logged-in user ID:", user?.id);
+    console.log("Profile prods:", profile.prods);
+
+    const hasProdded = profile.prods?.some(
+    (prod) => {
+        return String(prod.from) === String(user.id);
+    }
+);
+
+console.log("Computed hasProdded:", hasProdded);
+
     // otherwise display profile
     return (
         <>
             <Navbar />
             <div className="profileColumnsContainer">
                 {profile ? (
-                <SideProfile profile={profile} currentUser={user}/>
+                <SideProfile profile={profile} currentUser={user} hasProdded={hasProdded}/>
                 ) : (
                     <p>Loading user info...</p>
                 )}
