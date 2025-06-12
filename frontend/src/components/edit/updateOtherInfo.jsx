@@ -38,9 +38,10 @@ export const UpdateOtherInfo = ({updatedInfo, user}) => {
         }
     };
 
+    const [successMessage, setSuccessMessage] = useState("");
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         // Debug: Log current form state before processing
         console.log("Submitting form data:", formData.otherInfo);
 
@@ -57,6 +58,8 @@ export const UpdateOtherInfo = ({updatedInfo, user}) => {
             if (response.ok) {
                 const updatedUser = await response.json();
                 console.log("User updated successfully:", updatedUser);
+
+                setSuccessMessage("Your changes have been made");
 
                 if (updatedInfo && typeof updatedInfo === 'function') {
                     updatedInfo(updatedUser);
@@ -80,6 +83,7 @@ export const UpdateOtherInfo = ({updatedInfo, user}) => {
     // start of display form
     return (
         <div className="editOtherInfo">
+            {successMessage && <p className="success-message">{successMessage}</p>}
             <form encType="multipart/form-data" onSubmit={handleSubmit}>
                 <label htmlFor="interests">Interests: </label>
                 <input
