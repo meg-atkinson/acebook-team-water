@@ -54,6 +54,8 @@ export const EditSideProfile = ({ user }) => {
         setFormData(prev => ({ ...prev, profilePicture: file }));
     };
 
+    const [successMessage, setSuccessMessage] = useState("");
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         
@@ -97,6 +99,8 @@ export const EditSideProfile = ({ user }) => {
             if (response.ok) {
                 const result = await response.json();
                 console.log("User updated:", result);
+
+                setSuccessMessage("Your changes have been made");
                 
                 // Refresh user data to reflect changes
                 await refreshUser();
@@ -133,7 +137,7 @@ export const EditSideProfile = ({ user }) => {
     return (
         <div className="editSideProfile">
             <img src={profilePicUrl} alt="Profile" />
-            
+            {successMessage && <p className="success-message">{successMessage}</p>}
             <form encType="multipart/form-data" onSubmit={handleSubmit}>
                 {/* Render all text fields dynamically */}
                 {formFields.map(field => (
