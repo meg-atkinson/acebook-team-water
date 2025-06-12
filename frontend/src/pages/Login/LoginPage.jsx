@@ -19,6 +19,7 @@ export function LoginPage() {
       await refreshUser();
       navigate("/feed");
     } catch (err) {
+      alert("Invalid credentials")
       console.error(err);
       navigate("/login");
     }
