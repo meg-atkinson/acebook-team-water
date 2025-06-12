@@ -10,8 +10,10 @@
   box-sizing: border-box;
 }
 
-.like-button {
-  
+.likes {
+  flex: 0 0 auto;
+  align-self: flex-end;
+  margin-left: auto;
 }
 
 .post-card {
@@ -20,13 +22,14 @@
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
   max-width: 850px;
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
   display: flex;
   gap: 20px;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .post-author-info {
@@ -61,6 +64,7 @@
   line-height: 1.5;
   white-space: pre-wrap;
   margin-bottom: 10px;
+  min-width: 0;
 }
 
 .post-image {
@@ -68,4 +72,5 @@
   max-height: 300px;
   border-radius: 8px;
   object-fit: contain;
+  margin-bottom: 20px;
 }

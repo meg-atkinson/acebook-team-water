@@ -42,7 +42,7 @@ export const LikeButton = ({ post,  onPostLikeToggle }) => {
         >
         {/* Heart icon - hollow or solid based on like status */}
         <span className="heart-icon">
-            {isLiked ? '❤️' : '🤍'}
+            {isLiked ? '❤️ ' : '🤍 '}
         </span>
         {/* Like count */}
         <span className="like-count">
