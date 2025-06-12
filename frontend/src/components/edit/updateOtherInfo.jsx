@@ -1,20 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
 import '../../pages/EditProfile/EditProfilePage.css';
 
-export const UpdateOtherInfo = ({updateInfo, user}) => {
+export const UpdateOtherInfo = ({updatedInfo, user}) => {
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
+
+    // helper function to get string values if not input
+    const getStringValue = (value) => {
+        if (Array.isArray(value)) {
+            return value.filter(item => itemm && item.trim()).join(', ');
+        }
+        return value || "";
+    };
 
     // create form framework
     const [formData, setFormData] = useState({
         otherInfo: {
-            interests: user?.otherInfo?.interests || "",
-            music: user?.otherInfo?.music || "",
-            food: user?.otherInfo?.food || "",
-            tvShows: user?.otherInfo?.tvShows || "",
-            movies: user?.otherInfo?.movies || "",
+            interests: getStringValue(user?.otherInfo?.interests),
+            music: getStringValue(user?.otherInfo?.music),
+            food: getStringValue(user?.otherInfo?.food),
+            tvShows: getStringValue(user?.otherInfo?.tvShows),
+            movies: getStringValue(user?.otherInfo?.movies),
             quote: user?.otherInfo?.quote || ""
         }
     });
@@ -34,29 +41,28 @@ export const UpdateOtherInfo = ({updateInfo, user}) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const uploadData = new FormData();
+        // Debug: Log current form state before processing
+        console.log("Submitting form data:", formData.otherInfo);
 
-        // otherInfo fields
-        uploadData.append("interests", JSON.stringify([formData.otherInfo.interests]));
-        uploadData.append("music", JSON.stringify([formData.otherInfo.music]));
-        uploadData.append("food", JSON.stringify([formData.otherInfo.food]));
-        uploadData.append("tvShows", JSON.stringify([formData.otherInfo.tvShows]));
-        uploadData.append("movies", JSON.stringify([formData.otherInfo.movies]));
-        uploadData.append("quote", formData.otherInfo.quote);
-
-        // check and replace the existing data
         try {
             const response = await fetch(`http://localhost:3000/users/me/other-info`, {
                 method: "PUT",
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
                 },
-                body: uploadData,
+                body: JSON.stringify(formData.otherInfo),
             });
 
             if (response.ok) {
                 const updatedUser = await response.json();
-                console.log("User updated:", updatedUser);
+                console.log("User updated successfully:", updatedUser);
+
+                if (updatedInfo && typeof updatedInfo === 'function') {
+                    updatedInfo(updatedUser);
+                } else {
+                    console.log("Update successfull - no callback provided");
+                }
             } else {
                 const errorText = await response.text();
                 console.error("update failed:", errorText);
