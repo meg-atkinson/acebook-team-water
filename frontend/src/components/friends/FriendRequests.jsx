@@ -24,6 +24,7 @@ export const FriendRequests = ({ loggedInUser, setLoggedInUser }) => {
     }, [loggedInUser])
 
 
+    
     return (
         <div className="friendRequestsContainer">
             <h1>Your friend requests</h1>
