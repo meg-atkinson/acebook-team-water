@@ -2,6 +2,7 @@ const express = require("express");
 const { create, uploadMiddleware } = require('../controllers/users');
 const upload = require('../middleware/upload');
 const tokenChecker = require("../middleware/tokenChecker");
+
 const UsersController = require("../controllers/users");
 
 const router = express.Router();
@@ -14,14 +15,8 @@ router.get("/:id", tokenChecker, UsersController.getUserByID);
 
 router.post('/', upload.single('profilePicture'), UsersController.create);
 
-router.put("/me/basic-info", tokenChecker, upload.single('profilePicture'), UsersController.updateBasicInfo)
+router.put("/me/basic-info", tokenChecker, upload.single('profilePicture'),UsersController.updateOtherInfo)
 
-router.put("/me/other-info", tokenChecker, UsersController.updateOtherInfo),
-
-router.put("/friend-request/:id", tokenChecker, UsersController.putFriendRequest),
-
-router.put("/friend-request/accept/:id", tokenChecker, UsersController.putAcceptFriend)
-
-router.put("/friend-request/reject/:id", tokenChecker, UsersController.putRejectRequest)
+router.put("/me/other-info", tokenChecker, UsersController.updateOtherInfo)
 
 module.exports = router;

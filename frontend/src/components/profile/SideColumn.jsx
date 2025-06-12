@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import { useUser } from "../../App"
 import { ProdButton } from '../prods/ProdButton';
+import { AddFriendButton } from "../friends/AddFriendButtion";
 
 export const SideProfile = ({ profile, hasProdded }) => {
     const navigate = useNavigate()
@@ -39,6 +40,7 @@ export const SideProfile = ({ profile, hasProdded }) => {
             <p>{convertBirthday()}</p>
             <p>{profile.basicInfo.homeTown}</p>
             <p>Friends: {profile.friends.length}</p>
+            <AddFriendButton receiver={profile}/>
         </div>
     )
 }
