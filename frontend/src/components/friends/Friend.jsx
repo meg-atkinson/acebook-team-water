@@ -58,14 +58,18 @@ export const Friend = ({ friend }) => {
     }
 
     return (
+        
         <div key={friend._id} className="friend-card">
-            {/* <img
-                src={photoUrl}
+            <div>
+            <img
+                    //Users/georgeatkinson/Desktop/Projects/Javascript/acebook-team-water/api/uploads/images
+                    // uploads/images/1F469-200D-1F3ED_color.png  how to get here from frontend. 
+                src={`http://localhost:3000/${friend.photos.profilePicture}`}
                 alt={`${friend.basicInfo.firstName} ${friend.basicInfo.lastName}'s profile`}
                 className="friend-photo"
-            /> */}
+            />
             <div className="friend-name">{friend.basicInfo.firstName} {friend.basicInfo.lastName}</div>
-            
+            </div>
             {user ? ( // If looking at friends' profiles
                 friend._id === user.id ? ( // If friend's id is equal to my own id, aka that's me so render no buttons
                     <p>(you)</p>
@@ -79,7 +83,9 @@ export const Friend = ({ friend }) => {
                     <div className="friend-actions">
                         <AddFriendButton receiver={friend}/>
                     </div>
+                    
                 ))
+                
                 ) : ( // if not looking at friends' profiles
                     <div className="friend-actions">
                         <button onClick={() => handleUnfriend(friend._id)} className="unfriend-button">
@@ -96,10 +102,3 @@ export const Friend = ({ friend }) => {
 
 
 
-
-// Within friends what's being passed to friends is the user whose profile you are looking at wether its yourself or another user.
-// it's checking wether the logged in users id is equal to the url to check if its your own profile or another user
-// the only user information passed to that page is related to the user who's profile it is. So we aren't getting logged in users info
-// to compare friends. It mapping friend component for each friend that the profile owner has. 
-
-// want to render an add friend if you aren't friends. At the moment is shows add friend on people you are friends with. 

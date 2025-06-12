@@ -1,7 +1,10 @@
 import {useNavigate} from "react-router-dom"
+import { LikeButton } from "./LikeButton";
 
-function Post({ post }) {
+function Post({ post, onPostLikeToggle}) {
+
   const navigate = useNavigate()
+  //author of post
   const user = post.userID;
 
   const handleClick = () =>  {
@@ -12,11 +15,7 @@ function Post({ post }) {
     <>
       <div className="post-author-info" onClick={handleClick} style={{cursor: "pointer"}}>
         <img
-          src={
-            user?.photos?.profilePicture
-              ? `http://localhost:3000/${user.photos.profilePicture}`
-              : '/default-profile.png'
-          }
+          src={user?.photos?.profilePictureUrl}
           alt="Profile"
           className="profile-pic"
         />
@@ -34,6 +33,9 @@ function Post({ post }) {
             className="post-image"
           />
         )}
+      </div>
+      <div className="likes">
+        <LikeButton post={post} onPostLikeToggle={onPostLikeToggle}/>
       </div>
     </>
   );

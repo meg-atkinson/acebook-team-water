@@ -99,16 +99,16 @@ const getUserByID = async (req, res) => {
   }
 };
 
-const getMyProfile = async (req,res) => {
-  try {
-    const user = await User.findById(req.user_id).select('_id name email basicInfo photos friends');
+// const getMyProfile = async (req,res) => {
+//   try {
+//     const user = await User.findById(req.user_id).select('_id name email basicInfo photos friends');
     
-    res.status(200).json(user)
-  } catch (error) {
-    console.error("Failed to fetch user profile", error);
-    res.status(500).json({message: "Internal server error"})
-  }
-};
+//     res.status(200).json(user)
+//   } catch (error) {
+//     console.error("Failed to fetch user profile", error);
+//     res.status(500).json({message: "Internal server error"})
+//   }
+// };
 
 
 // udate user basicInfo
@@ -118,12 +118,12 @@ const updateBasicInfo = async (req, res) =>{
 
     // create update object with these fields
     const updateObj = {};
-    if (firstName !== undefined) updateObj['otherInfo.firstName'] = firstName;
-    if (lastName !== undefined) updateObj['updateOtherInfo.lastName'] = lastName;
-    if (pronouns !== undefined) updateObj['updateOtherInfo.pronouns'] = pronouns;
-    if (relStatus !== undefined) updateObj['updateOtherInfo.relStatus'] = relStatus;
-    if (birthday !== undefined) updateObj['updateOtherInfo.birthday'] = new Date(birthday);
-    if (homeTown !== undefined) updateObj['updateOtherInfo.homeTown'] = homeTown;
+    if (firstName !== undefined) updateObj['basicInfo.firstName'] = firstName;
+    if (lastName !== undefined) updateObj['basicInfo.lastName'] = lastName;
+    if (pronouns !== undefined) updateObj['basicInfo.pronouns'] = pronouns;
+    if (relStatus !== undefined) updateObj['basicInfo.relStatus'] = relStatus;
+    if (birthday !== undefined) updateObj['basicInfo.birthday'] = new Date(birthday);
+    if (homeTown !== undefined) updateObj['basicInfo.homeTown'] = homeTown;
 
     // Handle profile picture change if uploaded
     if (req.file) {
@@ -148,7 +148,7 @@ const updateBasicInfo = async (req, res) =>{
     }
     res.status(200).json({
       message: "Basic info updated successfully",
-      otherInfo: updatedUser.otherInfo
+      otherInfo: updatedUser.basicInfo
     });
 
   } catch (error) {
@@ -166,14 +166,32 @@ const updateOtherInfo = async (req, res) =>{
   try {
     const { interests, music, food, tvShows, movies, quote } = req.body;
 
-    // create update object with these fields
+    // check if the user objects exist
+    await User.findByIdAndUpdate(
+      req.user_id,
+      {
+        $setOnInsert: {
+          otherInfo: {
+            interests: "",
+            music: "",
+            food: "",
+            tvShows: "",
+            movies: "",
+            quote: ""
+          }
+        }
+      },
+      { usert: false }
+    );
+
+    // update object fields
     const updateObj = {};
     if (interests !== undefined) updateObj['otherInfo.interests'] = interests;
-    if (music !== undefined) updateObj['updateOtherInfo.music'] = music;
-    if (food !== undefined) updateObj['updateOtherInfo.food'] = food;
-    if (tvShows !== undefined) updateObj['updateOtherInfo.tvShows'] = tvShows;
-    if (movies !== undefined) updateObj['updateOtherInfo.movies'] = movies;
-    if (quote !== undefined) updateObj['updateOtherInfo.quote'] = quote;
+    if (music !== undefined) updateObj['otherInfo.music'] = music;
+    if (food !== undefined) updateObj['otherInfo.food'] = food;
+    if (tvShows !== undefined) updateObj['otherInfo.tvShows'] = tvShows;
+    if (movies !== undefined) updateObj['otherInfo.movies'] = movies;
+    if (quote !== undefined) updateObj['otherInfo.quote'] = quote;
 
     // update the info
     const updatedUser = await User.findByIdAndUpdate(

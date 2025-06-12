@@ -58,8 +58,7 @@ const NewPost = ({ onPostCreated }) => {
         };
     
     const handleSubmit = async (event) => {
-        event.preventDefault()
-        //console.log(formData)
+        event.preventDefault()        
         const token = localStorage.getItem("token");
         // make FormData() object to upload
         const uploadData = new FormData();
@@ -96,8 +95,8 @@ const NewPost = ({ onPostCreated }) => {
 
 
     return (
-        <div>
-            <form encType='multipart/form-data' onSubmit={handleSubmit}>
+        <div className="create-post">
+            <form className="create-form" encType='multipart/form-data' onSubmit={handleSubmit}>
                 <br />
                 <label>
                     <br />
@@ -110,11 +109,14 @@ const NewPost = ({ onPostCreated }) => {
                         onChange={handleChange}/>
                 </label>
                 <div className="form-footer">
+                    <label htmlFor="image-upload" className="image-upload">Choose Image</label>
                     <input
+                        id="image-upload"
                         type="file"
                         accept="image/*"
                         onChange={handleImageChange}
                         className="image-upload"
+                        style={{ display: 'none' }}
                     />
                     {formData.imagePreview && (
                         <div className="image-preview">

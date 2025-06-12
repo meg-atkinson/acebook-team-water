@@ -1,9 +1,9 @@
-form {
+.create-form {
     all: unset;
     display: block;
     width: 100%;
     max-width: 650px;
-    height: 240px;
+    height: 100%;
     margin: 20px auto;
     background-color: white;
     padding: 20px;
@@ -13,13 +13,14 @@ form {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-form label {
+.create-form label {
     font-weight: bold;      
     font-size: 16px;        
     color: #333;            
     margin-bottom: 12px;    
     display: block;         
-    font-family: inherit;   
+    font-family: inherit;
+    color:white;
 }
 
 input[type="text"],[type="password"] {
@@ -54,8 +55,15 @@ input[type="submit"]:hover {
 }
 
 .image-upload {
-    font-size: 14px;
-    color: #333;
+    background-color: #800080;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top:15px;
 }
 
 .image-preview {
@@ -86,4 +94,10 @@ input[type="submit"]:hover {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+
+
+.create-post{
+    display:flex;
 }

@@ -8,7 +8,7 @@
 }
 
 .sideProfile {
-    width: 30%;
+    width: 25%;
     background-color: #f5f5f5;
     padding: 16px;
     border-radius: 12px;
@@ -16,12 +16,10 @@
 }
 
 .sideProfile img {
-    width: 275px !important;
-    height: 185px !important;
-    border-radius: 8px !important;
-    object-fit: cover !important;
-    display: block !important;
-    margin: 0 auto 1rem !important;
+    width:70%;
+    border-radius: 8px;
+    object-fit: cover;
+    margin: 0 auto 1rem;    
 }
 
 .mainColumn {
@@ -64,6 +62,8 @@
     margin-bottom: 1.5rem;
 }
 
+
+
 /* Photos grid */
 .photosGridContainer {
     display: flex;
@@ -81,11 +81,7 @@
 
 /* Friends styling (optional cleanup) */
 .friends {
-    display: flex;
-    justify-content: space-between;
-    background-color: bisque;
     padding: 1rem;
-    border-radius: 8px;
 }
 
 /* .friends img {

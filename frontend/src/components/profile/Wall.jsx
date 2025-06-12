@@ -1,7 +1,7 @@
 import Post from "../Post";
 import NewPost from "../NewPost";
 
-export const Wall = ({ posts, showWall, onPostCreated, profile}) => {
+export const Wall = ({ posts, showWall, onPostCreated, profile, onPostLikeToggle}) => {
     if (!Array.isArray(posts)) return <p>Unexpected data</p>;
     if (showWall) {
         return (
@@ -10,7 +10,7 @@ export const Wall = ({ posts, showWall, onPostCreated, profile}) => {
             <NewPost  onPostCreated={onPostCreated}/>
             {posts.map((post) => (
                 <div className="post-card" key={post._id}>
-                <Post post={post} />
+                <Post post={post} onPostLikeToggle={onPostLikeToggle}/>
                 </div>
             ))}
             </div>

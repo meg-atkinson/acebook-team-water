@@ -148,8 +148,8 @@ export function SignupPage() {
         <h2>Signup</h2>
       </div>
 
-      <div className="form">
-        <form encType="multipart/form-data" onSubmit={handleSubmit}>
+      <div className="signup-form-container">
+        <form className="signup-form" encType="multipart/form-data" onSubmit={handleSubmit}>
           <label htmlFor="email">Email: </label>
           <input
             name="email"
@@ -159,7 +159,7 @@ export function SignupPage() {
             className = {errors.email ? "input-error" : ""}
           />
           {errors.email && <span className="error-text">{errors.email}</span>}
-          <br />
+          
           <label htmlFor="password">Password: </label>
           <input
             placeholder="Password"
@@ -170,8 +170,7 @@ export function SignupPage() {
             className = {errors.password ? "input-error" : ""}
           />
           {errors.password && <span className="error-text">{errors.password}</span>}
-          <br />
-          <br />
+        
           <label htmlFor="firstName">First Name: </label>
           <input
             placeholder="First Name"
@@ -182,7 +181,7 @@ export function SignupPage() {
             className= {errors.firstName ? "input-error" : ""}
           />
           {errors.firstName && <span className="error-text">{errors.firstName}</span>}
-          <br />
+         
           
           <label htmlFor="lastName">Last Name: </label>
           <input
@@ -194,7 +193,7 @@ export function SignupPage() {
             className= {errors.lastName ? "input-error": ""}
           />  
           {errors.lastName && <span className="error-text">{errors.lastName}</span>}
-          <br />
+        
           <label htmlFor="pronouns">Pronouns: </label>
           <input
             placeholder="They/Them"
@@ -205,7 +204,7 @@ export function SignupPage() {
             className={errors.pronouns ? "input-error" : ""}
           /> 
           {errors.pronouns && <span className="error-text">{errors.pronouns}</span>}
-          <br />
+      
           <label htmlFor="relStatus">Relationship Status: </label>
           <input
             placeholder="Relationship Status"
@@ -214,7 +213,7 @@ export function SignupPage() {
             value={formData.basicInfo.relStatus}
             onChange={handleChange}
           />
-          <br />
+        
           <label htmlFor="birthday">Birthday </label>
           <input
             placeholder="Day Month"
@@ -225,7 +224,7 @@ export function SignupPage() {
             className={errors.birthday ? "input-error": ""}
           /> 
           {errors.birthday && <span className="error-text">{errors.birthday}</span>}
-          <br />
+          
           <label htmlFor="homeTown">Home Town: </label>
           <input
             placeholder="Town"
@@ -236,7 +235,7 @@ export function SignupPage() {
             className={errors.homeTown ? "input-error": ""}
           />
           {errors.homeTown && <span className="error-text">{errors.homeTown}</span>}
-          <br />
+        
           <label htmlFor="profilePicture">Profile Picture: </label>
           <input 
             name="profilePicture"
@@ -245,8 +244,7 @@ export function SignupPage() {
             style={{paddingBottom:"20px"}}
             onChange={handleImageChange}
           />
-          <br />
-          <input role="submit-button" id="submit" type="submit" value="Submit" />
+          <input  className="login-submit-btn" role="submit-button" id="submit" type="submit" value="Submit" />
           <div className="login-account">
     <button onClick={handleClick} className="login-account-btn">Already a user?</button>
     </div>

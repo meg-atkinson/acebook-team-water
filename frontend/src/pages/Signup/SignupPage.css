@@ -38,13 +38,14 @@
 }
 
 
-.form{
-    width: 75%;
-    margin: 0 auto;
-    padding: 1rem 0;
+.signup-form-container{
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 1rem 0;
 }
 
-.form-content {
+.signup-form content {
     display: flex;
     flex-direction:column;
     justify-content: right;
@@ -52,12 +53,6 @@
     text-align: right;
 }
 
-.form-content input {
-    width: 100%;
-    flex-direction:column;
-    justify-content: right;
-    align-items: flex-end;
-}
 
 .input-error {
   border: 2px solid red;
@@ -89,5 +84,30 @@ margin-top: 1rem;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+.signup-form {
+  display:flex;
+  flex-direction: column;
+  width:25%;
+}
+
+
+.login-submit-btn {
+  background-color: #800080;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  width: auto;
+  align-self: center;  
+}
+
+.signup-form input[type="text"],
+.signup-form input[type="password"],
+.signup-form input[type="file"] {
+  width: 100%;
 }
 
