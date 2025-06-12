@@ -39,6 +39,14 @@ async function create(req, res){
     birthday: new Date(birthday),
     homeTown: homeTown
   },
+  otherInfo: {
+    interests: null,
+    music: null,
+    food: null,
+    tvShows: null,
+    movies: null,
+    quote: null,
+  },
   photos: {
         profilePicture: profilePicturePath,
         otherPhotos: []
