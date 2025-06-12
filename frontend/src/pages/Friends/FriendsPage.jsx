@@ -31,9 +31,7 @@ const FriendsPage = () => {
         };
         fetchUserById();
     }, [user.id]);
-
-    // console.log("logged in user's id:", user.id)
-    // console.log("loggedInUser:", loggedInUser)
+    
     return (
         <>
         <Navbar />
@@ -42,10 +40,7 @@ const FriendsPage = () => {
         ) : (
             <>
                 <div className="friends-page-container">
-                    <div className="profile-panel">
-                        {/* not sure same comp can be child of two dif pages */}
                         <SideProfile profile={loggedInUser}/>
-                    </div>
                     <div className="friends-list-panel">
                         <FriendsList loggedInUser={loggedInUser}/>
                     </div>

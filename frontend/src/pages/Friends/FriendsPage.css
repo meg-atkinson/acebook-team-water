@@ -6,19 +6,19 @@
     box-sizing: border-box;
 }
 
-.profile-panel {
+/* .profile-panel {
     width: 30%;
     background-color: #f5f5f5;
     padding: 16px;
     border-radius: 12px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
+} */
+/* 
 .sideProfile img {
     width: 70%;
     border-radius: 50%;
     margin-bottom: 1rem;
-}
+} */
 
 .friends-list-panel {
     width: 70%;
@@ -26,4 +26,14 @@
     padding: 16px;
     border-radius: 12px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+
+.friends-page-container{
+    display: flex;
+    height: 100vh;
+    gap: 16px;
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
 }

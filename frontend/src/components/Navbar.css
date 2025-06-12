@@ -48,3 +48,15 @@
 .navbar-right ul {
   list-style-type: none;
 }
+
+
+.logout-button {
+   background-color: #800080;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}

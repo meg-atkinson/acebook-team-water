@@ -1,19 +1,16 @@
 .friends-list-container {
-    max-width: 600px;
-    margin: 0 auto;
     padding: 16px;
     display: flex;
-    flex-direction: column;
+    flex-wrap:wrap;
+    justify-content: space-between;
     gap: 16px;
     background-color: #fff; /* white background */
 }
 
 .friend-card {
-    display: flex;
-    justify-content: space-between;
-    width: 70%;
-    align-items: flex-start;
-    padding: 16px;
+    height:190px;
+    width:190px;
+    padding: 30px;
     border: 1px solid #ddd;
     border-radius: 12px;
     background-color: #f5f5f5; /* light grey */
@@ -29,22 +26,12 @@
 
 
 .friend-photo {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
+    width: 60%;
+    height: 60%;
     object-fit: cover;
-    margin-right: 16px;
     border: 1px solid #ccc;
 }
 
-/* .friend-content {
-    flex: 1;
-    position: relative;
-    padding-right: 80px; 
-    padding-bottom: 32px; 
-} 
-
-*/
 
 .friend-name {
     font-weight: 600;
@@ -92,4 +79,19 @@
 
 .unfriend-button:hover {
     background-color: #e60000;
+}
+
+
+.friend-actions {
+    display:flex;
+    justify-content: space-between;
+    margin-top:20px;
+}
+
+
+.friendsContainer{
+    display:flex;
+    width:100%;
+    flex-wrap:wrap;
+    
 }

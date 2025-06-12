@@ -38,7 +38,6 @@ export const SideProfile = ({ profile }) => {
             {pageBelongsToUser &&
             <button onClick={handleEditProfile}>Edit profile</button>
             }
-            <br />
             <p>{profile.basicInfo.pronouns}</p>
             <p>{convertBirthday()}</p>
             <p>{profile.basicInfo.homeTown}</p>

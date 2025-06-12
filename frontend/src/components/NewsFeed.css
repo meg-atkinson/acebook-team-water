@@ -23,6 +23,7 @@
   display: flex;
   gap: 20px;
   align-items: flex-start;
+  margin-bottom:20px;
 }
 
 .post-author-info {
