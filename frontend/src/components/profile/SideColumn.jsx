@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 import { useUser } from "../../App"
 import { ProdButton } from '../prods/ProdButton';
 
-export const SideProfile = ({ profile, currentUser }) => {
+export const SideProfile = ({ profile, hasProdded }) => {
     const navigate = useNavigate()
     // this gets the user who is logged in
     const { user } = useUser()
@@ -33,7 +33,7 @@ export const SideProfile = ({ profile, currentUser }) => {
             {pageBelongsToUser ? (
             <button onClick={handleEditProfile}>Edit profile</button>
             ) : (
-            <ProdButton toUserId={profile._id} />
+            !hasProdded && <ProdButton toUserId={profile._id} />
             )}
             <p>{profile.basicInfo.pronouns}</p>
             <p>{convertBirthday()}</p>
