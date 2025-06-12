@@ -8,7 +8,7 @@ import { FeedPage } from "./pages/Feed/FeedPage";
 import { ProfilePage } from "./pages/Profile/ProfilePage";
 import FriendsPage from "./pages/Friends/FriendsPage";
 import { EditProfilePage } from "./pages/EditProfile/EditProfilePage"
-import { getMe } from "./services/userMe";
+import { getMe } from "./services/user";
 
 // docs: https://reactrouter.com/en/main/start/overview
 
@@ -92,7 +92,7 @@ function App() {
     await getCurrentUser();
   };
 
-  // Show loading spinner while checking authentication
+  // Show loading while checking authentication
   if (loading) {
     return (
       <div style={{ 

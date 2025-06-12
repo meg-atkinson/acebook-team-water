@@ -10,12 +10,19 @@
   box-sizing: border-box;
 }
 
+.likes {
+  flex: 0 0 auto;
+  align-self: flex-end;
+  margin-left: auto;
+}
+
 .post-card {
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
   max-width: 850px;
   width: 100%;
   margin: 0 auto;
@@ -58,6 +65,7 @@
   line-height: 1.5;
   white-space: pre-wrap;
   margin-bottom: 10px;
+  min-width: 0;
 }
 
 .post-image {
@@ -65,4 +73,5 @@
   max-height: 300px;
   border-radius: 8px;
   object-fit: contain;
+  margin-bottom: 20px;
 }

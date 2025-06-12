@@ -35,7 +35,7 @@ const PostSchema = new Schema({
         default: null
     },
 
-
+  likes:[{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
   // EXTRA JUST NOTES - FOR FUTURE
 
   isEdited: {
@@ -51,6 +51,19 @@ const PostSchema = new Schema({
   collection: 'posts'
 });
 
+// virtual to get the like count
+PostSchema.virtual('likeCount').get(function() {
+  return this.likes.length;
+});
+
+// virtual to access imageUrl from the front end more easily
+PostSchema.virtual('imageUrl').get(function() {
+    if (this.imagePath) {
+        return `http://localhost:3000/${this.imagePath}`;
+    }
+    return null;
+});
+
 //NOTES//
 // // Indexes for better query performance
 // PostSchema.index({ createdBy: 1, createdAt: -1 }); // User's posts by date
@@ -59,7 +72,7 @@ const PostSchema = new Schema({
 
 // // Virtual to check if post is on own wall
 // PostSchema.virtual('isOwnProfile').get(function() {
-//   return this.createdBy.toString() === this.createdFor.toString();
+//   return this.userID.toString() === this.targetUserID.toString();
 // });
 
 // Pre-save middleware to update timestamps
@@ -70,6 +83,10 @@ PostSchema.pre('save', function(next) {
   }
   next();
 });
+
+// Configures the schema to include virtuals when converting to JSON:
+PostSchema.set('toJSON', { virtuals: true });
+PostSchema.set('toObject', { virtuals: true });
 
 
 // We use the Schema to create the Post model. Models are classes which we can

@@ -58,8 +58,7 @@ const NewPost = ({ onPostCreated }) => {
         };
     
     const handleSubmit = async (event) => {
-        event.preventDefault()
-        //console.log(formData)
+        event.preventDefault()        
         const token = localStorage.getItem("token");
         // make FormData() object to upload
         const uploadData = new FormData();

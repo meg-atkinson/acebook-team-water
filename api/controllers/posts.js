@@ -4,7 +4,8 @@ const { generateToken } = require("../lib/token");
 const fs = require("fs");
 
 
-// GET all with control structure to also get by userID or targetUserID
+// GET ALL POSTS all with control structure to also get by userID or targetUserID
+
 async function getAllPosts(req, res) {
   try {
     const { userID, targetUserID, postType } = req.query;
@@ -19,45 +20,38 @@ async function getAllPosts(req, res) {
     // create allowed users variable - array of user ids of user plus their friends
     const allowedUserIDs = [userID, ...currentUser.friends];
     let query = {};
-    // Different scenarios:
-    if (!targetUserID || targetUserID === "") {
-      // HOME PAGE: Show all posts from logged-in user and their friends (feed)
-      // Only use userID if it matches the logged-in user (for security)
-      if (userID && userID === loggedInUserID) {
-        query.userID = { $in: allowedUserIDs };
-      } else {
-        // Fallback: use logged-in user's feed
-        query.userID = { $in: allowedUserIDs };
-      }
+    // Conditionally set the query parameters for Post.find 
+    if (!targetUserID) {
+      // FeedPage: Show all posts from logged-in user and their friends (feed)
+      // Only use userID if it matches the logged-in user
+      // if (userID && userID === loggedInUserID) {
+      //   query.userID = { $in: allowedUserIDs };
+      // } else {
+        // Fallback situation - use logged-in user's feed
+      query.userID = { $in: allowedUserIDs };
+      // }
     } else {
       // PROFILE PAGE: Show ALL posts on the specified user's wall
       query.targetUserID = targetUserID;
     }
-    if (postType) {
-      query.postType = postType;
-    }
 
-  // then find all or with relevant parameters
+    // then find all or with relevant parameters
     const posts = await Post.find(query)
-          .populate('userID', 'basicInfo photos.profilePicture') // Populate user info
-          .populate('targetUserID', 'basicInfo photos.profilePicture') // Populate targeUserinfo
-          .sort({ createdAt: -1 }); // Most recent first
-
-    // Add full image URLs !!! check this
-    const postsWithImageUrls = posts.map(post => ({
-      ...post.toObject(),
-      imageUrl: post.imagePath ? `${req.protocol}://${req.get('host')}/${post.imagePath}` : null
-    }));
-
+          .populate('userID', 'basicInfo photos.profilePicture photos.profilePictureUrl') // Populate user info
+          .populate('targetUserID', 'basicInfo photos.profilePicture photos.profilePictureUrl') // Populate targeUserinfo
+          .sort({ createdAt: -1 }); 
+    // generate token and send status
     const token = generateToken(req.user_id);
-    res.status(200).json({ posts: postsWithImageUrls, token: token, count: postsWithImageUrls.length });
+    res.status(200).json({ posts: posts, token: token, count: posts.length });
   } 
   catch(err) {
-    // add more error handling for file upload
     console.error(err);
     res.status(400).json({message: "Something went wrong", error: err.message})
   }
 }
+
+
+//GET POST BY ID
 
 async function getPostByID(req, res) {
   try {
@@ -70,6 +64,70 @@ async function getPostByID(req, res) {
       res.status(400).json({message: "Something went wrong", error: err.message})
   }
 }
+
+//LIKE POST
+
+async function likePost(req, res) {
+  try {
+    // set userID to current logged in user
+    const userID = req.user_id;
+    // postid data sent from the request
+    const postID = req.body.postID;
+    const updatedPost = await Post.findByIdAndUpdate(
+      postID,
+      // $addToSet prevents duplicates
+      { $addToSet: { likes: userID } }, 
+      // Return the updated document
+      { new: true } 
+    // populate user info for posts to be returned properly
+    ).populate('userID', 'basicInfo photos.profilePicture photos.profilePictureUrl') 
+    .populate('targetUserID', 'basicInfo photos.profilePicture photos.profilePictureUrl') 
+    if (!updatedPost) {
+    return res.status(404).json({ message: "Post not found" });
+    }
+
+    const token = generateToken(req.user_id);
+    res.status(200).json({ post: updatedPost, token: token});
+  } 
+  catch(err) {
+      console.error(err);
+      res.status(400).json({message: "Something went wrong", error: err.message})
+  }
+}
+
+
+// UNLIKE POST
+
+async function unlikePost(req, res) {
+  try {
+    // set userID to current logged in user
+    const userID = req.user_id;
+    // postid data sent from the request
+    const postID = req.body.postID;
+    const updatedPost = await Post.findByIdAndUpdate(
+      postID,
+      // pull userID from the likes array
+      { $pull: { likes: userID } }, 
+      // Return the updated document
+      { new: true } 
+    // populate user info for posts to be returned properly
+    ).populate('userID', 'basicInfo photos.profilePicture photos.profilePictureUrl') 
+    .populate('targetUserID', 'basicInfo photos.profilePicture photos.profilePictureUrl') 
+    if (!updatedPost) {
+    return res.status(404).json({ message: "Post not found" });
+    }
+
+    const token = generateToken(req.user_id);
+    res.status(200).json({ post: updatedPost, token: token});
+  } 
+  catch(err) {
+      console.error(err);
+      res.status(400).json({message: "Something went wrong", error: err.message})
+  }
+}
+
+
+// CREATE POST
 
 async function createPost(req, res) {
   try {
@@ -88,14 +146,14 @@ async function createPost(req, res) {
       content: content,
       userID: userID,
       targetUserID: targetUserID,
-      postType: postType || "post",
+      postType: postType || "post"
     };
 
     // If image was uploaded, add the file path
     if (req.file) {
-      postData.imagePath = req.file.path; // e.g., "uploads/images/post-1234567890-123456789.jpg"
+      postData.imagePath = req.file.path; 
     }
-
+    // create new post
     const post = new Post(postData);
     const savedPost = await post.save();
 
@@ -119,33 +177,9 @@ async function createPost(req, res) {
 const PostsController = {
   getAllPosts: getAllPosts,
   getPostByID: getPostByID,
-  // getPostsByUser: getPostsByUser,
-  // getPostsByTargetUser: getPostsByTargetUser,
-  createPost: createPost,
+  likePost: likePost,
+  unlikePost: unlikePost,
+  createPost: createPost
 };
 
 module.exports = PostsController;
-
-
-
-
-
-
-
-// OLD VERSIONS 
-
-// async function getPostsByUser(req, res) {
-//   const posts = await Post.find({ userID: req.params.userId })
-//         .populate('userID', 'basicInfo')
-//         .sort({ createdAt: -1 });
-//   const token = generateToken(req.user_id);
-//   res.status(200).json({ posts: posts, token: token, count: posts.length });
-// }
-
-// async function getPostsByTargetUser(req, res) {
-//   const posts = await Post.find({ userID: req.params.targetUserId })
-//         .populate('targetUserID', 'basicInfo')
-//         .sort({ createdAt: -1 });
-//   const token = generateToken(req.user_id);
-//   res.status(200).json({ posts: posts, token: token, count: posts.length });
-// }
