@@ -1,7 +1,21 @@
 import "./FriendsList.css";
+import { useState, useEffect } from "react";
 import { Friend } from "./Friend";
 
 const FriendsList = ({ loggedInUser }) => {
+    const [friendsList, setFriendsList] = useState(loggedInUser.friends)
+
+    useEffect(() => {
+        setFriendsList(loggedInUser.friends)
+    }, [loggedInUser]);
+
+    const handleRemoveFriend = (idToRemove) => {
+        setFriendsList(prev => prev.filter(friend => friend._id !== idToRemove))
+    }
+
+    
+
+    console.log('friendsList', friendsList)
 
     return (
         <div>
@@ -10,11 +24,11 @@ const FriendsList = ({ loggedInUser }) => {
         </div>
 
         <div className="friends-list-container">
-            {!loggedInUser || !loggedInUser.friends || loggedInUser.friends.length == 0 ? (
+            {!friendsList || friendsList.length == 0 ? (
                 <p>No friends found.</p>
                 ) : (
-                loggedInUser.friends.map((friend) => (
-                    <Friend key={friend._id} friend={friend}/>
+                friendsList.map((friend) => (
+                    <Friend key={friend._id} friend={friend} onRemove={handleRemoveFriend} />
                 ))
             )}
         </div>

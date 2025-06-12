@@ -288,7 +288,7 @@ const putFriendRequest = async (req, res) => {
       return res.status(404).json({ message: 'Receiver not found' });
     }
 
-    res.status(200).json({ message: "Friend request sent", updatedReceiver });
+    res.status(200).json({ message: "Friend request sent", receiver: updatedReceiver });
 
     
   } catch (error) {
@@ -320,7 +320,7 @@ const putAcceptFriend = async (req, res) => {
       { new: true }
     );
 
-    res.status(200).json({ message: "Friend added", updatedReceiver, updatedSender});
+    res.status(200).json({ message: "Friend added", receiver: updatedReceiver, sender: updatedSender});
 
   } catch (error) {
     console.error(error)
@@ -344,12 +344,38 @@ const putRejectFriend = async (req, res) => {
       { new: true }
     )
 
-    res.status(200).json({ message: "Request rejected", updatedReceiver });
+    res.status(200).json({ message: "Request rejected", receiver: updatedReceiver });
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: "Server error" });
   }
-  
+}
+
+// Unfriend someone
+const putRemoveFriend = async (req, res) => {
+  try {
+    const userId = req.user_id;
+    const friendId = req.params.id;
+
+    if (!userId || !friendId) {
+      return res.status(400).json({ message: 'MIssing sender or rceiver id'});
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(userId,
+      { $pull: { 'friends': friendId} }, 
+      { new: true }
+    )
+
+    const updatedFriend = await User.findByIdAndUpdate(friendId,
+      { $pull: { 'friends': userId} }, 
+      { new: true }
+    )
+
+    res.status(200).json({ message: "Friend unadded", user: updatedUser, friend: updatedFriend });
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server error" });
+  }
 }
 
 
@@ -363,7 +389,9 @@ const UsersController = {
   uploadMiddleware: upload.single('profilePicture'),
   putFriendRequest: putFriendRequest,
   putAcceptFriend: putAcceptFriend,
-  putRejectRequest: putRejectFriend
+  putRejectRequest: putRejectFriend,
+  putRemoveFriend: putRemoveFriend
+
 };
 
 module.exports = UsersController;

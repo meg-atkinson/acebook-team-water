@@ -3,10 +3,12 @@ import { getUser } from "../../services/user";
 import { useUser } from "../../App";
 import { useNavigate } from 'react-router-dom'
 import { AddFriendButton } from "./AddFriendButtion";
+import { RemoveFriendButton } from "./RemoveFriendButton";
 
 
-export const Friend = ({ friend }) => {
+export const Friend = ({ friend, onRemove }) => {
     const [loggedInUser, setLoggedInUser] = useState(null);
+    
     const navigate = useNavigate();
 
     const { user } = useUser()
@@ -14,9 +16,6 @@ export const Friend = ({ friend }) => {
     
     const friendsIds = friendsArray.map((myFriend) => myFriend._id) // Array of just their ids
     const isFriend = friendsIds.includes(friend._id); 
-
-    // Get friends friendRequestsArray, if exists/not empty
-    // --
 
     useEffect(() => {
         const token = localStorage.getItem("token")
@@ -77,22 +76,18 @@ export const Friend = ({ friend }) => {
                     <p>(you)</p>
                 ) : ( isFriend ? ( // Friend of friend is user's friend
                     <div className="friend-actions">
-                        <button className="unfriend-button">
-                            Unfriend
-                        </button>
+                        <RemoveFriendButton friend={friend} onSuccess={() => onRemove(friend._id)}/>
                     </div>
                 ) : ( //Friend of friend is NOT user's friend
                     <div className="friend-actions">
-                        <AddFriendButton receiver={friend}/>
+                        <AddFriendButton receiver={friend} />
                     </div>
                     
                 ))
                 
                 ) : ( // if not looking at friends' profiles
                     <div className="friend-actions">
-                        <button className="unfriend-button">
-                            Unfriend
-                        </button>
+                        <RemoveFriendButton friend={friend} onSuccess={() => onRemove(friend._id)}/>
                     </div>
                 )
             }

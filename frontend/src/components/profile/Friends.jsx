@@ -1,9 +1,10 @@
 
 import { Friend } from "../friends/Friend";
+import { useState } from "react";
 
 export const Friends = ({ showFriends, profile, user }) => {
 
-    const userFriends = profile.friends;
+    const [userFriends, setUserFriends] = useState(profile.friends);
 
     if (showFriends) {
         return (
@@ -11,7 +12,7 @@ export const Friends = ({ showFriends, profile, user }) => {
                 {userFriends.map((friend) => {
                     return (
                         <div className="friends" key={friend._id}>
-                            <Friend friend={friend} user={user}/>
+                            <Friend friend={friend} user={user} setUserFriends={setUserFriends}/>
                         </div>
                     )
                 })}
