@@ -19,7 +19,6 @@ async function create(req, res){
   try{
     const { email, password, firstName, lastName, pronouns, relStatus, birthday, homeTown } = req.body
 
-
     const hash = await bcrypt.hash(password, saltRounds);
 
     let profilePicturePath = null;
@@ -111,11 +110,123 @@ const getUserByID = async (req, res) => {
 //   }
 // };
 
+
+// udate user basicInfo
+const updateBasicInfo = async (req, res) =>{
+  try {
+    const { firstName, lastName, pronouns, relStatus, birthday, homeTown } = req.body;
+
+    // create update object with these fields
+    const updateObj = {};
+    if (firstName !== undefined) updateObj['basicInfo.firstName'] = firstName;
+    if (lastName !== undefined) updateObj['basicInfo.lastName'] = lastName;
+    if (pronouns !== undefined) updateObj['basicInfo.pronouns'] = pronouns;
+    if (relStatus !== undefined) updateObj['basicInfo.relStatus'] = relStatus;
+    if (birthday !== undefined) updateObj['basicInfo.birthday'] = new Date(birthday);
+    if (homeTown !== undefined) updateObj['basicInfo.homeTown'] = homeTown;
+
+    // Handle profile picture change if uploaded
+    if (req.file) {
+      updateObj['photos.profilePicture'] = req.file.path;
+    }
+
+    // update the info
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user_id,
+      { $set: updateObj },
+      { new: true, runValidators: true }
+    ).select('basicInfo photos');
+
+    // success checks
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    if (req.file) {
+      await User.findByIdAndUpdate(req.user_id, {
+        $push: { 'photos.otherPhotos': req.file.path }
+      });
+    }
+    res.status(200).json({
+      message: "Basic info updated successfully",
+      otherInfo: updatedUser.basicInfo
+    });
+
+  } catch (error) {
+    console.error("Failed to update basic info:", error);
+    res.status(500).json({
+      message: "Failed to update basic info",
+      error: error.message
+    });
+  }
+}
+
+
+// update user otherInfo
+const updateOtherInfo = async (req, res) =>{
+  try {
+    const { interests, music, food, tvShows, movies, quote } = req.body;
+
+    // check if the user objects exist
+    await User.findByIdAndUpdate(
+      req.user_id,
+      {
+        $setOnInsert: {
+          otherInfo: {
+            interests: "",
+            music: "",
+            food: "",
+            tvShows: "",
+            movies: "",
+            quote: ""
+          }
+        }
+      },
+      { usert: false }
+    );
+
+    // update object fields
+    const updateObj = {};
+    if (interests !== undefined) updateObj['otherInfo.interests'] = interests;
+    if (music !== undefined) updateObj['otherInfo.music'] = music;
+    if (food !== undefined) updateObj['otherInfo.food'] = food;
+    if (tvShows !== undefined) updateObj['otherInfo.tvShows'] = tvShows;
+    if (movies !== undefined) updateObj['otherInfo.movies'] = movies;
+    if (quote !== undefined) updateObj['otherInfo.quote'] = quote;
+
+    // update the info
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user_id,
+      { $set: updateObj },
+      { new: true, runValidators: true }
+    ).select('otherInfo');
+
+    // success checks
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({
+      message: "Other info updated successfully",
+      otherInfo: updatedUser.otherInfo
+    });
+
+  } catch (error) {
+    console.error("Failed to update other info:", error);
+    res.status(500).json({
+      message: "Failed to update other info",
+      error: error.message
+    });
+  }
+}
+
+
+
 const UsersController = {
   getCurrentUser: getCurrentUser,
   create: create,
   getAllUsers: getAllUsers,
   getUserByID: getUserByID,
+  updateBasicInfo: updateBasicInfo,
+  updateOtherInfo: updateOtherInfo,
   uploadMiddleware: upload.single('profilePicture')
 };
 

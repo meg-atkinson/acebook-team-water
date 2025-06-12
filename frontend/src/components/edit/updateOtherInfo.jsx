@@ -34,24 +34,23 @@ export const UpdateOtherInfo = ({updateInfo, user}) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!validateForm()) {
-            return;
-        }
-
         const uploadData = new FormData();
 
         // otherInfo fields
-        uploadData.append("interests", formData.otherInfo.interests);
-        uploadData.append("music", formData.otherInfo.music);
-        uploadData.append("food", formData.otherInfo.food);
-        uploadData.append("tvShows", formData.otherInfo.tvShows);
-        uploadData.append("movies", formData.otherInfo.movies);
+        uploadData.append("interests", JSON.stringify([formData.otherInfo.interests]));
+        uploadData.append("music", JSON.stringify([formData.otherInfo.music]));
+        uploadData.append("food", JSON.stringify([formData.otherInfo.food]));
+        uploadData.append("tvShows", JSON.stringify([formData.otherInfo.tvShows]));
+        uploadData.append("movies", JSON.stringify([formData.otherInfo.movies]));
         uploadData.append("quote", formData.otherInfo.quote);
 
         // check and replace the existing data
         try {
-            const response = await fetch(`http://localhost:3000/users/${user._id}`, {
+            const response = await fetch(`http://localhost:3000/users/me/other-info`, {
                 method: "PUT",
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
                 body: uploadData,
             });
 
@@ -59,7 +58,7 @@ export const UpdateOtherInfo = ({updateInfo, user}) => {
                 const updatedUser = await response.json();
                 console.log("User updated:", updatedUser);
             } else {
-                const errorTest = await response.text();
+                const errorText = await response.text();
                 console.error("update failed:", errorText);
             }
         } catch (error) {

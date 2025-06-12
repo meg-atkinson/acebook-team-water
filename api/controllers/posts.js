@@ -8,7 +8,7 @@ const fs = require("fs");
 
 async function getAllPosts(req, res) {
   try {
-    const { userID, targetUserID } = req.query;
+    const { userID, targetUserID, postType } = req.query;
     const loggedInUserID = req.user_id; 
     // for homepage select only the friends array field for the logged in user
     const currentUser = await User.findById(loggedInUserID).select('friends');
@@ -34,6 +34,7 @@ async function getAllPosts(req, res) {
       // PROFILE PAGE: Show ALL posts on the specified user's wall
       query.targetUserID = targetUserID;
     }
+
     // then find all or with relevant parameters
     const posts = await Post.find(query)
           .populate('userID', 'basicInfo photos.profilePicture photos.profilePictureUrl') // Populate user info

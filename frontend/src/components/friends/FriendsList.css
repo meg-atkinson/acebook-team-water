@@ -10,6 +10,8 @@
 
 .friend-card {
     display: flex;
+    justify-content: space-between;
+    width: 70%;
     align-items: flex-start;
     padding: 16px;
     border: 1px solid #ddd;
@@ -24,6 +26,8 @@
     background-color: #e0e7ff; /* subtle light blue on hover */
 }
 
+
+
 .friend-photo {
     width: 48px;
     height: 48px;
@@ -33,12 +37,14 @@
     border: 1px solid #ccc;
 }
 
-.friend-content {
+/* .friend-content {
     flex: 1;
     position: relative;
-    padding-right: 80px; /* makes space for top-right button */
-    padding-bottom: 32px; /* space for bottom-right button */
-}
+    padding-right: 80px; 
+    padding-bottom: 32px; 
+} 
+
+*/
 
 .friend-name {
     font-weight: 600;
@@ -54,7 +60,7 @@
 
 /* Prod button: top right */
 .prod-button {
-    position: absolute;
+    /* position: absolute; */
     top: 8px;
     right: 8px;
     background-color: #6c63ff;
@@ -72,7 +78,7 @@
 
 /* Unfriend button: bottom right */
 .unfriend-button {
-    position: absolute;
+    /* position: absolute; */
     bottom: 8px;
     right: 8px;
     background-color: #ff4d4d;
