@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { getUser } from "../../services/user";
 import { useUser } from "../../App";
-import { ProdButton } from '../prods/ProdButton';
 import { AddFriendButton } from "./AddFriendButtion";
 
 export const Friend = ({ friend }) => {
@@ -75,7 +74,6 @@ export const Friend = ({ friend }) => {
                         <button onClick={() => handleUnfriend(friend._id)} className="unfriend-button">
                             Unfriend
                         </button>
-                        <ProdButton toUserId={friend._id} />
                     </div>
                 ) : ( //Friend of friend is NOT user's friend
                     <div className="friend-actions">
@@ -87,7 +85,6 @@ export const Friend = ({ friend }) => {
                         <button onClick={() => handleUnfriend(friend._id)} className="unfriend-button">
                             Unfriend
                         </button>
-                        <ProdButton toUserId={friend._id} />
                     </div>
                 )
             }

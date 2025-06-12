@@ -71,9 +71,9 @@ export const Prods = ({ showProds }) => {
             ) : (
                 <div>
                 {prods.map((prod) => (
-                    <div key={prod._id}>
+                    <div key={`${prod.from._id}-${prod.createdAt}`}>
                     <p>
-                        {prod.fromUser.basicInfo?.firstName || 'Someone'} prodded you! 
+                        {prod.from.basicInfo?.firstName || 'Someone'} prodded you!
                         - {formatDate(prod.createdAt)}
                     </p>
                     </div>

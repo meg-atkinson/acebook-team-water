@@ -1,32 +1,55 @@
-const Prod = require('../models/prod');
+const User = require('../models/user');
 
 // Send a prod
 async function sendProd(req, res) {
     try {
-        const fromUser = req.user_id; // from logged-in user
-        const { toUser } = req.body;
+        const fromUserId = req.user_id; // from logged-in user
+        const { toUser: toUserId } = req.body;
 
-        const existingProdFromMe = await Prod.findOne({ fromUser, toUser });
+        // Prevent self-prods
+        if (fromUserId === toUserId) {
+        return res.status(400).json({ message: 'You cannot prod yourself!' });
+        }
 
-        if (existingProdFromMe) {
-        // Check if the other person has prodded back since my last prod
-        const prodBackFromThem = await Prod.findOne({ 
-            fromUser: toUser, 
-            toUser: fromUser,
-            createdAt: { $gt: existingProdFromMe.createdAt } // After my prod
-            });
-        
-            if (!prodBackFromThem) {
-                return res.status(400).json({ 
-                message: 'You can only send one prod until they prod you back!' 
-                });
-            }
-        }   
+        // Get both users
+        const [fromUser, toUser] = await Promise.all([
+        User.findById(fromUserId),
+        User.findById(toUserId)
+        ]);
 
-        // Optional: add logic to prevent self-prods, duplicates, cooldowns here
+        if (!toUser) {
+        return res.status(404).json({ message: 'User not found' });
+        }
 
-        const newProd = new Prod({ fromUser, toUser });
-        await newProd.save();
+        // Check if there's already an active prod between these users
+        const existingProdToThem = toUser.prods.find(prod => 
+        prod.from.toString() === fromUserId
+        );
+        const existingProdToMe = fromUser.prods.find(prod => 
+        prod.from.toString() === toUserId
+        );
+
+        if (existingProdToThem) {
+        return res.status(400).json({
+            message: 'You already have an active prod with this user!'
+        });
+        }
+
+        // If they have a prod to me, this is a "prod back" - remove their prod and add mine
+        if (existingProdToMe) {
+        // Remove their prod from my list
+        fromUser.prods = fromUser.prods.filter(prod => 
+            prod.from.toString() !== toUserId
+        );
+        await fromUser.save();
+        }
+
+        // Add new prod to the recipient's list
+        toUser.prods.push({
+        from: fromUserId,
+        createdAt: new Date()
+        });
+        await toUser.save();
 
         res.status(201).json({ message: 'Prod sent!' });
     } catch (error) {
@@ -34,20 +57,27 @@ async function sendProd(req, res) {
     }
 }
 
-// Get received prods
-async function getReceivedProds(req, res) {
+    // Get received prods
+    async function getReceivedProds(req, res) {
     try {
-        const toUser = req.user_id;
-        const prods = await Prod.find({ toUser })
-        .populate('fromUser', 'basicInfo photos.profilePicture')
-        .sort({ createdAt: -1 });
+        const userId = req.user_id;
+    
+        const user = await User.findById(userId)
+        .populate('prods.from', 'basicInfo photos.profilePicture')
+        .exec();
 
-        res.status(200).json({ prods });
+        if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Sort prods by creation date (newest first)
+        const sortedProds = user.prods.sort((a, b) => b.createdAt - a.createdAt);
+
+        res.status(200).json({ prods: sortedProds });
     } catch (error) {
         res.status(500).json({ message: 'Failed to get prods', error: error.message });
     }
 }
-
 
 module.exports = {
     sendProd,

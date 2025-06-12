@@ -1,14 +1,15 @@
 import { useNavigate } from "react-router-dom"
 import { useUser } from "../../App"
+import { ProdButton } from '../prods/ProdButton';
 
-export const SideProfile = ({ profile }) => {
+export const SideProfile = ({ profile, currentUser }) => {
     const navigate = useNavigate()
     // this gets the user who is logged in
     const { user } = useUser()
     // get the actual profile we are on from the profile prop
     const userID = profile._id
     // boolean for conditional rendering 
-    const pageBelongsToUser = user && user.id === userID;
+    const pageBelongsToUser = user && (user.id === userID || user._id === userID);
 
     // convert birthday
     const convertBirthday = () => {
@@ -35,9 +36,11 @@ export const SideProfile = ({ profile }) => {
             <img src={profilePicUrl} />
             <h2>{profile.basicInfo.firstName} {profile.basicInfo.lastName}</h2>
             {/* <p>{profile.status[0]}</p> */}
-            {pageBelongsToUser &&
+            {pageBelongsToUser ? (
             <button onClick={handleEditProfile}>Edit profile</button>
-            }
+            ) : (
+            <ProdButton toUserId={profile._id} />
+            )}
             <br />
             <p>{profile.basicInfo.pronouns}</p>
             <p>{convertBirthday()}</p>
