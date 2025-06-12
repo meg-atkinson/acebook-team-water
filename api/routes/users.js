@@ -24,4 +24,6 @@ router.put("/friend-request/accept/:id", tokenChecker, UsersController.putAccept
 
 router.put("/friend-request/reject/:id", tokenChecker, UsersController.putRejectRequest)
 
+router.put("/friend/remove/:id", tokenChecker, UsersController.putRemoveFriend)
+
 module.exports = router;
