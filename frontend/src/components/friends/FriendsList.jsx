@@ -4,8 +4,12 @@ import { Friend } from "./Friend";
 const FriendsList = ({ loggedInUser }) => {
 
     return (
-        <div className="friends-list-container">
+        <div>
+        <div className="friends-title">
             <h2>My Friends</h2>
+        </div>
+
+        <div className="friends-list-container">
             {!loggedInUser || !loggedInUser.friends || loggedInUser.friends.length == 0 ? (
                 <p>No friends found.</p>
                 ) : (
@@ -13,6 +17,7 @@ const FriendsList = ({ loggedInUser }) => {
                     <Friend key={friend._id} friend={friend}/>
                 ))
             )}
+        </div>
         </div>
     );
 };

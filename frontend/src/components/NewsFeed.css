@@ -29,7 +29,8 @@
   box-sizing: border-box;
   display: flex;
   gap: 20px;
-  align-items: center;
+  align-items: flex-start;
+  margin-bottom:20px;
 }
 
 .post-author-info {

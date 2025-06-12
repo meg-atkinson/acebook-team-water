@@ -95,7 +95,7 @@ const NewPost = ({ onPostCreated }) => {
 
 
     return (
-        <div>
+        <div className="create-post">
             <form encType='multipart/form-data' onSubmit={handleSubmit}>
                 <br />
                 <label>
@@ -109,11 +109,14 @@ const NewPost = ({ onPostCreated }) => {
                         onChange={handleChange}/>
                 </label>
                 <div className="form-footer">
+                    <label htmlFor="image-upload" className="image-upload">Choose Image</label>
                     <input
+                        id="image-upload"
                         type="file"
                         accept="image/*"
                         onChange={handleImageChange}
                         className="image-upload"
+                        style={{ display: 'none' }}
                     />
                     {formData.imagePreview && (
                         <div className="image-preview">
