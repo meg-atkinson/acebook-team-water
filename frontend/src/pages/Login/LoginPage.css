@@ -1,0 +1,15 @@
+.login-form-container {
+    display:flex;
+    flex-direction: column;
+    margin-top: 80px;
+}
+
+.login-form label {
+    display: block;
+}
+
+
+.login-title {
+    margin-top: 50px;
+}
+
