@@ -23,7 +23,7 @@ export async function getPosts(token, userId, targetUserID) {
 
 
 // getPostByType
-export async function getPostsByType(token, userId, type) {
+export async function getPostsByType(token, targetUserID, postType) {
   const requestOptions = {
     method: "GET",
     headers: {
@@ -31,7 +31,7 @@ export async function getPostsByType(token, userId, type) {
     },
   };
 
-  const response = await fetch(`${BACKEND_URL}/posts?targetUserID=${userId}&postType=${type}`, requestOptions);
+  const response = await fetch(`${BACKEND_URL}/posts/type?targetUserID=${targetUserID}&postType=${postType}`, requestOptions);
   
   if (response.status !== 200) {
     throw new Error("Unable to fetch posts");

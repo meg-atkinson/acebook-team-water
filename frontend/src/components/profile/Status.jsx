@@ -18,9 +18,9 @@ export const Status = ({ profile }) => {
     // -------------------------- getting most recent status -----------------------------
     const [currentStatus, setCurrentStatus] = useState(null);
 
-    const userID = profile._id
-    const type = 'status'
-    const pageBelongsToUser = user && user.id === userID;
+    const targetUserID = profile._id
+    const postType = 'status'
+    const pageBelongsToUser = user && user.id === targetUserID;
 
     useEffect(() => {
         const token = localStorage.getItem("token")
@@ -31,14 +31,18 @@ export const Status = ({ profile }) => {
 
         const fetchPostsById = async () => {
             try {
-                const statusPosts = await getPostsByType(token, userID, type);
+                console.log("Calling getPostsByType with:", { targetUserID, postType });
+                const statusPosts = await getPostsByType(token, targetUserID, postType);
+                console.log("Raw response from getPostsByType:", statusPosts);
+                console.log("Posts returned:", statusPosts.posts);
+                console.log("First post type:", statusPosts.posts[0]?.postType);
                 setCurrentStatus(statusPosts.posts[0])
             } catch (error) {
                 console.error("Error fetching posts:", error)
             }
         };
         fetchPostsById();
-    }, [updateStatus, userID]);
+    }, [updateStatus, targetUserID]);
 
 
     // ------------------------------- creating a new status ------------------------------
@@ -48,7 +52,7 @@ export const Status = ({ profile }) => {
     const [newStatus, setNewStatus] = useState({
         content: "",
         postType: "status",
-        targetUserID: userID
+        targetUserID: targetUserID
 
     })
 
