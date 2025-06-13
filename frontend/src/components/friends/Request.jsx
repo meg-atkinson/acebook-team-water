@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { getUser } from "../../services/user"
 import { AcceptRequestButton } from "./AcceptRequestButton"
 import { RejectRequestButton } from "./RejectRequestButton"
+import "./Request.css"
 
 export const Request = ({ senderId, onAcceptFriend, friendRequests, setFriendRequests }) => {
     const [sender, setSender] = useState(null)
@@ -38,9 +39,18 @@ export const Request = ({ senderId, onAcceptFriend, friendRequests, setFriendReq
                 <p>Loading request sender's information</p>
             ) : (
                 <>
+                    <div>
+                    <img
+                    src={`http://localhost:3000/${sender.photos.profilePicture}`}
+                    className="sender-profile-pic"
+                    />
                     <p>{sender.basicInfo.firstName} {sender.basicInfo.lastName}</p>
                     <AcceptRequestButton senderId={senderId} onSuccess={() => onAcceptFriend(senderId)}/>
+
                     <RejectRequestButton senderId={senderId} friendRequests={friendRequests} setFriendRequests={setFriendRequests}/>
+                   
+                    </div>
+
                 </>
             )}
         </div>
