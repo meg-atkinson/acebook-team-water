@@ -27,19 +27,31 @@ input[type="text"],[type="password"] {
     width: 100%;
     padding: 14px;
     font-size: 16px;
-    border: 1px solid #ccc;
+    border: 1px solid #005d55;
     border-radius: 6px;
     margin-bottom: 16px;
     box-sizing: border-box;
 }
 
-input[type="submit"] {
-    background-color: #800080;
+.image-upload {
+    background-color: #08afa8 !important;
     color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 6px;
     font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+    
+input[type="submit"] {
+    background-color: #08afa8;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
