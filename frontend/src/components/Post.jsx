@@ -63,12 +63,8 @@ function Post({ post, onPostLikeToggle}) {
         )}
       </div>
       <div className="likes-and-timestamp" >
-        <div className="time-stamp" >
           {new Date(post.createdAt).toLocaleString()}
-        </div>
-        <div className="likes">
           <LikeButton post={post} onPostLikeToggle={onPostLikeToggle}/>
-        </div>
       </div>
     </>
   );
