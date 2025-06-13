@@ -1,6 +1,6 @@
 import { rejectFriendRequest } from "../../services/user";
 
-export const RejectRequestButton = ({ senderId }) => {
+export const RejectRequestButton = ({ senderId, setFriendRequests }) => {
     const token = localStorage.getItem("token");
 
     const handleRejectFriend = async () => {
@@ -11,8 +11,7 @@ export const RejectRequestButton = ({ senderId }) => {
 
         try {
             const result = await rejectFriendRequest(token, senderId)
-
-            console.log(result)
+            setFriendRequests(result.receiver.friendRequests)
         } catch (error) {
             console.error("Error sending friend request", error)
         }
