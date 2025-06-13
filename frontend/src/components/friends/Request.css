@@ -1,0 +1,29 @@
+.requestContainer{
+    display:flex;
+    justify-content: center;
+    margin: 20px;
+    height:100%;
+}
+
+
+.sender-profile-pic{
+    margin-top:20px;
+    width:100px;
+    height:100px;
+}
+
+.friendRequestsContainer{
+    display:flex;
+    flex-direction: column;
+}
+
+.friendRequestTitle{
+    width:100%;
+    font-size:1.5em;
+}
+
+.allRequests{
+    display:flex;
+    justify-content: center;
+    flex-wrap:wrap;
+}

@@ -27,12 +27,16 @@ export const FriendRequests = ({ loggedInUser, setLoggedInUser }) => {
     
     return (
         <div className="friendRequestsContainer">
+            <div className="friendRequestTitle">
             <h1>Your friend requests</h1>
+            </div>
+            <div className="allRequests">
             {friendRequests ? (
                 friendRequests.map((sender) => (<Request key={sender} senderId={sender} onAcceptFriend={handleAcceptFriend}/>)
             )) : (
                 <p>You have no friend requests</p>
             )}
+            </div>
         </div>
     )
 }
