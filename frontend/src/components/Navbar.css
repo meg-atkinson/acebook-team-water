@@ -2,9 +2,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #a3a3a3;
+  background-color: #01213a;
   width: 100vw;
-  color: #800080;
+  color: #ffffff;
   box-sizing: border-box;
   padding: 0.9rem 1.2rem;
   position: relative;
@@ -34,13 +34,13 @@
 }
 
 .nav-links a {
-  color: #800080;
+  color: #ffffff;
   text-decoration: none;
   font-size: 1.3rem;
 }
 
 .navbar-right a {
-  color: #800080;
+  color: #ffffff;
   text-decoration: none;
   font-size: 1.3rem;
 }
@@ -51,8 +51,8 @@
 
 
 .logout-button {
-   background-color: #800080;
-    color: white;
+   background-color: #01411f;
+    color: #ffffff;
     border: none;
     padding: 10px 20px;
     border-radius: 6px;
