@@ -106,7 +106,8 @@ console.log("Computed hasProdded:", hasProdded);
                     <p>Loading user info...</p>
                 )}
                 <MainColumn 
-                    profile={profile} 
+                    profile={profile}
+                    setProfile={setProfile}
                     posts={posts} 
                     onPostCreated={handleNewPost}
                     isOwnProfile={isOwnProfile}

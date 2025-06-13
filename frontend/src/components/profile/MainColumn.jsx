@@ -8,7 +8,7 @@ import { Friends } from "./Friends";
 import { Status } from "./Status";
 
 
-export const MainColumn = ({ profile, posts, onPostCreated, onPostLikeToggle, isOwnProfile, currentUser, hasProdded }) => {
+export const MainColumn = ({ profile, setProfile, posts, onPostCreated, onPostLikeToggle, isOwnProfile, currentUser, hasProdded }) => {
 
     const [showWall, setShowWall] = useState(true);
     const [showInfo, setShowInfo] = useState(false);
@@ -45,7 +45,7 @@ export const MainColumn = ({ profile, posts, onPostCreated, onPostLikeToggle, is
         <Info showInfo={showInfo} profile={profile} />
         <Photos showPhotos={showPhotos} profile={profile} />
         {isOwnProfile && <Prods showProds={showProds} profile={profile} hasProdded={hasProdded} />}
-        <Friends showFriends={showFriends} profile={profile}/>
+        <Friends showFriends={showFriends} profile={profile} setProfile={setProfile}/>
     </div>
     )
 }

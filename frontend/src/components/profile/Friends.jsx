@@ -1,18 +1,16 @@
 
 import { Friend } from "../friends/Friend";
-import { useState } from "react";
+// import { useState } from "react";
 
-export const Friends = ({ showFriends, profile, user }) => {
-
-    const [userFriends, setUserFriends] = useState(profile.friends);
+export const Friends = ({ showFriends, profile, user, setProfile }) => {
 
     if (showFriends) {
         return (
             <div className="friendsContainer">
-                {userFriends.map((friend) => {
+                {profile.friends.map((friend) => {
                     return (
                         <div className="friends" key={friend._id}>
-                            <Friend friend={friend} user={user} setUserFriends={setUserFriends}/>
+                            <Friend friend={friend} user={user} setProfile={setProfile}/>
                         </div>
                     )
                 })}
