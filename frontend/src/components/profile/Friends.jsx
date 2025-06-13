@@ -16,7 +16,7 @@ export const Friends = ({ showFriends, profile, user, setProfile }) => {
                 {friendsList.map((friend) => {
                     return (
                         <div className="friends" key={friend._id}>
-                            <Friend friend={friend} user={user} setProfile={setProfile} onRemove={handleRemoveFriend}/>
+                            <Friend friend={friend} user={user} setProfile={setProfile} setFriendsList={setFriendsList} onRemove={handleRemoveFriend}/>
                         </div>
                     )
                 })}
