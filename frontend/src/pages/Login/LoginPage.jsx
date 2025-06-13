@@ -56,7 +56,9 @@ export function LoginPage() {
           value={password}
           onChange={handlePasswordChange}
         />
-        <input role="submit-button" id="submit" type="submit" value="Submit" />
+        <div className="submit-button" >
+          <input role="submit-button" id="submit" type="submit" value="Submit" />
+        </div>
       </form>
       <div className="create-account">
       <button onClick={handleClick} className="create-account-btn">Create new account</button>
