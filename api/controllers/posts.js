@@ -22,12 +22,6 @@ async function getAllPosts(req, res) {
     let query = {};
     // Conditionally set the query parameters for Post.find 
     if (!targetUserID) {
-      // FeedPage: Show all posts from logged-in user and their friends (feed)
-      // Only use userID if it matches the logged-in user
-      // if (userID && userID === loggedInUserID) {
-      //   query.userID = { $in: allowedUserIDs };
-      // } else {
-        // Fallback situation - use logged-in user's feed
       query.userID = { $in: allowedUserIDs };
       // }
     } else {
@@ -39,6 +33,29 @@ async function getAllPosts(req, res) {
     const posts = await Post.find(query)
           .populate('userID', 'basicInfo photos.profilePicture photos.profilePictureUrl') // Populate user info
           .populate('targetUserID', 'basicInfo photos.profilePicture photos.profilePictureUrl') // Populate targeUserinfo
+          .sort({ createdAt: -1 }); 
+    // generate token and send status
+    const token = generateToken(req.user_id);
+    res.status(200).json({ posts: posts, token: token, count: posts.length });
+  } 
+  catch(err) {
+    console.error(err);
+    res.status(400).json({message: "Something went wrong", error: err.message})
+  }
+}
+
+// GET POST BY TYPE
+
+async function getPostsByType(req, res) {
+  try {
+    const { targetUserID, postType } = req.query;
+    const query = {
+      targetUserID: targetUserID,
+      postType: postType
+    };
+    // then find all or with relevant parameters
+    const posts = await Post.find(query)
+          .populate('targetUserID', 'basicInfo') // Populate targeUserinfo
           .sort({ createdAt: -1 }); 
     // generate token and send status
     const token = generateToken(req.user_id);
@@ -176,6 +193,7 @@ async function createPost(req, res) {
 
 const PostsController = {
   getAllPosts: getAllPosts,
+  getPostsByType: getPostsByType,
   getPostByID: getPostByID,
   likePost: likePost,
   unlikePost: unlikePost,
