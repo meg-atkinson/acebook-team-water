@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import './ProdButton.css';
+import prodIcon from '../../assets/prod.png'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -7,6 +9,8 @@ export const ProdButton = ({ toUserId }) => {
     const [sent, setSent] = useState(false);
 
     const handleProd = async () => {
+        console.log("Prod button clicked");
+        console.log("toUserId in ProdButton:", toUserId);
         setLoading(true);
         const token = localStorage.getItem('token');
 
@@ -29,8 +33,15 @@ export const ProdButton = ({ toUserId }) => {
     };
 
     return (
-        <button onClick={handleProd} disabled={loading || sent}>
-        {sent ? 'Prod Sent' : 'Prod'}
+        <button 
+            className={`prod-button ${sent ? 'sent' : ''}`}
+            onClick={handleProd} 
+            disabled={loading || sent}>
+        <img
+            src={prodIcon}
+            alt={sent ? 'Prod sent' : 'Send prod'}
+            className="prod-icon"
+        />
         </button>
     );
 };
