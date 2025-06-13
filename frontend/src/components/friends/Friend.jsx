@@ -6,9 +6,9 @@ import { AddFriendButton } from "./AddFriendButtion";
 import { RemoveFriendButton } from "./RemoveFriendButton";
 
 
-export const Friend = ({ friend, onRemove }) => {
+export const Friend = ({ friend, onRemove, setProfile }) => {
     const [loggedInUser, setLoggedInUser] = useState(null);
-    
+    const token = localStorage.getItem("token")
     const navigate = useNavigate();
 
     const { user } = useUser()
@@ -18,7 +18,7 @@ export const Friend = ({ friend, onRemove }) => {
     const isFriend = friendsIds.includes(friend._id); 
 
     useEffect(() => {
-        const token = localStorage.getItem("token")
+        
         if (!token) {
             console.error("No token found");
             return;
@@ -54,6 +54,15 @@ export const Friend = ({ friend, onRemove }) => {
 
     const handleClick = () => {
         navigate(`/profile/${friend._id}`)
+        const fetchUserById = async () => {
+            try {
+                const result = await getUser(token, friend._id)
+                setProfile(result.user)
+            } catch (error) {
+                console.error("Error fetching posts:", error)
+            }
+        };
+        fetchUserById();
     }
 
     return (
