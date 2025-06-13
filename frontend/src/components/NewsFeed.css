@@ -35,7 +35,6 @@
 
 .post-author-info {
   flex: 0 0 120px;
-  display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
@@ -74,4 +73,19 @@
   border-radius: 8px;
   object-fit: contain;
   margin-bottom: 20px;
+}
+
+
+
+.arrow-emoji{
+  font-size: 20px;
+  padding:10px;
+}
+
+.post-img-container{
+  display:flex;
+}
+
+.names-container{
+  display:flex;
 }
