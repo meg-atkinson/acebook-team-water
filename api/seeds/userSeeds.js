@@ -23,28 +23,71 @@ const importData = async () => {
         const user4Id = createdUsers[3]._id
         const user5Id = createdUsers[4]._id
 
+        const userIds = [user1Id, user2Id, user3Id, user4Id, user5Id];
+
+        const imagesPerUser = {
+            [user1Id]: [],
+            [user2Id]: [],
+            [user3Id]: [],
+            [user4Id]: [],
+            [user5Id]: [],
+        };
+
         await User.findByIdAndUpdate(user1Id, { $addToSet: {friends: { $each: [user2Id, user3Id, user4Id, user5Id]}} });
         await User.findByIdAndUpdate(user2Id, { $addToSet: {friends: { $each: [user1Id, user3Id, user4Id, user5Id]}} });
         await User.findByIdAndUpdate(user3Id, { $addToSet: {friends: { $each: [user1Id, user2Id, user4Id]}} }); // not 5
         await User.findByIdAndUpdate(user4Id, { $addToSet: {friends: { $each: [user1Id, user2Id, user3Id]}} }); // not 5
         await User.findByIdAndUpdate(user5Id, { $addToSet: {friends: { $each: [user1Id, user2Id]}} });
 
-        const updatedPosts = postData.map((post,i) => {
+        // const updatedPosts = postData.map((post,i) => {
+        //     return {
+        //         ...post,
+        //         userID: i % 2 === 0 ? user1Id : user2Id,
+        //         targetUserID: i % 2 === 0 ? user2Id : user1Id,
+        //     }
+        // })
+        const updatedPosts = postData.map((post, i) => {
+            const posterIndex = i % userIds.length;
+            const userID = userIds[posterIndex];
+    
+            // Even posts: poster posts on own wall
+            // Odd posts: poster posts on next user's wall (wrap around)
+            let targetUserID;
+            if (i % 2 === 0) {
+                targetUserID = userID;
+            } else {
+                const nextIndex = (posterIndex + 1) % userIds.length;
+                targetUserID = userIds[nextIndex];
+            }
+
+            if (post.imagePath) {
+                imagesPerUser[userID].push(post.imagePath);
+            }
+
             return {
                 ...post,
-                userID: i % 2 === 0 ? user1Id : user2Id,
-                targetUserID: i % 2 === 0 ? user2Id : user1Id,
-            }
-        })
+                userID,
+                targetUserID
+            };
+        });
+
+        // Now update each user with their photos.otherPhotos array
+        const updateUserPromises = userIds.map((uid) => {
+            return User.findByIdAndUpdate(uid, {
+                $set: { 'photos.otherPhotos': imagesPerUser[uid] }
+            });
+        });
+
+        await Promise.all(updateUserPromises);
 
         await Post.insertMany(updatedPosts)
     
         console.log('Data Imported!')
         process.exit()
-    } catch (error) {
-        console.error(`${error}`)
-        process.exit(1)
-    }
+        } catch (error) {
+            console.error(`${error}`)
+            process.exit(1)
+        }
 }
 
 
