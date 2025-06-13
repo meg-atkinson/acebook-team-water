@@ -13,7 +13,7 @@
     margin-top: 50px;
 }
 
-.submit-button {
+#submit {
     background-color: #08afa8;
     color: #ffffff;
     border: none;
@@ -24,7 +24,7 @@
     transition: background-color 0.3s ease;
 }
 
-.create-form {
+.create-account-btn {
    background-color: #8aed07 !important;
     color: #ffffff;
     border: none;
