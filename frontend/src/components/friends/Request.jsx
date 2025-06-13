@@ -4,7 +4,7 @@ import { AcceptRequestButton } from "./AcceptRequestButton"
 import { RejectRequestButton } from "./RejectRequestButton"
 import "./Request.css"
 
-export const Request = ({ senderId, onAcceptFriend }) => {
+export const Request = ({ senderId, onAcceptFriend, friendRequests, setFriendRequests }) => {
     const [sender, setSender] = useState(null)
     
     // fetch request to get info by id
@@ -46,8 +46,11 @@ export const Request = ({ senderId, onAcceptFriend }) => {
                     />
                     <p>{sender.basicInfo.firstName} {sender.basicInfo.lastName}</p>
                     <AcceptRequestButton senderId={senderId} onSuccess={() => onAcceptFriend(senderId)}/>
-                    <RejectRequestButton senderId={senderId}/>
+
+                    <RejectRequestButton senderId={senderId} friendRequests={friendRequests} setFriendRequests={setFriendRequests}/>
+                   
                     </div>
+
                 </>
             )}
         </div>

@@ -11,9 +11,6 @@ export const SideProfile = ({ profile, hasProdded }) => {
     const userID = profile._id
     // boolean for conditional rendering 
     const pageBelongsToUser = user && (user.id === userID || user._id === userID);
-    // State to track if user is already a friend
-    const isExistingFriend = 
-        Array.isArray(user?.friends) && user.friends.some(friendID => friendID?.toString() === profile._id?.toString());
 
 
     // convert birthday
@@ -26,8 +23,12 @@ export const SideProfile = ({ profile, hasProdded }) => {
         navigate(`/editprofile/${userID}`)
     };
 
-    // determine if AddFriendButton should show
-    const shouldShowAddButton = !pageBelongsToUser && !isExistingFriend;
+    // find my friends
+    const friendsArray = profile?.friends || []; // Create an array of logged in user's friends' objects
+    
+    const friendsIds = friendsArray.map((myFriend) => myFriend._id) // Array of just their ids
+
+    const isFriend = friendsIds.includes(user.id); // find out if my ID is in their friends array
 
     // if the profile isn't loaded yet, show a loading message
     if (!profile || !profile.basicInfo) {
@@ -49,9 +50,9 @@ export const SideProfile = ({ profile, hasProdded }) => {
             <p>{convertBirthday()}</p>
             <p>{profile.basicInfo.homeTown}</p>
             <p>Friends: {profile.friends.length}</p>
-
-            {shouldShowAddButton && (
-                <AddFriendButton receiver={profile} />
+            {pageBelongsToUser ? (
+                <p />
+            ) : (!isFriend && <AddFriendButton receiver={profile} />
             )}
         </div>
     );
