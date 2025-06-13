@@ -33,6 +33,8 @@ const FriendsPage = () => {
         };
         fetchUserById();
     }, [user.id]);
+
+    const friendRequested = loggedInUser?.friendRequests.includes(user.id);
     
     return (
         <>
@@ -42,7 +44,11 @@ const FriendsPage = () => {
         ) : (
             <>
                 <div className="friends-page-container">
-                        <SideProfile profile={loggedInUser}/>
+                        <SideProfile 
+                            profile={loggedInUser}
+                            friendRequested={friendRequested}
+                            isOwnProfile={true}
+                            />
                     <div className="friends-list-panel">
                         <FriendsList loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>
                         <FriendRequests loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>

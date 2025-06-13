@@ -7,6 +7,7 @@ import { SideProfile } from "../../components/profile/SideColumn";
 import { MainColumn } from "../../components/profile/MainColumn";
 import { getUser } from "../../services/user";
 import { getPosts } from "../../services/posts";
+import { sendFriendRequest } from "../../services/user";
 
 
 export const ProfilePage = () => {
@@ -15,12 +16,15 @@ export const ProfilePage = () => {
     const [profile, setProfile] = useState(null)
     const [posts, setPosts] = useState([]);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
+    const [requestSent, setRequestSent] = useState(false)
 
 
     const navigate = useNavigate();
     // check the url of the page for the id of that user
     const { id }  = useParams();
     const targetUserID = id;
+    const isOwnProfile = user?.id === id;
+    const receiverId = id
 
     useEffect(() => {
 
@@ -51,7 +55,7 @@ export const ProfilePage = () => {
 
 
         fetchUserProfile();
-    }, [navigate, id, user, refreshTrigger, targetUserID]);
+    }, [navigate, id, user, refreshTrigger, targetUserID, requestSent]);
 
     // Function to trigger a refetch from the database - hand down to NewPost
     const handleNewPost = () => {
@@ -68,8 +72,30 @@ export const ProfilePage = () => {
         );
     };
 
+    const handleAddFriend = () => {
+        const token = localStorage.getItem("token");
 
-    const isOwnProfile = user?.id === id;
+        if (!token) {
+            console.error("No token found");
+            return;
+        }
+
+        const addFriend = async () => { // this returns an updated version of request receiver
+            try {
+                const result = await sendFriendRequest(token, receiverId)
+                console.log(result.user)
+                setRequestSent(prev => !prev)
+                console.log(requestSent)
+
+            } catch (error) {
+                console.error("Error sending friend request", error)
+            }
+        }
+        addFriend();
+    }
+
+
+    
     
 
     // loading if no profile returns
@@ -90,10 +116,11 @@ export const ProfilePage = () => {
     const hasProdded = profile.prods?.some(
     (prod) => {
         return String(prod.from) === String(user.id);
-    }
-);
+        }
+    );
+    const friendRequested = profile?.friendRequests.includes(user.id);
 
-console.log("Computed hasProdded:", hasProdded);
+    console.log("Computed hasProdded:", hasProdded);
 
     // otherwise display profile
     return (
@@ -101,12 +128,18 @@ console.log("Computed hasProdded:", hasProdded);
             <Navbar />
             <div className="profileColumnsContainer">
                 {profile ? (
-                <SideProfile profile={profile} currentUser={user} hasProdded={hasProdded}/>
+                <SideProfile 
+                    profile={profile} 
+                    isOwnProfile={isOwnProfile}
+                    hasProdded={hasProdded} 
+                    friendRequested={friendRequested}
+                    onFriendRequestSent={handleAddFriend}/>
                 ) : (
                     <p>Loading user info...</p>
                 )}
                 <MainColumn 
                     profile={profile}
+                    requestSent={requestSent}
                     setProfile={setProfile}
                     posts={posts} 
                     onPostCreated={handleNewPost}

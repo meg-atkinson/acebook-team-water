@@ -8,7 +8,7 @@ import { Friends } from "./Friends";
 import { Status } from "./Status";
 
 
-export const MainColumn = ({ profile, setProfile, posts, onPostCreated, onPostLikeToggle, isOwnProfile, currentUser, hasProdded }) => {
+export const MainColumn = ({ profile, setProfile, posts, onPostCreated, onPostLikeToggle, isOwnProfile, hasProdded }) => {
 
     const [showWall, setShowWall] = useState(true);
     const [showInfo, setShowInfo] = useState(false);
