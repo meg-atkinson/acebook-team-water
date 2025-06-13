@@ -102,6 +102,7 @@ const NewPost = ({ onPostCreated }) => {
                     <br />
                     <br />
                     <input 
+                        className="input-field"
                         type="text" 
                         name="content" 
                         value={formData.content} 

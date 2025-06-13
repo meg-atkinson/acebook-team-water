@@ -1,23 +1,23 @@
 .input-wrapper {
     width: 100%;
-    max-width: 500px;
+    max-width: 100%;
     position: relative;
 }
 
 .input-wrapper input {
     width: 100%;
+    box-sizing: border-box;
     padding: 2px 28px;
-    font-size: 14px;
-    border: 1px solid #ccc;
+    font-size: 16px;
+    border: 1px solid hsl(0, 0%, 80%);
     border-radius: 6px;
     background-color: #ffffff;
     outline: none;
-    box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .input-wrapper input:focus {
-    border-color: #007bff;
+    border-color: #08afa8;
 }
 
 .input-wrapper input::placeholder {
