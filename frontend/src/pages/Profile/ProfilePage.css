@@ -69,8 +69,10 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center; /* Centers the items */
-    gap: 1rem;
+    gap: 1rem;               /* space between images */
+    padding-top: 1.5rem;     /* space above container */
 }
+
 
 .photosGridContainer img {
     width: 150px;
