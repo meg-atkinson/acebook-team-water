@@ -6,7 +6,7 @@ import { AddFriendButton } from "./AddFriendButtion";
 import { RemoveFriendButton } from "./RemoveFriendButton";
 
 
-export const Friend = ({ friend, onRemove, setProfile }) => {
+export const Friend = ({ friend, onRemove, setProfile, setFriendsList }) => {
     const [loggedInUser, setLoggedInUser] = useState(null);
     const token = localStorage.getItem("token")
     const navigate = useNavigate();
@@ -57,7 +57,8 @@ export const Friend = ({ friend, onRemove, setProfile }) => {
         const fetchUserById = async () => {
             try {
                 const result = await getUser(token, friend._id)
-                setProfile(result.user)
+                setFriendsList(result.user.friends)
+                console.log('Redirected and profile set')
             } catch (error) {
                 console.error("Error fetching posts:", error)
             }
